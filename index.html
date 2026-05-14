@@ -874,69 +874,61 @@
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--navy-border); border-radius: 4px; }
 
-  /* === TEAM MOMENTS === */
-  .moments-page { display:flex; flex-direction:column; gap:1.5rem; padding-bottom:3rem; }
-  .moments-title { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:600; color:var(--text-primary); margin-bottom:.2rem; }
-  .moments-sub { color:var(--text-muted); font-size:.875rem; }
-  .moments-tabs { display:flex; gap:.4rem; flex-wrap:wrap; border-bottom:1px solid var(--navy-border); padding-bottom:0; margin-bottom:.5rem; }
-  .mtab { display:flex; align-items:center; gap:.4rem; padding:.5rem 1rem; background:transparent; border:none; border-bottom:2px solid transparent; color:var(--text-muted); font-family:'DM Sans',sans-serif; font-size:.84rem; font-weight:500; cursor:pointer; transition:all .2s; margin-bottom:-1px; border-radius:6px 6px 0 0; }
-  .mtab:hover { color:var(--text-primary); background:var(--navy-hover); }
-  .mtab.active { color:var(--gold); border-bottom-color:var(--gold); background:rgba(239,73,60,.06); }
-  .moments-grid { columns:4 200px; column-gap:1rem; }
-  .moment-card { break-inside:avoid; margin-bottom:1rem; border-radius:var(--radius); overflow:hidden; background:var(--navy-card); border:1px solid var(--navy-border); cursor:pointer; transition:all .22s; position:relative; display:block; }
-  .moment-card:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(7,13,45,.14); border-color:rgba(239,73,60,.3); }
-  .moment-card:hover .moment-overlay { opacity:1; }
-  .moment-img { width:100%; display:block; object-fit:cover; background:var(--navy-mid); }
-  .moment-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(7,13,45,.72) 0%,transparent 55%); opacity:0; transition:opacity .22s; display:flex; align-items:flex-end; padding:.9rem; }
-  .moment-overlay-content { width:100%; }
-  .moment-overlay-caption { color:#fff; font-size:.78rem; font-weight:500; line-height:1.3; margin-bottom:.3rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-  .moment-tag-pill { display:inline-flex; align-items:center; gap:.3rem; font-size:.62rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:.18rem .5rem; border-radius:20px; background:rgba(255,255,255,.18); color:#fff; backdrop-filter:blur(4px); }
-  .moment-card-footer { padding:.55rem .7rem; display:flex; align-items:center; justify-content:space-between; }
-  .moment-card-date { font-size:.68rem; color:var(--text-dim); }
-  .moment-like-btn { display:flex; align-items:center; gap:.3rem; background:none; border:none; color:var(--text-dim); font-size:.7rem; cursor:pointer; font-family:'DM Sans',sans-serif; padding:.18rem .35rem; border-radius:4px; transition:all .2s; }
-  .moment-like-btn:hover,.moment-like-btn.liked { color:var(--gold); }
-  .moment-like-btn svg { width:13px; height:13px; stroke:currentColor; fill:none; transition:fill .2s; }
-  .moment-like-btn.liked svg { fill:var(--gold); stroke:var(--gold); }
-  .moments-loading { display:flex; align-items:center; justify-content:center; gap:.8rem; padding:4rem; color:var(--text-dim); font-size:.875rem; }
-  .moments-spinner { width:22px; height:22px; border-radius:50%; border:2px solid var(--navy-border); border-top-color:var(--gold); animation:spin .8s linear infinite; }
-  .moments-empty { text-align:center; padding:4rem 2rem; color:var(--text-dim); font-size:.875rem; }
-  .moments-empty .empty-icon { font-size:2.5rem; margin-bottom:.75rem; }
-  /* Lightbox */
-  .lightbox-overlay { position:fixed; inset:0; background:rgba(4,8,30,.88); backdrop-filter:blur(8px); z-index:9999; display:none; align-items:center; justify-content:center; padding:1.5rem; }
-  .lightbox-overlay.open { display:flex; animation:fadeIn .2s ease; }
-  .lightbox-box { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:18px; overflow:hidden; max-width:920px; width:100%; max-height:90vh; display:flex; flex-direction:row; box-shadow:0 32px 80px rgba(4,8,30,.5); position:relative; animation:fadeUp .25s ease; }
-  .lightbox-close { position:absolute; top:.9rem; right:.9rem; background:rgba(7,13,45,.55); border:none; color:#fff; width:32px; height:32px; border-radius:50%; font-size:.85rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:background .2s; }
-  .lightbox-close:hover { background:var(--gold); }
-  .lightbox-media { flex:1; min-width:0; background:#0a0f24; display:flex; align-items:center; justify-content:center; overflow:hidden; max-height:90vh; }
-  .lightbox-media img { max-width:100%; max-height:90vh; object-fit:contain; display:block; }
-  .lightbox-info { width:290px; flex-shrink:0; display:flex; flex-direction:column; padding:1.4rem; overflow-y:auto; max-height:90vh; }
-  .lightbox-meta { display:flex; align-items:center; gap:.6rem; margin-bottom:.8rem; }
-  .lightbox-tag-badge { font-size:.62rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:.18rem .55rem; border-radius:20px; background:rgba(239,73,60,.12); color:var(--gold); border:1px solid rgba(239,73,60,.2); }
-  .lightbox-date { font-size:.7rem; color:var(--text-dim); }
-  .lightbox-caption { font-size:.9rem; color:var(--text-primary); line-height:1.5; margin-bottom:1.1rem; font-weight:500; }
-  /* Comments */
-  .comment-section { flex:1; display:flex; flex-direction:column; border-top:1px solid var(--navy-border); padding-top:.9rem; }
-  .comment-section-title { font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--text-dim); font-weight:500; display:flex; align-items:center; gap:.4rem; margin-bottom:.75rem; }
-  .comments-list { flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:.7rem; margin-bottom:.8rem; max-height:200px; }
-  .comment-item { display:flex; gap:.55rem; align-items:flex-start; animation:fadeIn .2s ease; }
-  .comment-avatar { width:26px; height:26px; border-radius:50%; background:linear-gradient(135deg,var(--gold-dim),var(--gold-light)); display:flex; align-items:center; justify-content:center; font-size:.6rem; font-weight:600; color:#fff; flex-shrink:0; }
-  .comment-body { flex:1; background:#F1F6FD; border-radius:0 8px 8px 8px; padding:.45rem .7rem; }
-  .comment-author { font-size:.68rem; font-weight:600; color:var(--text-primary); margin-bottom:.15rem; }
-  .comment-text { font-size:.78rem; color:var(--text-muted); line-height:1.4; word-break:break-word; }
-  .comment-time { font-size:.6rem; color:var(--text-dim); margin-top:.25rem; }
-  .no-comments { text-align:center; color:var(--text-dim); font-size:.78rem; padding:.8rem 0; }
-  .comment-input-row { display:flex; gap:.5rem; align-items:center; }
-  .comment-avatar-mini { width:26px; height:26px; border-radius:50%; background:linear-gradient(135deg,var(--gold-dim),var(--gold)); display:flex; align-items:center; justify-content:center; font-size:.6rem; font-weight:600; color:#fff; flex-shrink:0; }
-  .comment-input { flex:1; background:#F1F6FD; border:1px solid var(--navy-border); border-radius:20px; padding:.42rem .85rem; font-family:'DM Sans',sans-serif; font-size:.78rem; color:var(--text-primary); outline:none; transition:border-color .2s; }
-  .comment-input:focus { border-color:var(--gold-dim); box-shadow:0 0 0 2px rgba(239,73,60,.1); }
-  .comment-send-btn { width:30px; height:30px; border-radius:50%; background:var(--gold); border:none; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background .2s; }
-  .comment-send-btn:hover { background:var(--gold-light); }
-  @media (max-width:700px) {
-    .lightbox-box { flex-direction:column; }
-    .lightbox-info { width:100%; max-height:50vh; }
-    .lightbox-media { max-height:40vh; }
-    .moments-grid { columns:2 150px; }
-  }
+  /* TEAM MOMENTS */
+  .moments-page{display:flex;flex-direction:column;gap:1.5rem;padding-bottom:3rem;}
+  .moments-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--text-primary);margin-bottom:.2rem;}
+  .moments-sub{color:var(--text-muted);font-size:.875rem;}
+  .moments-tabs{display:flex;gap:.4rem;flex-wrap:wrap;border-bottom:1px solid var(--navy-border);margin-bottom:.5rem;}
+  .mtab{display:flex;align-items:center;gap:.4rem;padding:.5rem 1rem;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:500;cursor:pointer;transition:all .2s;margin-bottom:-1px;border-radius:6px 6px 0 0;}
+  .mtab:hover{color:var(--text-primary);background:var(--navy-hover);}
+  .mtab.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(239,73,60,.06);}
+  .moments-grid{columns:4 200px;column-gap:1rem;}
+  .moment-card{break-inside:avoid;margin-bottom:1rem;border-radius:var(--radius);overflow:hidden;background:var(--navy-card);border:1px solid var(--navy-border);cursor:pointer;transition:all .22s;position:relative;display:block;}
+  .moment-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(7,13,45,.14);border-color:rgba(239,73,60,.3);}
+  .moment-card:hover .moment-overlay{opacity:1;}
+  .moment-img{width:100%;display:block;object-fit:cover;background:var(--navy-mid);}
+  .moment-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,13,45,.72) 0%,transparent 55%);opacity:0;transition:opacity .22s;display:flex;align-items:flex-end;padding:.9rem;}
+  .moment-overlay-content{width:100%;}
+  .moment-overlay-caption{color:#fff;font-size:.78rem;font-weight:500;line-height:1.3;margin-bottom:.3rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .moment-tag-pill{display:inline-flex;align-items:center;gap:.3rem;font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .5rem;border-radius:20px;background:rgba(255,255,255,.18);color:#fff;backdrop-filter:blur(4px);}
+  .moment-card-footer{padding:.55rem .7rem;display:flex;align-items:center;justify-content:space-between;}
+  .moment-card-date{font-size:.68rem;color:var(--text-dim);}
+  .moment-like-btn{display:flex;align-items:center;gap:.3rem;background:none;border:none;color:var(--text-dim);font-size:.7rem;cursor:pointer;font-family:'DM Sans',sans-serif;padding:.18rem .35rem;border-radius:4px;transition:all .2s;}
+  .moment-like-btn:hover,.moment-like-btn.liked{color:var(--gold);}
+  .moment-like-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;transition:fill .2s;}
+  .moment-like-btn.liked svg{fill:var(--gold);stroke:var(--gold);}
+  .moments-loading{display:flex;align-items:center;justify-content:center;gap:.8rem;padding:4rem;color:var(--text-dim);font-size:.875rem;}
+  .moments-spinner{width:22px;height:22px;border-radius:50%;border:2px solid var(--navy-border);border-top-color:var(--gold);animation:spin .8s linear infinite;}
+  .moments-empty{text-align:center;padding:4rem 2rem;color:var(--text-dim);font-size:.875rem;}
+  .lightbox-overlay{position:fixed;inset:0;background:rgba(4,8,30,.88);backdrop-filter:blur(8px);z-index:9999;display:none;align-items:center;justify-content:center;padding:1.5rem;}
+  .lightbox-overlay.open{display:flex;animation:fadeIn .2s ease;}
+  .lightbox-box{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:18px;overflow:hidden;max-width:920px;width:100%;max-height:90vh;display:flex;flex-direction:row;box-shadow:0 32px 80px rgba(4,8,30,.5);position:relative;animation:fadeUp .25s ease;}
+  .lightbox-close{position:absolute;top:.9rem;right:.9rem;background:rgba(7,13,45,.55);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background .2s;}
+  .lightbox-close:hover{background:var(--gold);}
+  .lightbox-media{flex:1;min-width:0;background:#0a0f24;display:flex;align-items:center;justify-content:center;overflow:hidden;max-height:90vh;}
+  .lightbox-media img{max-width:100%;max-height:90vh;object-fit:contain;display:block;}
+  .lightbox-info{width:290px;flex-shrink:0;display:flex;flex-direction:column;padding:1.4rem;overflow-y:auto;max-height:90vh;}
+  .lightbox-meta{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem;}
+  .lightbox-tag-badge{font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .55rem;border-radius:20px;background:rgba(239,73,60,.12);color:var(--gold);border:1px solid rgba(239,73,60,.2);}
+  .lightbox-date{font-size:.7rem;color:var(--text-dim);}
+  .lightbox-caption{font-size:.9rem;color:var(--text-primary);line-height:1.5;margin-bottom:1.1rem;font-weight:500;}
+  .comment-section{flex:1;display:flex;flex-direction:column;border-top:1px solid var(--navy-border);padding-top:.9rem;}
+  .comment-section-title{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);font-weight:500;display:flex;align-items:center;gap:.4rem;margin-bottom:.75rem;}
+  .comments-list{overflow-y:auto;display:flex;flex-direction:column;gap:.7rem;margin-bottom:.8rem;max-height:200px;}
+  .comment-item{display:flex;gap:.55rem;align-items:flex-start;animation:fadeIn .2s ease;}
+  .comment-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dim),var(--gold-light));display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:600;color:#fff;flex-shrink:0;}
+  .comment-body{flex:1;background:#F1F6FD;border-radius:0 8px 8px 8px;padding:.45rem .7rem;}
+  .comment-author{font-size:.68rem;font-weight:600;color:var(--text-primary);margin-bottom:.15rem;}
+  .comment-text{font-size:.78rem;color:var(--text-muted);line-height:1.4;word-break:break-word;}
+  .comment-time{font-size:.6rem;color:var(--text-dim);margin-top:.25rem;}
+  .no-comments{text-align:center;color:var(--text-dim);font-size:.78rem;padding:.8rem 0;}
+  .comment-input-row{display:flex;gap:.5rem;align-items:center;}
+  .comment-avatar-mini{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dim),var(--gold));display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:600;color:#fff;flex-shrink:0;}
+  .comment-input{flex:1;background:#F1F6FD;border:1px solid var(--navy-border);border-radius:20px;padding:.42rem .85rem;font-family:'DM Sans',sans-serif;font-size:.78rem;color:var(--text-primary);outline:none;transition:border-color .2s;}
+  .comment-input:focus{border-color:var(--gold-dim);box-shadow:0 0 0 2px rgba(239,73,60,.1);}
+  .comment-send-btn{width:30px;height:30px;border-radius:50%;background:var(--gold);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
+  .comment-send-btn:hover{background:var(--gold-light);}
+  @media(max-width:700px){.lightbox-box{flex-direction:column;}.lightbox-info{width:100%;max-height:50vh;}.lightbox-media{max-height:40vh;}.moments-grid{columns:2 150px;}}
 </style>
 </head>
 <body>
@@ -962,7 +954,7 @@
     <div class="login-error" id="login-error">Invalid email or password. Please try again.</div>
     <div class="login-status" id="login-status"><span class="login-loader"></span><span class="login-status-text">Reaching server…</span></div>
 
-    <button class="login-btn" onclick="doLogin()">Sign In</button>
+    <button class="login-btn" id="login-btn" onclick="doLogin()">Sign In</button>
 
     <div class="login-footer">TeamCore v1.0 &nbsp;·&nbsp; For internal use only</div>
   </div>
@@ -1296,29 +1288,21 @@
       <!-- MOMENTS PAGE -->
       <div class="page" id="page-moments">
         <div class="moments-page">
-          <div class="moments-header">
-            <div>
-              <h2 class="moments-title">Team Moments</h2>
-              <p class="moments-sub">Celebrating our wins, our fun, and everything in between.</p>
-            </div>
-          </div>
+          <div><h2 class="moments-title">&#128247; Team Moments</h2><p class="moments-sub">Celebrating our wins, our fun, and everything in between.</p></div>
           <div class="moments-tabs">
-            <button class="mtab active" onclick="switchMomentsTab('all',this)"><span>&#128247;</span> Recents</button>
-            <button class="mtab" onclick="switchMomentsTab('birthday',this)"><span>&#127874;</span> Birthdays</button>
-            <button class="mtab" onclick="switchMomentsTab('outing',this)"><span>&#127957;&#65039;</span> Team Outing</button>
-            <button class="mtab" onclick="switchMomentsTab('dinner',this)"><span>&#127869;&#65039;</span> Team Dinner</button>
-            <button class="mtab" onclick="switchMomentsTab('funfriday',this)"><span>&#127881;</span> Fun Friday</button>
+            <button class="mtab active" onclick="switchMomentsTab('all',this)">&#128336; Recents</button>
+            <button class="mtab" onclick="switchMomentsTab('birthday',this)">&#127874; Birthdays</button>
+            <button class="mtab" onclick="switchMomentsTab('outing',this)">&#127957; Team Outing</button>
+            <button class="mtab" onclick="switchMomentsTab('dinner',this)">&#127869; Team Dinner</button>
+            <button class="mtab" onclick="switchMomentsTab('funfriday',this)">&#127881; Fun Friday</button>
           </div>
           <div class="moments-grid" id="moments-grid">
             <div class="moments-loading"><div class="moments-spinner"></div><span>Loading moments...</span></div>
           </div>
-          <!-- Lightbox -->
           <div class="lightbox-overlay" id="lightbox-overlay" onclick="closeLightbox()">
             <div class="lightbox-box" onclick="event.stopPropagation()">
               <button class="lightbox-close" onclick="closeLightbox()">&#10005;</button>
-              <div class="lightbox-media">
-                <img id="lightbox-img" src="" alt="moment"/>
-              </div>
+              <div class="lightbox-media"><img id="lightbox-img" src="" alt="moment"/></div>
               <div class="lightbox-info">
                 <div class="lightbox-meta">
                   <span class="lightbox-tag-badge" id="lightbox-tag-badge"></span>
@@ -1326,17 +1310,12 @@
                 </div>
                 <div class="lightbox-caption" id="lightbox-caption"></div>
                 <div class="comment-section">
-                  <div class="comment-section-title">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-                    Comments
-                  </div>
+                  <div class="comment-section-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Comments</div>
                   <div class="comments-list" id="comments-list"></div>
                   <div class="comment-input-row">
                     <div class="comment-avatar-mini" id="comment-avatar-mini">U</div>
                     <input class="comment-input" id="comment-input" placeholder="Add a comment..." maxlength="200" onkeydown="if(event.key==='Enter')submitComment()"/>
-                    <button class="comment-send-btn" onclick="submitComment()">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                    </button>
+                    <button class="comment-send-btn" onclick="submitComment()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
                   </div>
                 </div>
               </div>
@@ -1456,790 +1435,291 @@
   </div>
 </div>
 
-<script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
-  import {
-    browserLocalPersistence,
-    getAuth,
-    onAuthStateChanged,
-    setPersistence,
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    updateProfile,
-    updatePassword,
-    reauthenticateWithCredential,
-    EmailAuthProvider,
-    signOut,
-  } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
-  import {
-    getFirestore,
-    doc,
-    setDoc,
-    getDoc,
-    getDocs,
-    collection,
-    deleteDoc,
-    serverTimestamp,
-  } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+<script>
+// ===================================================
+//  SUPABASE CONFIG — no Firebase, no SDK needed
+// ===================================================
+const SUPABASE_URL = 'https://sodvlpcjpnepohpoqicf.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_nEbzsiR9Qhb31ZMc-Pg-cA_tJEzkmAf';
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBczq8J_LIy47feozAQjaXBaiSPbQy2m4o",
-    authDomain: "teamcore-1708c.firebaseapp.com",
-    projectId: "teamcore-1708c",
-    storageBucket: "teamcore-1708c.firebasestorage.app",
-    messagingSenderId: "1067461924237",
-    appId: "1:1067461924237:web:e5ff1aaee21956833759c4"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const firebaseAuth = getAuth(app);
-  const db = getFirestore(app);
-
-  setPersistence(firebaseAuth, browserLocalPersistence).catch(e =>
-    console.warn('Firebase persistence error:', e)
-  );
-
-  // ── SET YOUR ADMIN EMAILS HERE ──
-  const ADMIN_EMAILS = [
-    'your-admin-email@example.com',
-  ];
-
-  const ROSTER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTUz9_-oYx9wJQGEifWDYUyPIFwo513v2vNBkPm4L1v-02o3d6Yqkoz_GDFQIMWUaRrMlsPwQmmujWA/pub?output=csv';
-  const NOT_PRESENT_CODES = new Set(['L', 'CO', 'W']);
-  let currentUser = null;
-  window.rosterCache = null;
-
-  // ── LOGIN ──
-  // Agents log in with their email + password.
-  // Inside the portal, only their display name (set by admin) is shown.
-  async function doLogin() {
-    const email = document.getElementById('username').value.trim().toLowerCase();
-    const p = document.getElementById('password').value;
-    const err = document.getElementById('login-error');
-    const status = document.getElementById('login-status');
-    const statusText = status.querySelector('.login-status-text');
-    const loginBtn = document.querySelector('.login-btn');
-
-    if (!email || !p) {
-      err.textContent = 'Please enter your email and password.';
-      err.style.display = 'block';
-      return;
-    }
-
-    err.style.display = 'none';
-    statusText.textContent = 'Signing in…';
-    status.style.display = 'flex';
-    loginBtn.disabled = true;
-    loginBtn.textContent = 'Signing in…';
-
-    try {
-      const cred = await signInWithEmailAndPassword(firebaseAuth, email, p);
-      // ── Build user immediately from Auth result — no Firestore wait ──
-      const fbUser = cred.user;
-      const userEmail = fbUser.email || '';
-      const isAdmin = ADMIN_EMAILS.includes(userEmail.toLowerCase());
-      currentUser = {
-        uid: fbUser.uid,
-        email: userEmail,
-        name: fbUser.displayName || userEmail.split('@')[0] || 'Agent',
-        role: isAdmin ? 'admin' : 'agent',
-      };
-      status.style.display = 'none';
-      loginBtn.disabled = false;
-      loginBtn.textContent = 'Sign In';
-      enterDashboard();
-
-      // Sync Firestore name/role silently in background
-      if (db && fbUser.uid) {
-        getDoc(doc(db, 'users', fbUser.uid)).then(snap => {
-          if (!snap.exists()) return;
-          const d = snap.data();
-          let changed = false;
-          if (d.name && d.name !== currentUser.name) { currentUser.name = d.name; changed = true; }
-          if (d.role && !isAdmin && d.role !== currentUser.role) { currentUser.role = d.role; changed = true; }
-          if (changed) {
-            document.getElementById('agent-display').textContent = currentUser.name;
-            const ini = currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-            document.getElementById('avatar-initials').textContent = ini;
-            document.getElementById('greet-name').textContent = currentUser.name.split(' ')[0];
-            updateAdminVisibility();
-          }
-        }).catch(() => {});
-      }
-    } catch (error) {
-      const code = error.code || '';
-      if (code === 'auth/user-not-found' || code === 'auth/wrong-password' || code === 'auth/invalid-credential' || code === 'auth/invalid-email') {
-        err.textContent = 'Invalid email or password. Please try again.';
-      } else if (code === 'auth/too-many-requests') {
-        err.textContent = 'Too many attempts. Please wait a few minutes and try again.';
-      } else if (code === 'auth/network-request-failed') {
-        err.textContent = 'Network error. Please check your connection.';
-      } else {
-        err.textContent = 'Sign in failed. Please try again.';
-      }
-      err.style.display = 'block';
-      status.style.display = 'none';
-      loginBtn.disabled = false;
-      loginBtn.textContent = 'Sign In';
-    }
-  }
-
-  document.getElementById('password').addEventListener('keydown', e => {
-    if (e.key === 'Enter') doLogin();
+async function sbQuery(table, filters) {
+  const url = SUPABASE_URL + '/rest/v1/' + table + (filters ? '?' + filters : '');
+  const res = await fetch(url, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } });
+  if (!res.ok) throw new Error('Query failed ' + res.status);
+  return res.json();
+}
+async function sbInsert(table, data) {
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table, {
+    method: 'POST',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+    body: JSON.stringify(data)
   });
+  if (!res.ok) { const t = await res.text(); throw new Error(t); }
+  return res.json();
+}
+async function sbUpdate(table, col, val, data) {
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?' + col + '=eq.' + encodeURIComponent(val), {
+    method: 'PATCH',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error('Update failed');
+  return res.json();
+}
+async function sbDelete(table, col, val) {
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?' + col + '=eq.' + encodeURIComponent(val), {
+    method: 'DELETE',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+  });
+  if (!res.ok) throw new Error('Delete failed');
+}
 
-  // ── ENTER DASHBOARD ──
-  function enterDashboard() {
-    document.getElementById('login-view').classList.remove('active');
-    document.getElementById('dashboard-view').classList.add('active');
-    // Show display name (set by admin in Firebase) — never shows email in UI
-    document.getElementById('agent-display').textContent = currentUser.name;
-    const initials = currentUser.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
-    document.getElementById('avatar-initials').textContent = initials;
-    document.getElementById('greet-name').textContent = currentUser.name.split(' ')[0];
-    updateAdminVisibility();
-    setGreetingAndDate();
-    setTimeout(loadRosterSummary, 0);
+// SHA-256 password hashing via Web Crypto API (built into every browser)
+async function hashPassword(password) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(password));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+// ===================================================
+//  SESSION
+// ===================================================
+const SESSION_KEY = 'tc_session_v2';
+let currentUser = null;
+
+function saveSession(u) { try { localStorage.setItem(SESSION_KEY, JSON.stringify(u)); } catch(e){} }
+function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch(e){} }
+function loadSession() { try { const s = localStorage.getItem(SESSION_KEY); return s ? JSON.parse(s) : null; } catch(e) { return null; } }
+
+// ===================================================
+//  AUTH
+// ===================================================
+async function doLogin() {
+  const email = (document.getElementById('username').value || '').trim().toLowerCase();
+  const password = document.getElementById('password').value || '';
+  const errEl = document.getElementById('login-error');
+  const statusEl = document.getElementById('login-status');
+  const btn = document.getElementById('login-btn');
+
+  errEl.style.display = 'none';
+  if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; errEl.style.display = 'block'; return; }
+
+  btn.disabled = true; btn.textContent = 'Signing in...'; statusEl.style.display = 'flex';
+
+  try {
+    const hashed = await hashPassword(password);
+    const rows = await sbQuery('users', 'email=eq.' + encodeURIComponent(email) + '&select=id,name,email,role,password');
+    if (!rows || rows.length === 0 || rows[0].password !== hashed) throw new Error('invalid');
+    const u = rows[0];
+    currentUser = { id: u.id, name: u.name, email: u.email, role: u.role };
+    saveSession(currentUser);
+    statusEl.style.display = 'none'; btn.disabled = false; btn.textContent = 'Sign In';
+    enterDashboard();
+  } catch(e) {
+    statusEl.style.display = 'none'; btn.disabled = false; btn.textContent = 'Sign In';
+    errEl.textContent = e.message === 'invalid' ? 'Invalid email or password. Please try again.' : 'Connection error. Please check your internet and try again.';
+    errEl.style.display = 'block';
   }
+}
 
-  // ── LOGOUT ──
-  async function doLogout() {
-    currentUser = null;
-    await signOut(firebaseAuth);
-    document.getElementById('dashboard-view').classList.remove('active');
-    document.getElementById('login-view').classList.add('active');
-    document.getElementById('username').value = '';
-    document.getElementById('password').value = '';
-    updateAdminVisibility();
-    showPage('home', document.querySelector('.sidebar-item'));
+function doLogout() {
+  currentUser = null; clearSession();
+  document.getElementById('dashboard-view').classList.remove('active');
+  document.getElementById('login-view').classList.add('active');
+  document.getElementById('username').value = '';
+  document.getElementById('password').value = '';
+  document.getElementById('login-error').style.display = 'none';
+  showPage('home', document.querySelector('.sidebar-item'));
+}
+
+function enterDashboard() {
+  document.getElementById('login-view').classList.remove('active');
+  document.getElementById('dashboard-view').classList.add('active');
+  document.getElementById('agent-display').textContent = currentUser.name;
+  const ini = currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('avatar-initials').textContent = ini;
+  document.getElementById('greet-name').textContent = currentUser.name.split(' ')[0];
+  updateAdminVisibility(); setGreetingAndDate();
+  setTimeout(loadRosterSummary, 0);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('password').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+  const saved = loadSession();
+  if (saved) { currentUser = saved; enterDashboard(); }
+});
+
+// ===================================================
+//  NAVIGATION
+// ===================================================
+function showPage(id, elem) {
+  if (id === 'kb') { window.open('kbsection.html', '_blank'); return; }
+  if (isAdminPage(id) && !isAdminUser()) { showPage('home', document.querySelector('.sidebar-item')); return; }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  if (elem) { elem.classList.add('active'); } else {
+    const map = { home:0, simulation:1, kb:2, quiz:3, assessment:4, roster:5, moments:6, changepass:7, 'quiz-admin':8, 'assessment-admin':9, reports:10, users:11 };
+    document.querySelectorAll('.sidebar-item')[map[id]]?.classList.add('active');
   }
+  if (id === 'users') loadUsersPage();
+  if (id === 'changepass') resetChangePasswordForm();
+  if (id === 'roster') { if (window.rosterCache) renderRosterPage(window.rosterCache); else loadRosterSummary(); }
+  if (id === 'moments') setTimeout(() => _mLoadTab(_mActiveTab), 60);
+}
 
-  // ── NAVIGATION ──
-  function showPage(id, elem) {
-    if (id === 'kb') {
-      window.open('kbsection.html', '_blank');
-      return;
-    }
-    if (isAdminPage(id) && !isAdminUser()) {
-      showPage('home', document.querySelector('.sidebar-item'));
-      return;
-    }
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-' + id).classList.add('active');
-    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-    if (elem) elem.classList.add('active');
-    else {
-      const map = { home:0, simulation:1, kb:2, quiz:3, assessment:4, roster:5, moments:6, changepass:7, 'quiz-admin':8, 'assessment-admin':9, reports:10, users:11 };
-      document.querySelectorAll('.sidebar-item')[map[id]]?.classList.add('active');
-    }
-    if (id === 'users') loadUsersPage();
-    if (id === 'changepass') resetChangePasswordForm();
-    if (id === 'roster') {
-      if (window.rosterCache) renderRosterPage(window.rosterCache);
-      else loadRosterSummary();
-    }
-  }
+function isAdminUser() { return currentUser && ['admin','tl'].includes(currentUser.role); }
+function isAdminPage(id) { return ['quiz-admin','assessment-admin','reports','users'].includes(id); }
+function getAdminDisplay(el) { if(el.classList.contains('sidebar-item'))return'flex'; if(el.classList.contains('module-grid'))return'grid'; return'block'; }
+function updateAdminVisibility() {
+  const show = isAdminUser();
+  document.querySelectorAll('.admin-only').forEach(el => { el.style.display = show ? getAdminDisplay(el) : 'none'; });
+}
+function openSimulation() { window.open('simulation.html', '_blank'); }
+function setGreetingAndDate() {
+  const now = new Date(), h = now.getHours();
+  document.getElementById('time-greet').textContent = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('date-display').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ' ' + now.getFullYear();
+}
 
-  function isAdminUser() {
-    return currentUser && ['admin', 'tl'].includes(currentUser.role);
-  }
-
-  function isAdminPage(id) {
-    return ['quiz-admin', 'assessment-admin', 'reports', 'users'].includes(id);
-  }
-
-  function getAdminDisplay(el) {
-    if (el.classList.contains('sidebar-item')) return 'flex';
-    if (el.classList.contains('section-title')) return 'flex';
-    if (el.classList.contains('module-grid')) return 'grid';
-    return 'block';
-  }
-
-  function updateAdminVisibility() {
-    const showAdmin = isAdminUser();
-    document.querySelectorAll('.admin-only').forEach(el => {
-      el.style.display = showAdmin ? getAdminDisplay(el) : 'none';
-    });
-  }
-
-  // ── CHANGE PASSWORD ──
-  function resetChangePasswordForm() {
+// ===================================================
+//  CHANGE PASSWORD
+// ===================================================
+function resetChangePasswordForm() {
+  ['cp-current','cp-new','cp-confirm'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('cp-error').style.display = 'none';
+  document.getElementById('cp-success').style.display = 'none';
+}
+async function doChangePassword() {
+  const current = document.getElementById('cp-current').value;
+  const next = document.getElementById('cp-new').value;
+  const confirm = document.getElementById('cp-confirm').value;
+  const errEl = document.getElementById('cp-error'), succEl = document.getElementById('cp-success');
+  errEl.style.display = 'none'; succEl.style.display = 'none';
+  if (!current||!next||!confirm) { errEl.textContent='Please fill in all fields.'; errEl.style.display='block'; return; }
+  if (next.length < 6) { errEl.textContent='New password must be at least 6 characters.'; errEl.style.display='block'; return; }
+  if (next !== confirm) { errEl.textContent='New passwords do not match.'; errEl.style.display='block'; return; }
+  try {
+    const curHash = await hashPassword(current);
+    const rows = await sbQuery('users', 'id=eq.' + currentUser.id + '&select=password');
+    if (!rows || rows.length === 0 || rows[0].password !== curHash) { errEl.textContent='Current password is incorrect.'; errEl.style.display='block'; return; }
+    const newHash = await hashPassword(next);
+    await sbUpdate('users', 'id', currentUser.id, { password: newHash });
+    succEl.style.display = 'block';
     ['cp-current','cp-new','cp-confirm'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('cp-error').style.display = 'none';
-    document.getElementById('cp-success').style.display = 'none';
-  }
+  } catch(e) { errEl.textContent='Something went wrong. Please try again.'; errEl.style.display='block'; }
+}
 
-  async function doChangePassword() {
-    const current = document.getElementById('cp-current').value;
-    const next = document.getElementById('cp-new').value;
-    const confirm = document.getElementById('cp-confirm').value;
-    const errEl = document.getElementById('cp-error');
-    const succEl = document.getElementById('cp-success');
-    errEl.style.display = 'none';
-    succEl.style.display = 'none';
-
-    if (!current || !next || !confirm) {
-      errEl.textContent = 'Please fill in all fields.';
-      errEl.style.display = 'block';
-      return;
-    }
-    if (next.length < 6) {
-      errEl.textContent = 'New password must be at least 6 characters.';
-      errEl.style.display = 'block';
-      return;
-    }
-    if (next !== confirm) {
-      errEl.textContent = 'New passwords do not match.';
-      errEl.style.display = 'block';
-      return;
-    }
-
-    try {
-      const user = firebaseAuth.currentUser;
-      const credential = EmailAuthProvider.credential(user.email, current);
-      await reauthenticateWithCredential(user, credential);
-      await updatePassword(user, next);
-      succEl.style.display = 'block';
-      document.getElementById('cp-current').value = '';
-      document.getElementById('cp-new').value = '';
-      document.getElementById('cp-confirm').value = '';
-    } catch (e) {
-      if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
-        errEl.textContent = 'Current password is incorrect.';
-      } else {
-        errEl.textContent = 'Something went wrong. Please try again.';
-      }
-      errEl.style.display = 'block';
-    }
-  }
-
-  // ── MANAGE USERS (ADMIN) ──
-  // Admin adds users here: creates Firebase Auth account + Firestore record.
-  // The display name set here is what agents see inside the portal.
-  // Agents never see their email in the UI — only their display name.
-
-  function toggleAddUser() {
-    const form = document.getElementById('um-add-form');
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    document.getElementById('um-add-error').style.display = 'none';
-    document.getElementById('um-add-success').style.display = 'none';
-    if (form.style.display === 'block') {
-      document.getElementById('new-name').value = '';
-      document.getElementById('new-email').value = '';
-      document.getElementById('new-pass').value = '';
-      document.getElementById('new-role').value = 'agent';
-    }
-  }
-
-  async function addUser() {
-    const name = document.getElementById('new-name').value.trim();
-    const email = document.getElementById('new-email').value.trim().toLowerCase();
-    const pass = document.getElementById('new-pass').value.trim();
-    const role = document.getElementById('new-role').value;
-    const errEl = document.getElementById('um-add-error');
-    const succEl = document.getElementById('um-add-success');
-    errEl.style.display = 'none';
-    succEl.style.display = 'none';
-
-    if (!name || !email || !pass) {
-      errEl.textContent = 'Please fill in all fields.';
-      errEl.style.display = 'block';
-      return;
-    }
-    if (pass.length < 6) {
-      errEl.textContent = 'Password must be at least 6 characters.';
-      errEl.style.display = 'block';
-      return;
-    }
-
-    const saveBtn = document.querySelector('.um-save-btn');
-    saveBtn.textContent = 'Creating…';
-    saveBtn.disabled = true;
-
-    // We create the user while admin is logged in.
-    // Firebase Auth allows creating users from client SDK.
-    // After creation we immediately store their profile in Firestore
-    // and sign back in as admin.
-    const adminEmail = currentUser.email;
-    const adminPass = await promptAdminPass();
-    if (!adminPass) {
-      saveBtn.textContent = 'Save Agent';
-      saveBtn.disabled = false;
-      return;
-    }
-
-    try {
-      // Create new auth user
-      const cred = await createUserWithEmailAndPassword(firebaseAuth, email, pass);
-      await updateProfile(cred.user, { displayName: name });
-
-      // Save to Firestore
-      await setDoc(doc(db, 'users', cred.user.uid), {
-        uid: cred.user.uid,
-        name,
-        email,
-        role,
-        createdAt: serverTimestamp(),
-      });
-
-      // Sign back in as admin
-      await signInWithEmailAndPassword(firebaseAuth, adminEmail, adminPass);
-
-      succEl.textContent = `✅ ${name} added successfully. They can now log in with ${email}.`;
-      succEl.style.display = 'block';
-      document.getElementById('new-name').value = '';
-      document.getElementById('new-email').value = '';
-      document.getElementById('new-pass').value = '';
-      document.getElementById('new-role').value = 'agent';
-      loadUsersPage();
-    } catch (e) {
-      if (e.code === 'auth/email-already-in-use') {
-        errEl.textContent = 'This email is already registered.';
-      } else {
-        errEl.textContent = 'Error: ' + (e.message || 'Could not create user.');
-      }
-      errEl.style.display = 'block';
-      // Try to sign admin back in regardless
-      try { await signInWithEmailAndPassword(firebaseAuth, adminEmail, adminPass); } catch(_){}
-    }
-
-    saveBtn.textContent = 'Save Agent';
-    saveBtn.disabled = false;
-  }
-
-  // Small inline prompt for admin re-auth password
-  function promptAdminPass() {
-    return new Promise(resolve => {
-      const overlay = document.createElement('div');
-      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(7,13,45,0.55);display:flex;align-items:center;justify-content:center;z-index:9999;';
-      overlay.innerHTML = `
-        <div style="background:var(--navy-card);border:1px solid var(--navy-border);border-radius:16px;padding:2rem 2.5rem;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(7,13,45,0.25);">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;margin-bottom:0.4rem;color:var(--text-primary);">Confirm Your Password</div>
-          <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1.2rem;">Re-enter your admin password to create this agent account.</p>
-          <input id="_admin-pass-input" type="password" placeholder="Your password" style="width:100%;padding:0.75rem 1rem;background:#F1F6FD;border:1px solid var(--navy-border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:1rem;"/>
-          <div style="display:flex;gap:0.75rem;">
-            <button id="_admin-pass-ok" style="flex:1;padding:0.65rem;background:linear-gradient(135deg,var(--gold),var(--gold-light));border:none;border-radius:8px;color:#fff;font-weight:600;font-size:0.88rem;cursor:pointer;font-family:'DM Sans',sans-serif;">Confirm</button>
-            <button id="_admin-pass-cancel" style="flex:1;padding:0.65rem;background:transparent;border:1px solid var(--navy-border);border-radius:8px;color:var(--text-muted);font-weight:500;font-size:0.88rem;cursor:pointer;font-family:'DM Sans',sans-serif;">Cancel</button>
-          </div>
-        </div>`;
-      document.body.appendChild(overlay);
-      const input = overlay.querySelector('#_admin-pass-input');
-      input.focus();
-      overlay.querySelector('#_admin-pass-ok').onclick = () => {
-        document.body.removeChild(overlay);
-        resolve(input.value);
-      };
-      overlay.querySelector('#_admin-pass-cancel').onclick = () => {
-        document.body.removeChild(overlay);
-        resolve(null);
-      };
-      input.addEventListener('keydown', e => {
-        if (e.key === 'Enter') { document.body.removeChild(overlay); resolve(input.value); }
-        if (e.key === 'Escape') { document.body.removeChild(overlay); resolve(null); }
-      });
-    });
-  }
-
-  async function loadUsersPage() {
-    if (!isAdminUser()) return;
-    const listEl = document.getElementById('um-user-list');
-    listEl.innerHTML = '<div style="color:var(--text-dim);font-size:0.875rem;padding:1rem;text-align:center;">Loading…</div>';
-    try {
-      const snap = await getDocs(collection(db, 'users'));
-      if (snap.empty) {
-        listEl.innerHTML = '<div class="um-empty">No agents added yet. Click "+ Add Agent" to get started.</div>';
-        return;
-      }
-      const users = [];
-      snap.forEach(d => users.push(d.data()));
-      users.sort((a,b) => (a.name||'').localeCompare(b.name||''));
-
-      listEl.innerHTML = users.map(u => {
-        const initials = (u.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-        const roleCls = u.role === 'admin' ? 'admin' : u.role === 'tl' ? 'tl' : '';
-        const roleLabel = u.role === 'tl' ? 'Team Lead' : (u.role||'agent');
-        return `<div class="um-user-card">
-          <div class="um-user-avatar">${initials}</div>
-          <div class="um-user-info">
-            <div class="um-user-name">${esc(u.name)} <span class="um-role-badge ${roleCls}">${roleLabel}</span></div>
-            <div class="um-user-email">${esc(u.email)}</div>
-          </div>
-          <button class="um-del-btn" onclick="removeUser('${u.uid}', '${esc(u.name)}')">Remove</button>
-        </div>`;
-      }).join('');
-    } catch(e) {
-      listEl.innerHTML = '<div class="um-empty" style="color:var(--accent-red);">Could not load users. Make sure Firestore is set up and rules allow admin access.</div>';
-    }
-  }
-
-  async function removeUser(uid, name) {
-    if (!confirm(`Remove ${name}? They will no longer be able to log in.`)) return;
-    try {
-      await deleteDoc(doc(db, 'users', uid));
-      // Note: Firebase Auth account still exists — they can still technically log in
-      // but won't have a Firestore profile. For full removal, use Firebase Admin SDK
-      // via a Cloud Function. The Firestore deletion is sufficient for most use cases.
-      loadUsersPage();
-    } catch(e) {
-      alert('Could not remove user from database.');
-    }
-  }
-
-  function esc(str) {
-    return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  // ── BUILD CURRENT USER FROM FIREBASE + FIRESTORE ──
-  async function buildCurrentUser(fbUser) {
-    const email = fbUser?.email || '';
-    let name = fbUser?.displayName || email.split('@')[0] || 'Agent';
-    let role = ADMIN_EMAILS.includes(email.toLowerCase()) ? 'admin' : 'agent';
-
-    // Firestore is optional for basic login. If reading the user profile fails,
-    // return a fallback user object so login still succeeds.
-    try {
-      if (db && fbUser?.uid) {
-        const snap = await getDoc(doc(db, 'users', fbUser.uid));
-        if (snap.exists()) {
-          const data = snap.data();
-          if (data?.name) name = data.name;
-          if (data?.role && !ADMIN_EMAILS.includes(email.toLowerCase())) role = data.role;
-        }
-      }
-    } catch (e) {
-      console.warn('Could not load user profile from Firestore:', e);
-    }
-
-    return { uid: fbUser?.uid || null, email, name, role };
-  }
-
-  // onAuthStateChanged handles AUTO-LOGIN on page reload (persisted session).
-  // Manual login is handled directly in doLogin() above for instant response.
-  onAuthStateChanged(firebaseAuth, async user => {
-    if (currentUser) return; // already logged in via doLogin(), skip
-    const statusEl = document.getElementById('login-status');
-    if (user) {
-      // Page was refreshed — restore session from persisted Auth token
-      statusEl.style.display = 'flex';
-      const email = user.email || '';
-      const isAdmin = ADMIN_EMAILS.includes(email.toLowerCase());
-      currentUser = {
-        uid: user.uid,
-        email,
-        name: user.displayName || email.split('@')[0] || 'Agent',
-        role: isAdmin ? 'admin' : 'agent',
-      };
-      // Try Firestore with a short timeout so page reload isn't too slow
-      if (db && user.uid) {
-        const timeout = new Promise(r => setTimeout(r, 3000));
-        await Promise.race([
-          getDoc(doc(db, 'users', user.uid)).then(snap => {
-            if (!snap.exists()) return;
-            const d = snap.data();
-            if (d.name) currentUser.name = d.name;
-            if (d.role && !isAdmin) currentUser.role = d.role;
-          }).catch(() => {}),
-          timeout
-        ]);
-      }
-      statusEl.style.display = 'none';
-      enterDashboard();
-    } else {
-      currentUser = null;
-      updateAdminVisibility();
-      document.getElementById('login-status').style.display = 'none';
-      document.getElementById('dashboard-view').classList.remove('active');
-      document.getElementById('login-view').classList.add('active');
-    }
-  });
-
-  function openSimulation() { window.open('simulation.html', '_blank'); }
-
-  function setGreetingAndDate() {
-    const now = new Date();
-    const h = now.getHours();
-    document.getElementById('time-greet').textContent = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
-    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    document.getElementById('date-display').textContent =
-      `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()} ${now.getFullYear()}`;
-  }
-
-  function parseCsv(csvText) {
-    const rows = []; let row = [], cell = ''; let inQuotes = false;
-    for (let i = 0; i < csvText.length; i++) {
-      const char = csvText[i], next = csvText[i+1];
-      if (char==='"' && inQuotes && next==='"') { cell+='"'; i++; }
-      else if (char==='"') { inQuotes=!inQuotes; }
-      else if (char===',' && !inQuotes) { row.push(cell.trim()); cell=''; }
-      else if ((char==='\n'||char==='\r') && !inQuotes) {
-        if (char==='\r'&&next==='\n') i++;
-        row.push(cell.trim()); rows.push(row); row=[]; cell='';
-      } else { cell+=char; }
-    }
-    if (cell||row.length) { row.push(cell.trim()); rows.push(row); }
-    return rows;
-  }
-
-  function getMonthIndex(label) {
-    const match = label.match(/([A-Za-z]+)\s*-\s*(\d{4})/);
-    if (!match) return null;
-    const months = { jan:0,january:0,feb:1,february:1,mar:2,march:2,apr:3,april:3,may:4,jun:5,june:5,jul:6,july:6,aug:7,august:7,sep:8,sept:8,september:8,oct:9,october:9,nov:10,november:10,dec:11,december:11 };
-    return { month: months[match[1].toLowerCase()], year: Number(match[2]) };
-  }
-
-  function statusParts(value) {
-    return String(value||'').toUpperCase().split(/[^A-Z]+/).filter(Boolean);
-  }
-
-  function formatNames(names, emptyText) {
-    if (!names.length) return emptyText;
-    if (names.length <= 4) return names.join(', ');
-    return `${names.slice(0,4).join(', ')} and ${names.length-4} more`;
-  }
-
-  function updateRosterBanner(summary) {
-    const absentLabel = summary.absent.length===1 ? 'agent is not present' : 'agents are not present';
-    const pieces = [`${formatNames(summary.absent,'No agents')} ${summary.absent.length ? 'are marked L/CO/W' : 'are marked absent'}`];
-    if (summary.wfh.length) pieces.push(`WFH: ${formatNames(summary.wfh,'')}`);
-    if (summary.halfDay.length) pieces.push(`Half-day leave: ${formatNames(summary.halfDay,'')}`);
-    document.getElementById('absence-title').textContent = `${summary.absent.length} ${absentLabel} today`;
-    document.getElementById('absence-detail').textContent = pieces.join('. ');
-  }
-
-  function renderRosterPage(rows, todayCol, error) {
-    const wrap = document.getElementById('roster-table-wrap');
-    if (error) {
-      wrap.innerHTML = `<div class="roster-error">Could not load roster. Please try again later.</div>`;
-      return;
-    }
-    if (!rows || !rows.length) {
-      wrap.innerHTML = '<div class="roster-error">No roster data available.</div>';
-      return;
-    }
-    const dateRow = rows.find(row => String(row[1]).trim().toUpperCase() === 'DATE');
-    if (!dateRow) {
-      wrap.innerHTML = '<div class="roster-error">Roster header not found in the sheet.</div>';
-      return;
-    }
-    const headerCells = dateRow.map((cell,i) => {
-      if (i === 0) return 'Emp ID';
-      if (i === 1) return 'Name';
-      return cell || '';
-    });
-    const bodyRows = rows.slice(rows.indexOf(dateRow) + 2).filter(row => String(row[0]||'').trim() || String(row[1]||'').trim());
-    const tableHtml = `
-      <table class="roster-table">
-        <thead><tr>${headerCells.map(h => `<th>${h}</th>`).join('')}</tr></thead>
-        <tbody>${bodyRows.map(row => {
-          const isAbsent = todayCol >= 0 && row[todayCol] && NOT_PRESENT_CODES.has(String(row[todayCol]).toUpperCase().trim());
-          const isWfh = todayCol >= 0 && String(row[todayCol]||'').toUpperCase().includes('WFH');
-          const isHalf = todayCol >= 0 && String(row[todayCol]||'').toUpperCase().includes('HL');
-          const highlightClass = todayCol >= 0 && (isAbsent || isWfh || isHalf) ? 'roster-highlight' : '';
-          return `<tr class="${highlightClass}">${row.map((cell, idx) => `<td${idx===todayCol?' class="roster-highlight"':''}>${cell||''}</td>`).join('')}</tr>`;
-        }).join('')}</tbody>
-      </table>
-    `;
-    wrap.innerHTML = tableHtml;
-  }
-
-  function updateRosterError() {
-    document.getElementById('absence-title').textContent = 'Roster sync unavailable';
-    document.getElementById('absence-detail').textContent = 'Could not read Google Sheets right now. Please check the published sheet link.';
-  }
-
-  async function loadRosterSummary() {
-    try {
-      const response = await fetch(`${ROSTER_CSV_URL}&cacheBust=${Date.now()}`);
-      if (!response.ok) throw new Error('fetch failed');
-      const rows = parseCsv(await response.text());
-      window.rosterCache = rows;
-      const monthRow = rows.find(row => row.some(cell => /[A-Za-z]+\s*-\s*\d{4}/.test(cell)));
-      const dateRow = rows.find(row => String(row[1]).trim().toUpperCase()==='DATE');
-      if (!monthRow||!dateRow) throw new Error('header not found');
-      const monthInfo = getMonthIndex(monthRow.find(cell => /[A-Za-z]+\s*-\s*\d{4}/.test(cell))||'');
-      const today = new Date();
-      if (!monthInfo||monthInfo.month!==today.getMonth()||monthInfo.year!==today.getFullYear()) {
-        document.getElementById('absence-title').textContent='Roster month does not match today';
-        document.getElementById('absence-detail').textContent='Please publish the current month roster in Google Sheets.';
-        renderRosterPage(rows, false);
-        return;
-      }
-      const day = String(today.getDate());
-      const dateCol = dateRow.findIndex((cell,i) => i>=2 && String(Number(cell))===day);
-      if (dateCol<0) throw new Error('today col not found');
-      const summary = { absent:[], wfh:[], halfDay:[] };
-      for (const row of rows.slice(rows.indexOf(dateRow)+2)) {
-        const empId=String(row[0]||'').trim(), name=String(row[1]||'').trim();
-        if (!empId||!name||!/^K\d+/i.test(empId)) continue;
-        const parts = statusParts(row[dateCol]);
-        if (parts.some(p => NOT_PRESENT_CODES.has(p))) summary.absent.push(name);
-        if (parts.includes('WFH')) summary.wfh.push(name);
-        if (parts.includes('HL')) summary.halfDay.push(name);
-      }
-      updateRosterBanner(summary);
-      renderRosterPage(rows, dateCol);
-    } catch(e) {
-      updateRosterError();
-      renderRosterPage(null, null, e);
-    }
-  }
-
-  window.doLogin = doLogin;
-  window.doLogout = doLogout;
-  window.showPage = showPage;
-  window.openSimulation = openSimulation;
-  window.toggleAddUser = toggleAddUser;
-  window.addUser = addUser;
-  window.removeUser = removeUser;
-  window.doChangePassword = doChangePassword;
-
-  // === TEAM MOMENTS JS ===
-  const CLOUDINARY_CLOUD = 'YOUR_CLOUD_NAME';
-  const M_TAG_MAP = { all:null, birthday:'birthday', outing:'team-outing', dinner:'team-dinner', funfriday:'fun-friday' };
-  const M_LABELS  = { all:'Recents', birthday:'Birthday', outing:'Team Outing', dinner:'Team Dinner', funfriday:'Fun Friday' };
-  const M_EMOJIS  = { all:'', birthday:'Birthday', outing:'Outing', dinner:'Dinner', funfriday:'Fun Friday' };
-  const _mlikes={}, _mliked={}, _mcomments={};
-  let _mActiveTab='all', _mLightboxId=null;
-  window._momentsCache={};
-
-  const DEMO_MOMENTS=[
-    {public_id:'dm1',secure_url:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80',created_at:'2025-04-10T10:00:00Z',context:{custom:{caption:'Birthday bash for Priya'}},tags:['birthday']},
-    {public_id:'dm2',secure_url:'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=600&q=80',created_at:'2025-04-15T10:00:00Z',context:{custom:{caption:'Q1 team outing at Yelagiri'}},tags:['team-outing']},
-    {public_id:'dm3',secure_url:'https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=600&q=80',created_at:'2025-05-03T10:00:00Z',context:{custom:{caption:'Team dinner at Spice Garden'}},tags:['team-dinner']},
-    {public_id:'dm4',secure_url:'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&q=80',created_at:'2025-05-06T10:00:00Z',context:{custom:{caption:'Happy birthday Arjun!'}},tags:['birthday']},
-    {public_id:'dm5',secure_url:'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80',created_at:'2025-05-07T10:00:00Z',context:{custom:{caption:'Fun Friday talent show'}},tags:['fun-friday']},
-    {public_id:'dm6',secure_url:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=80',created_at:'2025-05-08T10:00:00Z',context:{custom:{caption:'Project launch night dinner'}},tags:['team-dinner']},
-    {public_id:'dm7',secure_url:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',created_at:'2025-05-09T10:00:00Z',context:{custom:{caption:'ECR picnic day'}},tags:['team-outing']},
-    {public_id:'dm8',secure_url:'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80',created_at:'2025-05-10T10:00:00Z',context:{custom:{caption:'Meera completes 2 years with us!'}},tags:['birthday']},
-    {public_id:'dm9',secure_url:'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&q=80',created_at:'2025-05-12T10:00:00Z',context:{custom:{caption:'Desk decoration contest'}},tags:['fun-friday']},
-    {public_id:'dm10',secure_url:'https://images.unsplash.com/photo-1470338745628-171cf53de3a8?w=600&q=80',created_at:'2025-05-13T10:00:00Z',context:{custom:{caption:'Friday biryani tradition'}},tags:['team-dinner']},
-    {public_id:'dm11',secure_url:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80',created_at:'2025-05-14T10:00:00Z',context:{custom:{caption:'Birthday girl Sneha steals the show'}},tags:['birthday']},
-    {public_id:'dm12',secure_url:'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&q=80',created_at:'2025-05-14T12:00:00Z',context:{custom:{caption:'Games afternoon — who won?'}},tags:['fun-friday']},
-  ];
-
-  function _mTagKey(r){ for(const[k,v] of Object.entries(M_TAG_MAP)){ if(v&&(r.tags||[]).includes(v))return k; } return 'all'; }
-  function _mFmtDate(iso){ if(!iso)return''; const d=new Date(iso); const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return mo[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear(); }
-  function _mTimeAgo(ts){ const s=Math.floor((Date.now()-ts)/1000); if(s<60)return'just now'; if(s<3600)return Math.floor(s/60)+'m ago'; if(s<86400)return Math.floor(s/3600)+'h ago'; return Math.floor(s/86400)+'d ago'; }
-  function _mInitials(n){ return(n||'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
-
-  async function _mFetch(tag){
-    if(!CLOUDINARY_CLOUD||CLOUDINARY_CLOUD==='YOUR_CLOUD_NAME'){
-      const v=M_TAG_MAP[tag]; return v?DEMO_MOMENTS.filter(r=>(r.tags||[]).includes(v)):DEMO_MOMENTS;
-    }
-    const v=M_TAG_MAP[tag]||'site_moments';
-    try{
-      const res=await fetch('https://res.cloudinary.com/'+CLOUDINARY_CLOUD+'/image/list/'+v+'.json');
-      if(!res.ok)throw new Error('fail');
-      const data=await res.json();
-      return (data.resources||[]).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
-    }catch(e){
-      const v2=M_TAG_MAP[tag]; return v2?DEMO_MOMENTS.filter(r=>(r.tags||[]).includes(v2)):DEMO_MOMENTS;
-    }
-  }
-
-  function _mRenderGrid(resources){
-    const grid=document.getElementById('moments-grid');
-    if(!resources.length){ grid.innerHTML='<div class="moments-empty"><div class="empty-icon">No photos yet</div>Upload images to Cloudinary with the right tags and they will appear here.</div>'; return; }
-    grid.innerHTML=resources.map(r=>{
-      const pid=r.public_id;
-      const safe=pid.replace(/[^a-z0-9]/gi,'_');
-      const esc=pid.replace(/\/g,'\\').replace(/'/g,"\'");
-      const cap=(r.context&&r.context.custom&&r.context.custom.caption)||pid.replace(/[/_-]/g,' ');
-      const tk=_mTagKey(r);
-      const dt=_mFmtDate(r.created_at);
-      const lk=_mlikes[pid]||0;
-      const liked=_mliked[pid]?'liked':'';
-      return '<div class="moment-card" onclick="openMomentLightbox(''+esc+'')">'+
-        '<div style="position:relative">'+
-        '<img class="moment-img" src="'+r.secure_url+'" alt="'+cap+'" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=60'"/>'+
-        '<div class="moment-overlay"><div class="moment-overlay-content">'+
-        '<div class="moment-overlay-caption">'+cap+'</div>'+
-        '<span class="moment-tag-pill">'+M_LABELS[tk]+'</span>'+
-        '</div></div></div>'+
-        '<div class="moment-card-footer">'+
-        '<span class="moment-card-date">'+dt+'</span>'+
-        '<button class="moment-like-btn '+liked+'" id="lbtn_'+safe+'" onclick="event.stopPropagation();toggleMomentLike(''+esc+'')">'+
-        '<svg viewBox="0 0 24 24" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>'+
-        '<span id="lcnt_'+safe+'">'+lk+'</span></button></div></div>';
+// ===================================================
+//  USER MANAGEMENT (Admin)
+// ===================================================
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function toggleAddUser() {
+  const form = document.getElementById('um-add-form');
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  document.getElementById('um-add-error').style.display = 'none';
+  document.getElementById('um-add-success').style.display = 'none';
+  if (form.style.display === 'block') { ['new-name','new-email','new-pass'].forEach(id=>document.getElementById(id).value=''); document.getElementById('new-role').value='agent'; }
+}
+async function addUser() {
+  const name=document.getElementById('new-name').value.trim(), email=document.getElementById('new-email').value.trim().toLowerCase();
+  const pass=document.getElementById('new-pass').value.trim(), role=document.getElementById('new-role').value;
+  const errEl=document.getElementById('um-add-error'), succEl=document.getElementById('um-add-success');
+  errEl.style.display='none'; succEl.style.display='none';
+  if (!name||!email||!pass) { errEl.textContent='Please fill in all fields.'; errEl.style.display='block'; return; }
+  if (pass.length < 6) { errEl.textContent='Password must be at least 6 characters.'; errEl.style.display='block'; return; }
+  const btn=document.querySelector('.um-save-btn'); btn.textContent='Creating...'; btn.disabled=true;
+  try {
+    const existing = await sbQuery('users', 'email=eq.' + encodeURIComponent(email) + '&select=id');
+    if (existing && existing.length > 0) { errEl.textContent='This email is already registered.'; errEl.style.display='block'; btn.textContent='Save Agent'; btn.disabled=false; return; }
+    const hashed = await hashPassword(pass);
+    await sbInsert('users', { name, email, password: hashed, role });
+    succEl.textContent = name + ' added. They can log in with ' + email; succEl.style.display='block';
+    ['new-name','new-email','new-pass'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('new-role').value='agent'; loadUsersPage();
+  } catch(e) { errEl.textContent='Error: '+(e.message||'Could not create user.'); errEl.style.display='block'; }
+  btn.textContent='Save Agent'; btn.disabled=false;
+}
+async function loadUsersPage() {
+  if (!isAdminUser()) return;
+  const listEl = document.getElementById('um-user-list');
+  listEl.innerHTML = '<div style="color:var(--text-dim);font-size:0.875rem;padding:1rem;text-align:center;">Loading...</div>';
+  try {
+    const users = await sbQuery('users', 'select=id,name,email,role&order=name.asc');
+    if (!users||!users.length) { listEl.innerHTML='<div class="um-empty">No agents added yet.</div>'; return; }
+    listEl.innerHTML = users.map(u => {
+      const ini=(u.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+      const rc=u.role==='admin'?'admin':u.role==='tl'?'tl':'';
+      const rl=u.role==='tl'?'Team Lead':(u.role||'agent');
+      return '<div class="um-user-card"><div class="um-user-avatar">'+ini+'</div><div class="um-user-info"><div class="um-user-name">'+esc(u.name)+' <span class="um-role-badge '+rc+'">'+rl+'</span></div><div class="um-user-email">'+esc(u.email)+'</div></div><button class="um-del-btn" onclick="removeUser(''+u.id+'',''+esc(u.name)+'')">Remove</button></div>';
     }).join('');
-  }
+  } catch(e) { listEl.innerHTML='<div class="um-empty" style="color:var(--accent-red);">Could not load users. Check Supabase RLS policies.</div>'; }
+}
+async function removeUser(id, name) {
+  if (!confirm('Remove '+name+'? They will no longer be able to log in.')) return;
+  try { await sbDelete('users','id',id); loadUsersPage(); } catch(e) { alert('Could not remove user.'); }
+}
 
-  async function _mLoadTab(tag){
-    const grid=document.getElementById('moments-grid');
-    grid.innerHTML='<div class="moments-loading"><div class="moments-spinner"></div><span>Loading moments...</span></div>';
-    if(!window._momentsCache[tag]) window._momentsCache[tag]=await _mFetch(tag);
-    _mRenderGrid(window._momentsCache[tag]);
-  }
+// ===================================================
+//  ROSTER (Google Sheets — unchanged)
+// ===================================================
+const ROSTER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTUz9_-oYx9wJQGEifWDYUyPIFwo513v2vNBkPm4L1v-02o3d6Yqkoz_GDFQIMWUaRrMlsPwQmmujWA/pub?output=csv';
+const NOT_PRESENT_CODES = new Set(['L','CO','W']);
+window.rosterCache = null;
+function parseCsv(t){const rows=[];let row=[],cell='',inQ=false;for(let i=0;i<t.length;i++){const c=t[i],n=t[i+1];if(c==='"'&&inQ&&n==='"'){cell+='"';i++;}else if(c==='"'){inQ=!inQ;}else if(c===','&&!inQ){row.push(cell.trim());cell='';}else if((c==='
+'||c==='')&&!inQ){if(c===''&&n==='
+')i++;row.push(cell.trim());rows.push(row);row=[];cell='';}else{cell+=c;}}if(cell||row.length){row.push(cell.trim());rows.push(row);}return rows;}
+function getMonthIndex(l){const m=l.match(/([A-Za-z]+)\s*-\s*(\d{4})/);if(!m)return null;const mo={jan:0,january:0,feb:1,february:1,mar:2,march:2,apr:3,april:3,may:4,jun:5,june:5,jul:6,july:6,aug:7,august:7,sep:8,sept:8,september:8,oct:9,october:9,nov:10,november:10,dec:11,december:11};return{month:mo[m[1].toLowerCase()],year:Number(m[2])};}
+function statusParts(v){return String(v||'').toUpperCase().split(/[^A-Z]+/).filter(Boolean);}
+function formatNames(n,e){if(!n.length)return e;if(n.length<=4)return n.join(', ');return n.slice(0,4).join(', ')+' and '+(n.length-4)+' more';}
+function updateRosterBanner(s){const l=s.absent.length===1?'agent is not present':'agents are not present';const p=[formatNames(s.absent,'No agents')+(s.absent.length?' are marked L/CO/W':' are marked absent')];if(s.wfh.length)p.push('WFH: '+formatNames(s.wfh,''));if(s.halfDay.length)p.push('Half-day: '+formatNames(s.halfDay,''));document.getElementById('absence-title').textContent=s.absent.length+' '+l;document.getElementById('absence-detail').textContent=p.join('. ');}
+function renderRosterPage(rows,todayCol,error){const wrap=document.getElementById('roster-table-wrap');if(error){wrap.innerHTML='<div class="roster-error">Could not load roster.</div>';return;}if(!rows||!rows.length){wrap.innerHTML='<div class="roster-error">No roster data.</div>';return;}const dateRow=rows.find(r=>String(r[1]).trim().toUpperCase()==='DATE');if(!dateRow){wrap.innerHTML='<div class="roster-error">Header not found.</div>';return;}const hc=dateRow.map((c,i)=>i===0?'Emp ID':i===1?'Name':c||'');const br=rows.slice(rows.indexOf(dateRow)+2).filter(r=>String(r[0]||'').trim()||String(r[1]||'').trim());wrap.innerHTML='<table class="roster-table"><thead><tr>'+hc.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+br.map(row=>{const ia=todayCol>=0&&row[todayCol]&&NOT_PRESENT_CODES.has(String(row[todayCol]).toUpperCase().trim());const iw=todayCol>=0&&String(row[todayCol]||'').toUpperCase().includes('WFH');const ih=todayCol>=0&&String(row[todayCol]||'').toUpperCase().includes('HL');const hclass=todayCol>=0&&(ia||iw||ih)?'roster-highlight':'';return'<tr class="'+hclass+'">'+row.map((cell,idx)=>'<td'+(idx===todayCol?' class="roster-highlight"':'')+'>'+( cell||'')+'</td>').join('')+'</tr>';}).join('')+'</tbody></table>';}
+async function loadRosterSummary(){try{const r=await fetch(ROSTER_CSV_URL+'&cacheBust='+Date.now());if(!r.ok)throw new Error('fail');const rows=parseCsv(await r.text());window.rosterCache=rows;const mr=rows.find(row=>row.some(c=>/[A-Za-z]+\s*-\s*\d{4}/.test(c)));const dr=rows.find(row=>String(row[1]).trim().toUpperCase()==='DATE');if(!mr||!dr)throw new Error('hdr');const mi=getMonthIndex(mr.find(c=>/[A-Za-z]+\s*-\s*\d{4}/.test(c))||'');const today=new Date();if(!mi||mi.month!==today.getMonth()||mi.year!==today.getFullYear()){document.getElementById('absence-title').textContent='Roster month does not match today';document.getElementById('absence-detail').textContent='Please publish the current month roster.';renderRosterPage(rows,false);return;}const day=String(today.getDate());const dc=dr.findIndex((c,i)=>i>=2&&String(Number(c))===day);if(dc<0)throw new Error('col');const s={absent:[],wfh:[],halfDay:[]};for(const row of rows.slice(rows.indexOf(dr)+2)){const ei=String(row[0]||'').trim(),n=String(row[1]||'').trim();if(!ei||!n||!/^K\d+/i.test(ei))continue;const p=statusParts(row[dc]);if(p.some(x=>NOT_PRESENT_CODES.has(x)))s.absent.push(n);if(p.includes('WFH'))s.wfh.push(n);if(p.includes('HL'))s.halfDay.push(n);}updateRosterBanner(s);renderRosterPage(rows,dc);}catch(e){document.getElementById('absence-title').textContent='Roster sync unavailable';document.getElementById('absence-detail').textContent='Could not read Google Sheets right now.';renderRosterPage(null,null,e);}}
 
-  window.switchMomentsTab=function(tag,btn){
-    _mActiveTab=tag;
-    document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('active'));
-    if(btn)btn.classList.add('active');
-    _mLoadTab(tag);
-  };
+// ===================================================
+//  TEAM MOMENTS
+// ===================================================
+const CLOUDINARY_CLOUD='YOUR_CLOUD_NAME';
+const M_TAG_MAP={all:null,birthday:'birthday',outing:'team-outing',dinner:'team-dinner',funfriday:'fun-friday'};
+const M_LABELS={all:'Recents',birthday:'Birthday',outing:'Team Outing',dinner:'Team Dinner',funfriday:'Fun Friday'};
+const _mlikes={},_mliked={},_mcomments={};
+let _mActiveTab='all',_mLightboxId=null;
+window._momentsCache={};
+const DEMO_MOMENTS=[
+  {public_id:'dm1',secure_url:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80',created_at:'2025-04-10T10:00:00Z',context:{custom:{caption:'Birthday bash for Priya'}},tags:['birthday']},
+  {public_id:'dm2',secure_url:'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=600&q=80',created_at:'2025-04-15T10:00:00Z',context:{custom:{caption:'Q1 team outing at Yelagiri'}},tags:['team-outing']},
+  {public_id:'dm3',secure_url:'https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=600&q=80',created_at:'2025-05-03T10:00:00Z',context:{custom:{caption:'Team dinner at Spice Garden'}},tags:['team-dinner']},
+  {public_id:'dm4',secure_url:'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&q=80',created_at:'2025-05-06T10:00:00Z',context:{custom:{caption:'Happy birthday Arjun!'}},tags:['birthday']},
+  {public_id:'dm5',secure_url:'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80',created_at:'2025-05-07T10:00:00Z',context:{custom:{caption:'Fun Friday talent show'}},tags:['fun-friday']},
+  {public_id:'dm6',secure_url:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=80',created_at:'2025-05-08T10:00:00Z',context:{custom:{caption:'Project launch night dinner'}},tags:['team-dinner']},
+  {public_id:'dm7',secure_url:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',created_at:'2025-05-09T10:00:00Z',context:{custom:{caption:'ECR picnic day'}},tags:['team-outing']},
+  {public_id:'dm8',secure_url:'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80',created_at:'2025-05-10T10:00:00Z',context:{custom:{caption:'Meera completes 2 years with us!'}},tags:['birthday']},
+  {public_id:'dm9',secure_url:'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&q=80',created_at:'2025-05-12T10:00:00Z',context:{custom:{caption:'Desk decoration contest'}},tags:['fun-friday']},
+  {public_id:'dm10',secure_url:'https://images.unsplash.com/photo-1470338745628-171cf53de3a8?w=600&q=80',created_at:'2025-05-13T10:00:00Z',context:{custom:{caption:'Friday biryani tradition'}},tags:['team-dinner']},
+  {public_id:'dm11',secure_url:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80',created_at:'2025-05-14T10:00:00Z',context:{custom:{caption:'Birthday girl Sneha'}},tags:['birthday']},
+  {public_id:'dm12',secure_url:'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&q=80',created_at:'2025-05-14T12:00:00Z',context:{custom:{caption:'Games afternoon'}},tags:['fun-friday']},
+];
+function _mTagKey(r){for(const[k,v]of Object.entries(M_TAG_MAP)){if(v&&(r.tags||[]).includes(v))return k;}return'all';}
+function _mFmtDate(iso){if(!iso)return'';const d=new Date(iso);const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return mo[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();}
+function _mTimeAgo(ts){const s=Math.floor((Date.now()-ts)/1000);if(s<60)return'just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago';}
+function _mInitials(n){return(n||'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);}
+async function _mFetch(tag){if(!CLOUDINARY_CLOUD||CLOUDINARY_CLOUD==='YOUR_CLOUD_NAME'){const v=M_TAG_MAP[tag];return v?DEMO_MOMENTS.filter(r=>(r.tags||[]).includes(v)):DEMO_MOMENTS;}const v=M_TAG_MAP[tag]||'site_moments';try{const res=await fetch('https://res.cloudinary.com/'+CLOUDINARY_CLOUD+'/image/list/'+v+'.json');if(!res.ok)throw new Error('fail');const data=await res.json();return(data.resources||[]).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));}catch(e){const v2=M_TAG_MAP[tag];return v2?DEMO_MOMENTS.filter(r=>(r.tags||[]).includes(v2)):DEMO_MOMENTS;}}
+function _mRenderGrid(resources){const grid=document.getElementById('moments-grid');if(!resources.length){grid.innerHTML='<div class="moments-empty">No moments in this category yet.</div>';return;}grid.innerHTML=resources.map(r=>{const pid=r.public_id;const safe=pid.replace(/[^a-z0-9]/gi,'_');const pidJ=pid.replace(/\/g,'\\').replace(/'/g,"\'");const cap=(r.context&&r.context.custom&&r.context.custom.caption)||pid.replace(/[/_-]/g,' ');const tk=_mTagKey(r);const dt=_mFmtDate(r.created_at);const lk=_mlikes[pid]||0;const liked=_mliked[pid]?'liked':'';return'<div class="moment-card" onclick="openMomentLightbox(''+pidJ+'')"><div style="position:relative"><img class="moment-img" src="'+r.secure_url+'" alt="'+cap+'" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=60'"/><div class="moment-overlay"><div class="moment-overlay-content"><div class="moment-overlay-caption">'+cap+'</div><span class="moment-tag-pill">'+M_LABELS[tk]+'</span></div></div></div><div class="moment-card-footer"><span class="moment-card-date">'+dt+'</span><button class="moment-like-btn '+liked+'" id="lbtn_'+safe+'" onclick="event.stopPropagation();toggleMomentLike(''+pidJ+'')"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><span id="lcnt_'+safe+'">'+lk+'</span></button></div></div>';}).join('');}
+async function _mLoadTab(tag){const grid=document.getElementById('moments-grid');if(!grid)return;grid.innerHTML='<div class="moments-loading"><div class="moments-spinner"></div><span>Loading moments...</span></div>';if(!window._momentsCache[tag])window._momentsCache[tag]=await _mFetch(tag);_mRenderGrid(window._momentsCache[tag]);}
+function switchMomentsTab(tag,btn){_mActiveTab=tag;document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');_mLoadTab(tag);}
+function toggleMomentLike(pid){const safe=pid.replace(/[^a-z0-9]/gi,'_');const was=_mliked[pid]||false;_mliked[pid]=!was;_mlikes[pid]=Math.max(0,(_mlikes[pid]||0)+(was?-1:1));const b=document.getElementById('lbtn_'+safe);const c=document.getElementById('lcnt_'+safe);if(b)b.classList.toggle('liked',!was);if(c)c.textContent=_mlikes[pid];}
+function openMomentLightbox(pid){_mLightboxId=pid;const res=window._momentsCache[_mActiveTab]||DEMO_MOMENTS;const r=res.find(x=>x.public_id===pid)||res[0];if(!r)return;const cap=(r.context&&r.context.custom&&r.context.custom.caption)||pid.replace(/[/_-]/g,' ');const tk=_mTagKey(r);document.getElementById('lightbox-img').src=r.secure_url;document.getElementById('lightbox-caption').textContent=cap;document.getElementById('lightbox-tag-badge').textContent=M_LABELS[tk]||tk;document.getElementById('lightbox-date').textContent=_mFmtDate(r.created_at);document.getElementById('comment-avatar-mini').textContent=currentUser?_mInitials(currentUser.name):'U';_mRenderComments(pid);document.getElementById('lightbox-overlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeLightbox(){document.getElementById('lightbox-overlay').classList.remove('open');document.body.style.overflow='';_mLightboxId=null;}
+function _mRenderComments(pid){const list=document.getElementById('comments-list');const items=_mcomments[pid]||[];if(!items.length){list.innerHTML='<div class="no-comments">No comments yet — be the first!</div>';return;}list.innerHTML=items.map(c=>'<div class="comment-item"><div class="comment-avatar">'+c.initials+'</div><div class="comment-body"><div class="comment-author">'+c.author+'</div><div class="comment-text">'+c.text+'</div><div class="comment-time">'+_mTimeAgo(c.ts)+'</div></div></div>').join('');list.scrollTop=list.scrollHeight;}
+function submitComment(){const input=document.getElementById('comment-input');const text=(input.value||'').trim();if(!text||!_mLightboxId)return;const pid=_mLightboxId;if(!_mcomments[pid])_mcomments[pid]=[];const author=currentUser?currentUser.name:'Agent';_mcomments[pid].push({author,initials:_mInitials(author),text,ts:Date.now()});input.value='';_mRenderComments(pid);}
 
-  window.toggleMomentLike=function(pid){
-    const safe=pid.replace(/[^a-z0-9]/gi,'_');
-    const was=_mliked[pid]||false;
-    _mliked[pid]=!was;
-    _mlikes[pid]=Math.max(0,(_mlikes[pid]||0)+(was?-1:1));
-    const btn=document.getElementById('lbtn_'+safe);
-    const cnt=document.getElementById('lcnt_'+safe);
-    if(btn)btn.classList.toggle('liked',!was);
-    if(cnt)cnt.textContent=_mlikes[pid];
-  };
-
-  window.openMomentLightbox=function(pid){
-    _mLightboxId=pid;
-    const res=window._momentsCache[_mActiveTab]||DEMO_MOMENTS;
-    const r=res.find(x=>x.public_id===pid)||res[0];
-    if(!r)return;
-    const cap=(r.context&&r.context.custom&&r.context.custom.caption)||pid.replace(/[/_-]/g,' ');
-    const tk=_mTagKey(r);
-    document.getElementById('lightbox-img').src=r.secure_url;
-    document.getElementById('lightbox-caption').textContent=cap;
-    document.getElementById('lightbox-tag-badge').textContent=M_LABELS[tk]||tk;
-    document.getElementById('lightbox-date').textContent=_mFmtDate(r.created_at);
-    document.getElementById('comment-avatar-mini').textContent=currentUser?_mInitials(currentUser.name):'U';
-    _mRenderComments(pid);
-    document.getElementById('lightbox-overlay').classList.add('open');
-    document.body.style.overflow='hidden';
-  };
-
-  window.closeLightbox=function(){
-    document.getElementById('lightbox-overlay').classList.remove('open');
-    document.body.style.overflow='';
-    _mLightboxId=null;
-  };
-
-  function _mRenderComments(pid){
-    const list=document.getElementById('comments-list');
-    const items=_mcomments[pid]||[];
-    if(!items.length){ list.innerHTML='<div class="no-comments">No comments yet — be the first!</div>'; return; }
-    list.innerHTML=items.map(c=>'<div class="comment-item"><div class="comment-avatar">'+c.initials+'</div><div class="comment-body"><div class="comment-author">'+c.author+'</div><div class="comment-text">'+c.text+'</div><div class="comment-time">'+_mTimeAgo(c.ts)+'</div></div></div>').join('');
-    list.scrollTop=list.scrollHeight;
-  }
-
-  window.submitComment=function(){
-    const input=document.getElementById('comment-input');
-    const text=(input.value||'').trim();
-    if(!text||!_mLightboxId)return;
-    const pid=_mLightboxId;
-    if(!_mcomments[pid])_mcomments[pid]=[];
-    const author=currentUser?currentUser.name:'Agent';
-    _mcomments[pid].push({author,initials:_mInitials(author),text,ts:Date.now()});
-    input.value='';
-    _mRenderComments(pid);
-  };
-
-  // Hook showPage to auto-load moments tab
-  const _origShowPage=window.showPage;
-  window.showPage=function(id,el){
-    _origShowPage(id,el);
-    if(id==='moments') setTimeout(function(){_mLoadTab(_mActiveTab);},60);
-  };
-
+window.doLogin=doLogin; window.doLogout=doLogout; window.showPage=showPage;
+window.openSimulation=openSimulation; window.toggleAddUser=toggleAddUser;
+window.addUser=addUser; window.removeUser=removeUser; window.doChangePassword=doChangePassword;
+window.switchMomentsTab=switchMomentsTab; window.toggleMomentLike=toggleMomentLike;
+window.openMomentLightbox=openMomentLightbox; window.closeLightbox=closeLightbox;
+window.submitComment=submitComment; window.loadRosterSummary=loadRosterSummary;
 </script>
 
 
