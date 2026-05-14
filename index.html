@@ -1520,18 +1520,64 @@
     const statusText = status.querySelector('.login-status-text');
     const loginBtn = document.querySelector('.login-btn');
 
+    if (!email || !p) {
+      err.textContent = 'Please enter your email and password.';
+      err.style.display = 'block';
+      return;
+    }
+
     err.style.display = 'none';
-    statusText.textContent = 'Reaching server…';
+    statusText.textContent = 'Signing in…';
     status.style.display = 'flex';
     loginBtn.disabled = true;
     loginBtn.textContent = 'Signing in…';
 
     try {
-      await signInWithEmailAndPassword(firebaseAuth, email, p);
+      const cred = await signInWithEmailAndPassword(firebaseAuth, email, p);
+      // ── Build user immediately from Auth result — no Firestore wait ──
+      const fbUser = cred.user;
+      const userEmail = fbUser.email || '';
+      const isAdmin = ADMIN_EMAILS.includes(userEmail.toLowerCase());
+      currentUser = {
+        uid: fbUser.uid,
+        email: userEmail,
+        name: fbUser.displayName || userEmail.split('@')[0] || 'Agent',
+        role: isAdmin ? 'admin' : 'agent',
+      };
+      status.style.display = 'none';
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'Sign In';
+      enterDashboard();
+
+      // Sync Firestore name/role silently in background
+      if (db && fbUser.uid) {
+        getDoc(doc(db, 'users', fbUser.uid)).then(snap => {
+          if (!snap.exists()) return;
+          const d = snap.data();
+          let changed = false;
+          if (d.name && d.name !== currentUser.name) { currentUser.name = d.name; changed = true; }
+          if (d.role && !isAdmin && d.role !== currentUser.role) { currentUser.role = d.role; changed = true; }
+          if (changed) {
+            document.getElementById('agent-display').textContent = currentUser.name;
+            const ini = currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+            document.getElementById('avatar-initials').textContent = ini;
+            document.getElementById('greet-name').textContent = currentUser.name.split(' ')[0];
+            updateAdminVisibility();
+          }
+        }).catch(() => {});
+      }
     } catch (error) {
-      err.textContent = 'Invalid email or password. Please try again.';
+      const code = error.code || '';
+      if (code === 'auth/user-not-found' || code === 'auth/wrong-password' || code === 'auth/invalid-credential' || code === 'auth/invalid-email') {
+        err.textContent = 'Invalid email or password. Please try again.';
+      } else if (code === 'auth/too-many-requests') {
+        err.textContent = 'Too many attempts. Please wait a few minutes and try again.';
+      } else if (code === 'auth/network-request-failed') {
+        err.textContent = 'Network error. Please check your connection.';
+      } else {
+        err.textContent = 'Sign in failed. Please try again.';
+      }
       err.style.display = 'block';
-    } finally {
       status.style.display = 'none';
       loginBtn.disabled = false;
       loginBtn.textContent = 'Sign In';
@@ -1867,44 +1913,41 @@
     return { uid: fbUser?.uid || null, email, name, role };
   }
 
-  // FAST LOGIN FIX: Enter dashboard instantly from Auth token (no Firestore wait).
-  // Firestore profile syncs silently in background — zero extra delay on login.
-  onAuthStateChanged(firebaseAuth, user => {
+  // onAuthStateChanged handles AUTO-LOGIN on page reload (persisted session).
+  // Manual login is handled directly in doLogin() above for instant response.
+  onAuthStateChanged(firebaseAuth, async user => {
+    if (currentUser) return; // already logged in via doLogin(), skip
     const statusEl = document.getElementById('login-status');
     if (user) {
+      // Page was refreshed — restore session from persisted Auth token
+      statusEl.style.display = 'flex';
       const email = user.email || '';
       const isAdmin = ADMIN_EMAILS.includes(email.toLowerCase());
-      // Instant user from Auth — no await, no Firestore round-trip
       currentUser = {
         uid: user.uid,
         email,
         name: user.displayName || email.split('@')[0] || 'Agent',
         role: isAdmin ? 'admin' : 'agent',
       };
-      statusEl.style.display = 'none';
-      enterDashboard();  // <-- enters dashboard immediately
-
-      // Silent background Firestore sync (does NOT block login)
+      // Try Firestore with a short timeout so page reload isn't too slow
       if (db && user.uid) {
-        getDoc(doc(db, 'users', user.uid)).then(snap => {
-          if (!snap.exists()) return;
-          const d = snap.data();
-          let changed = false;
-          if (d.name && d.name !== currentUser.name) { currentUser.name = d.name; changed = true; }
-          if (d.role && !isAdmin && d.role !== currentUser.role) { currentUser.role = d.role; changed = true; }
-          if (changed) {
-            document.getElementById('agent-display').textContent = currentUser.name;
-            const ini = currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-            document.getElementById('avatar-initials').textContent = ini;
-            document.getElementById('greet-name').textContent = currentUser.name.split(' ')[0];
-            updateAdminVisibility();
-          }
-        }).catch(() => {});
+        const timeout = new Promise(r => setTimeout(r, 3000));
+        await Promise.race([
+          getDoc(doc(db, 'users', user.uid)).then(snap => {
+            if (!snap.exists()) return;
+            const d = snap.data();
+            if (d.name) currentUser.name = d.name;
+            if (d.role && !isAdmin) currentUser.role = d.role;
+          }).catch(() => {}),
+          timeout
+        ]);
       }
+      statusEl.style.display = 'none';
+      enterDashboard();
     } else {
       currentUser = null;
       updateAdminVisibility();
-      statusEl.style.display = 'none';
+      document.getElementById('login-status').style.display = 'none';
       document.getElementById('dashboard-view').classList.remove('active');
       document.getElementById('login-view').classList.add('active');
     }
