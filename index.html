@@ -1436,288 +1436,239 @@
 </div>
 
 <script>
-// ===================================================
-//  SUPABASE CONFIG — no Firebase, no SDK needed
-// ===================================================
-const SUPABASE_URL = 'https://sodvlpcjpnepohpoqicf.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_nEbzsiR9Qhb31ZMc-Pg-cA_tJEzkmAf';
+const SUPABASE_URL='https://sodvlpcjpnepohpoqicf.supabase.co';
+const SUPABASE_KEY='sb_publishable_nEbzsiR9Qhb31ZMc-Pg-cA_tJEzkmAf';
 
-async function sbQuery(table, filters) {
-  const url = SUPABASE_URL + '/rest/v1/' + table + (filters ? '?' + filters : '');
-  const res = await fetch(url, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } });
-  if (!res.ok) throw new Error('Query failed ' + res.status);
-  return res.json();
+function sbHeaders(extra){
+  return Object.assign({'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY},extra||{});
 }
-async function sbInsert(table, data) {
-  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table, {
-    method: 'POST',
-    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
-    body: JSON.stringify(data)
-  });
-  if (!res.ok) { const t = await res.text(); throw new Error(t); }
-  return res.json();
+async function sbQuery(table,filters){
+  const url=SUPABASE_URL+'/rest/v1/'+table+(filters?'?'+filters:'');
+  const r=await fetch(url,{headers:sbHeaders()});
+  if(!r.ok)throw new Error('DB_'+r.status);
+  return r.json();
 }
-async function sbUpdate(table, col, val, data) {
-  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?' + col + '=eq.' + encodeURIComponent(val), {
-    method: 'PATCH',
-    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
-    body: JSON.stringify(data)
-  });
-  if (!res.ok) throw new Error('Update failed');
-  return res.json();
+async function sbInsert(table,data){
+  const r=await fetch(SUPABASE_URL+'/rest/v1/'+table,{method:'POST',headers:sbHeaders({'Content-Type':'application/json','Prefer':'return=representation'}),body:JSON.stringify(data)});
+  if(!r.ok){const t=await r.text();throw new Error(t);}
+  return r.json();
 }
-async function sbDelete(table, col, val) {
-  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?' + col + '=eq.' + encodeURIComponent(val), {
-    method: 'DELETE',
-    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-  });
-  if (!res.ok) throw new Error('Delete failed');
+async function sbUpdate(table,col,val,data){
+  const r=await fetch(SUPABASE_URL+'/rest/v1/'+table+'?'+col+'=eq.'+encodeURIComponent(val),{method:'PATCH',headers:sbHeaders({'Content-Type':'application/json','Prefer':'return=representation'}),body:JSON.stringify(data)});
+  if(!r.ok)throw new Error('Update failed');
+  return r.json();
+}
+async function sbDelete(table,col,val){
+  const r=await fetch(SUPABASE_URL+'/rest/v1/'+table+'?'+col+'=eq.'+encodeURIComponent(val),{method:'DELETE',headers:sbHeaders()});
+  if(!r.ok)throw new Error('Delete failed');
 }
 
-// SHA-256 password hashing via Web Crypto API (built into every browser)
-async function hashPassword(password) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(password));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+async function hashPassword(p){
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(p));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
 
-// ===================================================
-//  SESSION
-// ===================================================
-const SESSION_KEY = 'tc_session_v2';
-let currentUser = null;
+const SESSION_KEY='tc_v2';
+let currentUser=null;
+function saveSession(u){try{localStorage.setItem(SESSION_KEY,JSON.stringify(u));}catch(e){}}
+function clearSession(){try{localStorage.removeItem(SESSION_KEY);}catch(e){}}
+function loadSession(){try{const s=localStorage.getItem(SESSION_KEY);return s?JSON.parse(s):null;}catch(e){return null;}}
 
-function saveSession(u) { try { localStorage.setItem(SESSION_KEY, JSON.stringify(u)); } catch(e){} }
-function clearSession() { try { localStorage.removeItem(SESSION_KEY); } catch(e){} }
-function loadSession() { try { const s = localStorage.getItem(SESSION_KEY); return s ? JSON.parse(s) : null; } catch(e) { return null; } }
-
-// ===================================================
-//  AUTH
-// ===================================================
-async function doLogin() {
-  const email = (document.getElementById('username').value || '').trim().toLowerCase();
-  const password = document.getElementById('password').value || '';
-  const errEl = document.getElementById('login-error');
-  const statusEl = document.getElementById('login-status');
-  const btn = document.getElementById('login-btn');
-
-  errEl.style.display = 'none';
-  if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; errEl.style.display = 'block'; return; }
-
-  btn.disabled = true; btn.textContent = 'Signing in...'; statusEl.style.display = 'flex';
-
-  try {
-    // Step 1: test Supabase connection first
-    const testRes = await fetch(SUPABASE_URL + '/rest/v1/users?select=id&limit=1', {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-    });
-    console.log('Supabase connection test:', testRes.status, testRes.statusText);
-    if (!testRes.ok) {
-      const errText = await testRes.text();
-      console.error('Supabase error body:', errText);
-      throw new Error('db_error:' + testRes.status);
-    }
-
-    // Step 2: hash password and query user
-    const hashed = await hashPassword(password);
-    console.log('Querying for email:', email);
-    const rows = await sbQuery('users', 'email=eq.' + encodeURIComponent(email) + '&select=id,name,email,role,password');
-    console.log('Query result rows:', rows ? rows.length : 'null');
-
-    if (!rows || rows.length === 0) throw new Error('invalid');
-    if (rows[0].password !== hashed) { console.log('Password mismatch'); throw new Error('invalid'); }
-
-    const u = rows[0];
-    currentUser = { id: u.id, name: u.name, email: u.email, role: u.role };
+async function doLogin(){
+  const email=(document.getElementById('username').value||'').trim().toLowerCase();
+  const pwd=document.getElementById('password').value||'';
+  const errEl=document.getElementById('login-error');
+  const statusEl=document.getElementById('login-status');
+  const btn=document.getElementById('login-btn');
+  errEl.style.display='none';
+  if(!email||!pwd){errEl.textContent='Please enter your email and password.';errEl.style.display='block';return;}
+  btn.disabled=true;btn.textContent='Signing in...';statusEl.style.display='flex';
+  try{
+    const hashed=await hashPassword(pwd);
+    console.log('Attempting login for:',email);
+    const rows=await sbQuery('users','email=eq.'+encodeURIComponent(email)+'&select=id,name,email,role,password');
+    console.log('Rows returned:',rows?rows.length:0);
+    if(!rows||rows.length===0||rows[0].password!==hashed)throw new Error('invalid');
+    const u=rows[0];
+    currentUser={id:u.id,name:u.name,email:u.email,role:u.role};
     saveSession(currentUser);
-    statusEl.style.display = 'none'; btn.disabled = false; btn.textContent = 'Sign In';
+    statusEl.style.display='none';btn.disabled=false;btn.textContent='Sign In';
     enterDashboard();
-
-  } catch(e) {
-    console.error('Login error:', e);
-    statusEl.style.display = 'none'; btn.disabled = false; btn.textContent = 'Sign In';
-    if (e.message === 'invalid') {
-      errEl.textContent = 'Invalid email or password. Please try again.';
-    } else if (e.message && e.message.startsWith('db_error:401')) {
-      errEl.textContent = 'Database auth error (401). Check Supabase API key.';
-    } else if (e.message && e.message.startsWith('db_error:')) {
-      errEl.textContent = 'Database error ' + e.message.split(':')[1] + '. Check Supabase RLS policies.';
-    } else if (e.name === 'TypeError' || (e.message && e.message.includes('fetch'))) {
-      errEl.textContent = 'Network error — cannot reach database. Check your internet connection.';
-    } else {
-      errEl.textContent = 'Error: ' + e.message;
-    }
-    errEl.style.display = 'block';
+  }catch(e){
+    console.error('Login failed:',e.message);
+    statusEl.style.display='none';btn.disabled=false;btn.textContent='Sign In';
+    if(e.message==='invalid')errEl.textContent='Invalid email or password.';
+    else if(e.message==='DB_401')errEl.textContent='API key error (401). Check Supabase key.';
+    else if(e.message==='DB_403')errEl.textContent='Access denied (403). Run RLS policies in Supabase SQL Editor.';
+    else if(e.message==='DB_404')errEl.textContent='Table not found (404). Check Supabase table name is "users".';
+    else errEl.textContent='Error: '+e.message+'. Check browser console.';
+    errEl.style.display='block';
   }
 }
 
-function doLogout() {
-  currentUser = null; clearSession();
+function doLogout(){
+  currentUser=null;clearSession();
   document.getElementById('dashboard-view').classList.remove('active');
   document.getElementById('login-view').classList.add('active');
-  document.getElementById('username').value = '';
-  document.getElementById('password').value = '';
-  document.getElementById('login-error').style.display = 'none';
-  showPage('home', document.querySelector('.sidebar-item'));
+  document.getElementById('username').value='';
+  document.getElementById('password').value='';
+  document.getElementById('login-error').style.display='none';
+  showPage('home',document.querySelector('.sidebar-item'));
 }
 
-function enterDashboard() {
+function enterDashboard(){
   document.getElementById('login-view').classList.remove('active');
   document.getElementById('dashboard-view').classList.add('active');
-  document.getElementById('agent-display').textContent = currentUser.name;
-  const ini = currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  document.getElementById('avatar-initials').textContent = ini;
-  document.getElementById('greet-name').textContent = currentUser.name.split(' ')[0];
-  updateAdminVisibility(); setGreetingAndDate();
-  setTimeout(loadRosterSummary, 0);
+  document.getElementById('agent-display').textContent=currentUser.name;
+  const ini=currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('avatar-initials').textContent=ini;
+  document.getElementById('greet-name').textContent=currentUser.name.split(' ')[0];
+  updateAdminVisibility();setGreetingAndDate();
+  setTimeout(loadRosterSummary,0);
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('password').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
-  const saved = loadSession();
-  if (saved) { currentUser = saved; enterDashboard(); }
+window.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('password').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+  const saved=loadSession();
+  if(saved){currentUser=saved;enterDashboard();}
 });
 
-// ===================================================
-//  NAVIGATION
-// ===================================================
-function showPage(id, elem) {
-  if (id === 'kb') { window.open('kbsection.html', '_blank'); return; }
-  if (isAdminPage(id) && !isAdminUser()) { showPage('home', document.querySelector('.sidebar-item')); return; }
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-  if (elem) { elem.classList.add('active'); } else {
-    const map = { home:0, simulation:1, kb:2, quiz:3, assessment:4, roster:5, moments:6, changepass:7, 'quiz-admin':8, 'assessment-admin':9, reports:10, users:11 };
-    document.querySelectorAll('.sidebar-item')[map[id]]?.classList.add('active');
+function showPage(id,elem){
+  if(id==='kb'){window.open('kbsection.html','_blank');return;}
+  if(isAdminPage(id)&&!isAdminUser()){showPage('home',document.querySelector('.sidebar-item'));return;}
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(function(i){i.classList.remove('active');});
+  if(elem){elem.classList.add('active');}else{
+    var map={home:0,simulation:1,kb:2,quiz:3,assessment:4,roster:5,moments:6,changepass:7,'quiz-admin':8,'assessment-admin':9,reports:10,users:11};
+    var items=document.querySelectorAll('.sidebar-item');
+    if(items[map[id]])items[map[id]].classList.add('active');
   }
-  if (id === 'users') loadUsersPage();
-  if (id === 'changepass') resetChangePasswordForm();
-  if (id === 'roster') { if (window.rosterCache) renderRosterPage(window.rosterCache); else loadRosterSummary(); }
-  if (id === 'moments') setTimeout(() => _mLoadTab(_mActiveTab), 60);
+  if(id==='users')loadUsersPage();
+  if(id==='changepass')resetChangePasswordForm();
+  if(id==='roster'){if(window.rosterCache)renderRosterPage(window.rosterCache);else loadRosterSummary();}
+  if(id==='moments')setTimeout(function(){_mLoadTab(_mActiveTab);},60);
 }
 
-function isAdminUser() { return currentUser && ['admin','tl'].includes(currentUser.role); }
-function isAdminPage(id) { return ['quiz-admin','assessment-admin','reports','users'].includes(id); }
-function getAdminDisplay(el) { if(el.classList.contains('sidebar-item'))return'flex'; if(el.classList.contains('module-grid'))return'grid'; return'block'; }
-function updateAdminVisibility() {
-  const show = isAdminUser();
-  document.querySelectorAll('.admin-only').forEach(el => { el.style.display = show ? getAdminDisplay(el) : 'none'; });
+function isAdminUser(){return currentUser&&(currentUser.role==='admin'||currentUser.role==='tl');}
+function isAdminPage(id){return['quiz-admin','assessment-admin','reports','users'].indexOf(id)>-1;}
+function updateAdminVisibility(){
+  var show=isAdminUser();
+  document.querySelectorAll('.admin-only').forEach(function(el){
+    if(el.classList.contains('sidebar-item')||el.classList.contains('sidebar-section'))el.style.display=show?'flex':'none';
+    else if(el.classList.contains('module-grid'))el.style.display=show?'grid':'none';
+    else el.style.display=show?'block':'none';
+  });
 }
-function openSimulation() { window.open('simulation.html', '_blank'); }
-function setGreetingAndDate() {
-  const now = new Date(), h = now.getHours();
-  document.getElementById('time-greet').textContent = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
-  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  document.getElementById('date-display').textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ' ' + now.getFullYear();
-}
-
-// ===================================================
-//  CHANGE PASSWORD
-// ===================================================
-function resetChangePasswordForm() {
-  ['cp-current','cp-new','cp-confirm'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('cp-error').style.display = 'none';
-  document.getElementById('cp-success').style.display = 'none';
-}
-async function doChangePassword() {
-  const current = document.getElementById('cp-current').value;
-  const next = document.getElementById('cp-new').value;
-  const confirm = document.getElementById('cp-confirm').value;
-  const errEl = document.getElementById('cp-error'), succEl = document.getElementById('cp-success');
-  errEl.style.display = 'none'; succEl.style.display = 'none';
-  if (!current||!next||!confirm) { errEl.textContent='Please fill in all fields.'; errEl.style.display='block'; return; }
-  if (next.length < 6) { errEl.textContent='New password must be at least 6 characters.'; errEl.style.display='block'; return; }
-  if (next !== confirm) { errEl.textContent='New passwords do not match.'; errEl.style.display='block'; return; }
-  try {
-    const curHash = await hashPassword(current);
-    const rows = await sbQuery('users', 'id=eq.' + currentUser.id + '&select=password');
-    if (!rows || rows.length === 0 || rows[0].password !== curHash) { errEl.textContent='Current password is incorrect.'; errEl.style.display='block'; return; }
-    const newHash = await hashPassword(next);
-    await sbUpdate('users', 'id', currentUser.id, { password: newHash });
-    succEl.style.display = 'block';
-    ['cp-current','cp-new','cp-confirm'].forEach(id => document.getElementById(id).value = '');
-  } catch(e) { errEl.textContent='Something went wrong. Please try again.'; errEl.style.display='block'; }
+function openSimulation(){window.open('simulation.html','_blank');}
+function setGreetingAndDate(){
+  var now=new Date(),h=now.getHours();
+  document.getElementById('time-greet').textContent=h<12?'morning':h<17?'afternoon':'evening';
+  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('date-display').textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate()+' '+now.getFullYear();
 }
 
-// ===================================================
-//  USER MANAGEMENT (Admin)
-// ===================================================
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function toggleAddUser() {
-  const form = document.getElementById('um-add-form');
-  form.style.display = form.style.display === 'none' ? 'block' : 'none';
-  document.getElementById('um-add-error').style.display = 'none';
-  document.getElementById('um-add-success').style.display = 'none';
-  if (form.style.display === 'block') { ['new-name','new-email','new-pass'].forEach(id=>document.getElementById(id).value=''); document.getElementById('new-role').value='agent'; }
+function resetChangePasswordForm(){
+  ['cp-current','cp-new','cp-confirm'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('cp-error').style.display='none';
+  document.getElementById('cp-success').style.display='none';
 }
-async function addUser() {
-  const name=document.getElementById('new-name').value.trim(), email=document.getElementById('new-email').value.trim().toLowerCase();
-  const pass=document.getElementById('new-pass').value.trim(), role=document.getElementById('new-role').value;
-  const errEl=document.getElementById('um-add-error'), succEl=document.getElementById('um-add-success');
-  errEl.style.display='none'; succEl.style.display='none';
-  if (!name||!email||!pass) { errEl.textContent='Please fill in all fields.'; errEl.style.display='block'; return; }
-  if (pass.length < 6) { errEl.textContent='Password must be at least 6 characters.'; errEl.style.display='block'; return; }
-  const btn=document.querySelector('.um-save-btn'); btn.textContent='Creating...'; btn.disabled=true;
-  try {
-    const existing = await sbQuery('users', 'email=eq.' + encodeURIComponent(email) + '&select=id');
-    if (existing && existing.length > 0) { errEl.textContent='This email is already registered.'; errEl.style.display='block'; btn.textContent='Save Agent'; btn.disabled=false; return; }
-    const hashed = await hashPassword(pass);
-    await sbInsert('users', { name, email, password: hashed, role });
-    succEl.textContent = name + ' added. They can log in with ' + email; succEl.style.display='block';
-    ['new-name','new-email','new-pass'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('new-role').value='agent'; loadUsersPage();
-  } catch(e) { errEl.textContent='Error: '+(e.message||'Could not create user.'); errEl.style.display='block'; }
-  btn.textContent='Save Agent'; btn.disabled=false;
+async function doChangePassword(){
+  var cur=document.getElementById('cp-current').value;
+  var nxt=document.getElementById('cp-new').value;
+  var cfm=document.getElementById('cp-confirm').value;
+  var errEl=document.getElementById('cp-error'),succEl=document.getElementById('cp-success');
+  errEl.style.display='none';succEl.style.display='none';
+  if(!cur||!nxt||!cfm){errEl.textContent='Please fill in all fields.';errEl.style.display='block';return;}
+  if(nxt.length<6){errEl.textContent='New password must be at least 6 characters.';errEl.style.display='block';return;}
+  if(nxt!==cfm){errEl.textContent='New passwords do not match.';errEl.style.display='block';return;}
+  try{
+    var curHash=await hashPassword(cur);
+    var rows=await sbQuery('users','id=eq.'+currentUser.id+'&select=password');
+    if(!rows||rows.length===0||rows[0].password!==curHash){errEl.textContent='Current password is incorrect.';errEl.style.display='block';return;}
+    var newHash=await hashPassword(nxt);
+    await sbUpdate('users','id',currentUser.id,{password:newHash});
+    succEl.style.display='block';
+    ['cp-current','cp-new','cp-confirm'].forEach(function(id){document.getElementById(id).value='';});
+  }catch(e){errEl.textContent='Something went wrong. Please try again.';errEl.style.display='block';}
 }
-async function loadUsersPage() {
-  if (!isAdminUser()) return;
-  const listEl = document.getElementById('um-user-list');
-  listEl.innerHTML = '<div style="color:var(--text-dim);font-size:0.875rem;padding:1rem;text-align:center;">Loading...</div>';
-  try {
-    const users = await sbQuery('users', 'select=id,name,email,role&order=name.asc');
-    if (!users||!users.length) { listEl.innerHTML='<div class="um-empty">No agents added yet.</div>'; return; }
-    listEl.innerHTML = users.map(u => {
-      const ini=(u.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-      const rc=u.role==='admin'?'admin':u.role==='tl'?'tl':'';
-      const rl=u.role==='tl'?'Team Lead':(u.role||'agent');
-      return '<div class="um-user-card"><div class="um-user-avatar">'+ini+'</div><div class="um-user-info"><div class="um-user-name">'+esc(u.name)+' <span class="um-role-badge '+rc+'">'+rl+'</span></div><div class="um-user-email">'+esc(u.email)+'</div></div><button class="um-del-btn" onclick="removeUser(\''+u.id+'\',\''+esc(u.name)+'\')">Remove</button></div>';
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function toggleAddUser(){
+  var form=document.getElementById('um-add-form');
+  form.style.display=form.style.display==='none'?'block':'none';
+  document.getElementById('um-add-error').style.display='none';
+  document.getElementById('um-add-success').style.display='none';
+  if(form.style.display==='block'){['new-name','new-email','new-pass'].forEach(function(id){document.getElementById(id).value='';});document.getElementById('new-role').value='agent';}
+}
+async function addUser(){
+  var name=document.getElementById('new-name').value.trim();
+  var email=document.getElementById('new-email').value.trim().toLowerCase();
+  var pass=document.getElementById('new-pass').value.trim();
+  var role=document.getElementById('new-role').value;
+  var errEl=document.getElementById('um-add-error'),succEl=document.getElementById('um-add-success');
+  errEl.style.display='none';succEl.style.display='none';
+  if(!name||!email||!pass){errEl.textContent='Please fill in all fields.';errEl.style.display='block';return;}
+  if(pass.length<6){errEl.textContent='Password must be at least 6 characters.';errEl.style.display='block';return;}
+  var btn=document.querySelector('.um-save-btn');btn.textContent='Creating...';btn.disabled=true;
+  try{
+    var existing=await sbQuery('users','email=eq.'+encodeURIComponent(email)+'&select=id');
+    if(existing&&existing.length>0){errEl.textContent='This email is already registered.';errEl.style.display='block';btn.textContent='Save Agent';btn.disabled=false;return;}
+    var hashed=await hashPassword(pass);
+    await sbInsert('users',{name:name,email:email,password:hashed,role:role});
+    succEl.textContent=name+' added successfully.';succEl.style.display='block';
+    ['new-name','new-email','new-pass'].forEach(function(id){document.getElementById(id).value='';});
+    document.getElementById('new-role').value='agent';
+    loadUsersPage();
+  }catch(e){errEl.textContent='Error: '+(e.message||'Could not create user.');errEl.style.display='block';}
+  btn.textContent='Save Agent';btn.disabled=false;
+}
+async function loadUsersPage(){
+  if(!isAdminUser())return;
+  var listEl=document.getElementById('um-user-list');
+  listEl.innerHTML='<div style="color:var(--text-dim);font-size:0.875rem;padding:1rem;text-align:center;">Loading...</div>';
+  try{
+    var users=await sbQuery('users','select=id,name,email,role&order=name.asc');
+    if(!users||!users.length){listEl.innerHTML='<div class="um-empty">No agents added yet.</div>';return;}
+    listEl.innerHTML=users.map(function(u){
+      var ini=(u.name||'?').split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
+      var rc=u.role==='admin'?'admin':u.role==='tl'?'tl':'';
+      var rl=u.role==='tl'?'Team Lead':(u.role||'agent');
+      return '<div class="um-user-card">'+
+        '<div class="um-user-avatar">'+ini+'</div>'+
+        '<div class="um-user-info">'+
+          '<div class="um-user-name">'+esc(u.name)+' <span class="um-role-badge '+rc+'">'+rl+'</span></div>'+
+          '<div class="um-user-email">'+esc(u.email)+'</div>'+
+        '</div>'+
+        '<button class="um-del-btn" onclick="removeUser(this.dataset.id,this.dataset.name)" data-id="'+u.id+'" data-name="'+esc(u.name)+'">Remove</button>'+
+      '</div>';
     }).join('');
-  } catch(e) { listEl.innerHTML='<div class="um-empty" style="color:var(--accent-red);">Could not load users. Check Supabase RLS policies.</div>'; }
+  }catch(e){listEl.innerHTML='<div class="um-empty" style="color:var(--accent-red);">Could not load users: '+e.message+'</div>';}
 }
-async function removeUser(id, name) {
-  if (!confirm('Remove '+name+'? They will no longer be able to log in.')) return;
-  try { await sbDelete('users','id',id); loadUsersPage(); } catch(e) { alert('Could not remove user.'); }
+async function removeUser(id,name){
+  if(!confirm('Remove '+name+'? They will no longer be able to log in.'))return;
+  try{await sbDelete('users','id',id);loadUsersPage();}catch(e){alert('Could not remove user.');}
 }
 
-// ===================================================
-//  ROSTER (Google Sheets — unchanged)
-// ===================================================
-const ROSTER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTUz9_-oYx9wJQGEifWDYUyPIFwo513v2vNBkPm4L1v-02o3d6Yqkoz_GDFQIMWUaRrMlsPwQmmujWA/pub?output=csv';
-const NOT_PRESENT_CODES = new Set(['L','CO','W']);
-window.rosterCache = null;
-function parseCsv(t){const rows=[];let row=[],cell='',inQ=false;for(let i=0;i<t.length;i++){const c=t[i],n=t[i+1];if(c==='"'&&inQ&&n==='"'){cell+='"';i++;}else if(c==='"'){inQ=!inQ;}else if(c===','&&!inQ){row.push(cell.trim());cell='';}else if((c==='
-'||c==='
-')&&!inQ){if(c==='
-'&&n==='
-')i++;row.push(cell.trim());rows.push(row);row=[];cell='';}else{cell+=c;}}if(cell||row.length){row.push(cell.trim());rows.push(row);}return rows;}
-function getMonthIndex(l){const m=l.match(/([A-Za-z]+)\s*-\s*(\d{4})/);if(!m)return null;const mo={jan:0,january:0,feb:1,february:1,mar:2,march:2,apr:3,april:3,may:4,jun:5,june:5,jul:6,july:6,aug:7,august:7,sep:8,sept:8,september:8,oct:9,october:9,nov:10,november:10,dec:11,december:11};return{month:mo[m[1].toLowerCase()],year:Number(m[2])};}
+const ROSTER_CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTUz9_-oYx9wJQGEifWDYUyPIFwo513v2vNBkPm4L1v-02o3d6Yqkoz_GDFQIMWUaRrMlsPwQmmujWA/pub?output=csv';
+const NOT_PRESENT_CODES=new Set(['L','CO','W']);
+window.rosterCache=null;
+function parseCsv(t){var rows=[],row=[],cell='',inQ=false;for(var i=0;i<t.length;i++){var c=t[i],n=t[i+1];if(c==='"'&&inQ&&n==='"'){cell+='"';i++;}else if(c==='"'){inQ=!inQ;}else if(c===','&&!inQ){row.push(cell.trim());cell='';}else if((c==='\n'||c==='\r')&&!inQ){if(c==='\r'&&n==='\n')i++;row.push(cell.trim());rows.push(row);row=[];cell='';}else{cell+=c;}}if(cell||row.length){row.push(cell.trim());rows.push(row);}return rows;}
+function getMonthIndex(l){var m=l.match(/([A-Za-z]+)\s*-\s*(\d{4})/);if(!m)return null;var mo={jan:0,january:0,feb:1,february:1,mar:2,march:2,apr:3,april:3,may:4,jun:5,june:5,jul:6,july:6,aug:7,august:7,sep:8,sept:8,september:8,oct:9,october:9,nov:10,november:10,dec:11,december:11};return{month:mo[m[1].toLowerCase()],year:Number(m[2])};}
 function statusParts(v){return String(v||'').toUpperCase().split(/[^A-Z]+/).filter(Boolean);}
 function formatNames(n,e){if(!n.length)return e;if(n.length<=4)return n.join(', ');return n.slice(0,4).join(', ')+' and '+(n.length-4)+' more';}
-function updateRosterBanner(s){const l=s.absent.length===1?'agent is not present':'agents are not present';const p=[formatNames(s.absent,'No agents')+(s.absent.length?' are marked L/CO/W':' are marked absent')];if(s.wfh.length)p.push('WFH: '+formatNames(s.wfh,''));if(s.halfDay.length)p.push('Half-day: '+formatNames(s.halfDay,''));document.getElementById('absence-title').textContent=s.absent.length+' '+l;document.getElementById('absence-detail').textContent=p.join('. ');}
-function renderRosterPage(rows,todayCol,error){const wrap=document.getElementById('roster-table-wrap');if(error){wrap.innerHTML='<div class="roster-error">Could not load roster.</div>';return;}if(!rows||!rows.length){wrap.innerHTML='<div class="roster-error">No roster data.</div>';return;}const dateRow=rows.find(r=>String(r[1]).trim().toUpperCase()==='DATE');if(!dateRow){wrap.innerHTML='<div class="roster-error">Header not found.</div>';return;}const hc=dateRow.map((c,i)=>i===0?'Emp ID':i===1?'Name':c||'');const br=rows.slice(rows.indexOf(dateRow)+2).filter(r=>String(r[0]||'').trim()||String(r[1]||'').trim());wrap.innerHTML='<table class="roster-table"><thead><tr>'+hc.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+br.map(row=>{const ia=todayCol>=0&&row[todayCol]&&NOT_PRESENT_CODES.has(String(row[todayCol]).toUpperCase().trim());const iw=todayCol>=0&&String(row[todayCol]||'').toUpperCase().includes('WFH');const ih=todayCol>=0&&String(row[todayCol]||'').toUpperCase().includes('HL');const hclass=todayCol>=0&&(ia||iw||ih)?'roster-highlight':'';return'<tr class="'+hclass+'">'+row.map((cell,idx)=>'<td'+(idx===todayCol?' class="roster-highlight"':'')+'>'+( cell||'')+'</td>').join('')+'</tr>';}).join('')+'</tbody></table>';}
-async function loadRosterSummary(){try{const r=await fetch(ROSTER_CSV_URL+'&cacheBust='+Date.now());if(!r.ok)throw new Error('fail');const rows=parseCsv(await r.text());window.rosterCache=rows;const mr=rows.find(row=>row.some(c=>/[A-Za-z]+\s*-\s*\d{4}/.test(c)));const dr=rows.find(row=>String(row[1]).trim().toUpperCase()==='DATE');if(!mr||!dr)throw new Error('hdr');const mi=getMonthIndex(mr.find(c=>/[A-Za-z]+\s*-\s*\d{4}/.test(c))||'');const today=new Date();if(!mi||mi.month!==today.getMonth()||mi.year!==today.getFullYear()){document.getElementById('absence-title').textContent='Roster month does not match today';document.getElementById('absence-detail').textContent='Please publish the current month roster.';renderRosterPage(rows,false);return;}const day=String(today.getDate());const dc=dr.findIndex((c,i)=>i>=2&&String(Number(c))===day);if(dc<0)throw new Error('col');const s={absent:[],wfh:[],halfDay:[]};for(const row of rows.slice(rows.indexOf(dr)+2)){const ei=String(row[0]||'').trim(),n=String(row[1]||'').trim();if(!ei||!n||!/^K\d+/i.test(ei))continue;const p=statusParts(row[dc]);if(p.some(x=>NOT_PRESENT_CODES.has(x)))s.absent.push(n);if(p.includes('WFH'))s.wfh.push(n);if(p.includes('HL'))s.halfDay.push(n);}updateRosterBanner(s);renderRosterPage(rows,dc);}catch(e){document.getElementById('absence-title').textContent='Roster sync unavailable';document.getElementById('absence-detail').textContent='Could not read Google Sheets right now.';renderRosterPage(null,null,e);}}
+function updateRosterBanner(s){var l=s.absent.length===1?'agent is not present':'agents are not present';var p=[formatNames(s.absent,'No agents')+(s.absent.length?' are marked L/CO/W':' are marked absent')];if(s.wfh.length)p.push('WFH: '+formatNames(s.wfh,''));if(s.halfDay.length)p.push('Half-day: '+formatNames(s.halfDay,''));document.getElementById('absence-title').textContent=s.absent.length+' '+l;document.getElementById('absence-detail').textContent=p.join('. ');}
+function renderRosterPage(rows,todayCol,error){var wrap=document.getElementById('roster-table-wrap');if(error){wrap.innerHTML='<div class="roster-error">Could not load roster.</div>';return;}if(!rows||!rows.length){wrap.innerHTML='<div class="roster-error">No roster data.</div>';return;}var dateRow=rows.find(function(r){return String(r[1]).trim().toUpperCase()==='DATE';});if(!dateRow){wrap.innerHTML='<div class="roster-error">Header not found.</div>';return;}var hc=dateRow.map(function(c,i){return i===0?'Emp ID':i===1?'Name':c||'';});var br=rows.slice(rows.indexOf(dateRow)+2).filter(function(r){return String(r[0]||'').trim()||String(r[1]||'').trim();});wrap.innerHTML='<table class="roster-table"><thead><tr>'+hc.map(function(h){return'<th>'+h+'</th>';}).join('')+'</tr></thead><tbody>'+br.map(function(row){var ia=todayCol>=0&&row[todayCol]&&NOT_PRESENT_CODES.has(String(row[todayCol]).toUpperCase().trim());var iw=todayCol>=0&&String(row[todayCol]||'').toUpperCase().indexOf('WFH')>-1;var ih=todayCol>=0&&String(row[todayCol]||'').toUpperCase().indexOf('HL')>-1;var hclass=todayCol>=0&&(ia||iw||ih)?'roster-highlight':'';return'<tr class="'+hclass+'">'+row.map(function(cell,idx){return'<td'+(idx===todayCol?' class="roster-highlight"':'')+'>'+( cell||'')+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';}
+async function loadRosterSummary(){try{var r=await fetch(ROSTER_CSV_URL+'&cacheBust='+Date.now());if(!r.ok)throw new Error('fail');var rows=parseCsv(await r.text());window.rosterCache=rows;var mr=rows.find(function(row){return row.some(function(c){return/[A-Za-z]+\s*-\s*\d{4}/.test(c);});});var dr=rows.find(function(row){return String(row[1]).trim().toUpperCase()==='DATE';});if(!mr||!dr)throw new Error('hdr');var mi=getMonthIndex(mr.find(function(c){return/[A-Za-z]+\s*-\s*\d{4}/.test(c);})||'');var today=new Date();if(!mi||mi.month!==today.getMonth()||mi.year!==today.getFullYear()){document.getElementById('absence-title').textContent='Roster month does not match today';document.getElementById('absence-detail').textContent='Please publish the current month roster.';renderRosterPage(rows,false);return;}var day=String(today.getDate());var dc=dr.findIndex(function(c,i){return i>=2&&String(Number(c))===day;});if(dc<0)throw new Error('col');var s={absent:[],wfh:[],halfDay:[]};rows.slice(rows.indexOf(dr)+2).forEach(function(row){var ei=String(row[0]||'').trim(),n=String(row[1]||'').trim();if(!ei||!n||!/^K\d+/i.test(ei))return;var p=statusParts(row[dc]);if(p.some(function(x){return NOT_PRESENT_CODES.has(x);}))s.absent.push(n);if(p.indexOf('WFH')>-1)s.wfh.push(n);if(p.indexOf('HL')>-1)s.halfDay.push(n);});updateRosterBanner(s);renderRosterPage(rows,dc);}catch(e){document.getElementById('absence-title').textContent='Roster sync unavailable';document.getElementById('absence-detail').textContent='Could not read Google Sheets right now.';renderRosterPage(null,null,e);}}
 
-// ===================================================
-//  TEAM MOMENTS
-// ===================================================
 const CLOUDINARY_CLOUD='YOUR_CLOUD_NAME';
 const M_TAG_MAP={all:null,birthday:'birthday',outing:'team-outing',dinner:'team-dinner',funfriday:'fun-friday'};
 const M_LABELS={all:'Recents',birthday:'Birthday',outing:'Team Outing',dinner:'Team Dinner',funfriday:'Fun Friday'};
-const _mlikes={},_mliked={},_mcomments={};
-let _mActiveTab='all',_mLightboxId=null;
+var _mlikes={},_mliked={},_mcomments={};
+var _mActiveTab='all',_mLightboxId=null;
 window._momentsCache={};
-const DEMO_MOMENTS=[
+var DEMO_MOMENTS=[
   {public_id:'dm1',secure_url:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80',created_at:'2025-04-10T10:00:00Z',context:{custom:{caption:'Birthday bash for Priya'}},tags:['birthday']},
   {public_id:'dm2',secure_url:'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=600&q=80',created_at:'2025-04-15T10:00:00Z',context:{custom:{caption:'Q1 team outing at Yelagiri'}},tags:['team-outing']},
   {public_id:'dm3',secure_url:'https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=600&q=80',created_at:'2025-05-03T10:00:00Z',context:{custom:{caption:'Team dinner at Spice Garden'}},tags:['team-dinner']},
@@ -1725,32 +1676,69 @@ const DEMO_MOMENTS=[
   {public_id:'dm5',secure_url:'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80',created_at:'2025-05-07T10:00:00Z',context:{custom:{caption:'Fun Friday talent show'}},tags:['fun-friday']},
   {public_id:'dm6',secure_url:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=80',created_at:'2025-05-08T10:00:00Z',context:{custom:{caption:'Project launch night dinner'}},tags:['team-dinner']},
   {public_id:'dm7',secure_url:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',created_at:'2025-05-09T10:00:00Z',context:{custom:{caption:'ECR picnic day'}},tags:['team-outing']},
-  {public_id:'dm8',secure_url:'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80',created_at:'2025-05-10T10:00:00Z',context:{custom:{caption:'Meera completes 2 years with us!'}},tags:['birthday']},
+  {public_id:'dm8',secure_url:'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80',created_at:'2025-05-10T10:00:00Z',context:{custom:{caption:'Meera completes 2 years!'}},tags:['birthday']},
   {public_id:'dm9',secure_url:'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&q=80',created_at:'2025-05-12T10:00:00Z',context:{custom:{caption:'Desk decoration contest'}},tags:['fun-friday']},
   {public_id:'dm10',secure_url:'https://images.unsplash.com/photo-1470338745628-171cf53de3a8?w=600&q=80',created_at:'2025-05-13T10:00:00Z',context:{custom:{caption:'Friday biryani tradition'}},tags:['team-dinner']},
   {public_id:'dm11',secure_url:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80',created_at:'2025-05-14T10:00:00Z',context:{custom:{caption:'Birthday girl Sneha'}},tags:['birthday']},
-  {public_id:'dm12',secure_url:'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&q=80',created_at:'2025-05-14T12:00:00Z',context:{custom:{caption:'Games afternoon'}},tags:['fun-friday']},
+  {public_id:'dm12',secure_url:'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&q=80',created_at:'2025-05-14T12:00:00Z',context:{custom:{caption:'Games afternoon'}},tags:['fun-friday']}
 ];
-function _mTagKey(r){for(const[k,v]of Object.entries(M_TAG_MAP)){if(v&&(r.tags||[]).includes(v))return k;}return'all';}
-function _mFmtDate(iso){if(!iso)return'';const d=new Date(iso);const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return mo[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();}
-function _mTimeAgo(ts){const s=Math.floor((Date.now()-ts)/1000);if(s<60)return'just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago';}
-function _mInitials(n){return(n||'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);}
-async function _mFetch(tag){if(!CLOUDINARY_CLOUD||CLOUDINARY_CLOUD==='YOUR_CLOUD_NAME'){const v=M_TAG_MAP[tag];return v?DEMO_MOMENTS.filter(r=>(r.tags||[]).includes(v)):DEMO_MOMENTS;}const v=M_TAG_MAP[tag]||'site_moments';try{const res=await fetch('https://res.cloudinary.com/'+CLOUDINARY_CLOUD+'/image/list/'+v+'.json');if(!res.ok)throw new Error('fail');const data=await res.json();return(data.resources||[]).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));}catch(e){const v2=M_TAG_MAP[tag];return v2?DEMO_MOMENTS.filter(r=>(r.tags||[]).includes(v2)):DEMO_MOMENTS;}}
-function _mRenderGrid(resources){const grid=document.getElementById('moments-grid');if(!resources.length){grid.innerHTML='<div class="moments-empty">No moments in this category yet.</div>';return;}grid.innerHTML=resources.map(r=>{const pid=r.public_id;const safe=pid.replace(/[^a-z0-9]/gi,'_');const pidJ=pid.replace(/\/g,'\\').replace(/'/g,"\'");const cap=(r.context&&r.context.custom&&r.context.custom.caption)||pid.replace(/[/_-]/g,' ');const tk=_mTagKey(r);const dt=_mFmtDate(r.created_at);const lk=_mlikes[pid]||0;const liked=_mliked[pid]?'liked':'';return'<div class="moment-card" onclick="openMomentLightbox(''+pidJ+'')"><div style="position:relative"><img class="moment-img" src="'+r.secure_url+'" alt="'+cap+'" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=60'"/><div class="moment-overlay"><div class="moment-overlay-content"><div class="moment-overlay-caption">'+cap+'</div><span class="moment-tag-pill">'+M_LABELS[tk]+'</span></div></div></div><div class="moment-card-footer"><span class="moment-card-date">'+dt+'</span><button class="moment-like-btn '+liked+'" id="lbtn_'+safe+'" onclick="event.stopPropagation();toggleMomentLike(''+pidJ+'')"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><span id="lcnt_'+safe+'">'+lk+'</span></button></div></div>';}).join('');}
-async function _mLoadTab(tag){const grid=document.getElementById('moments-grid');if(!grid)return;grid.innerHTML='<div class="moments-loading"><div class="moments-spinner"></div><span>Loading moments...</span></div>';if(!window._momentsCache[tag])window._momentsCache[tag]=await _mFetch(tag);_mRenderGrid(window._momentsCache[tag]);}
-function switchMomentsTab(tag,btn){_mActiveTab=tag;document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');_mLoadTab(tag);}
-function toggleMomentLike(pid){const safe=pid.replace(/[^a-z0-9]/gi,'_');const was=_mliked[pid]||false;_mliked[pid]=!was;_mlikes[pid]=Math.max(0,(_mlikes[pid]||0)+(was?-1:1));const b=document.getElementById('lbtn_'+safe);const c=document.getElementById('lcnt_'+safe);if(b)b.classList.toggle('liked',!was);if(c)c.textContent=_mlikes[pid];}
-function openMomentLightbox(pid){_mLightboxId=pid;const res=window._momentsCache[_mActiveTab]||DEMO_MOMENTS;const r=res.find(x=>x.public_id===pid)||res[0];if(!r)return;const cap=(r.context&&r.context.custom&&r.context.custom.caption)||pid.replace(/[/_-]/g,' ');const tk=_mTagKey(r);document.getElementById('lightbox-img').src=r.secure_url;document.getElementById('lightbox-caption').textContent=cap;document.getElementById('lightbox-tag-badge').textContent=M_LABELS[tk]||tk;document.getElementById('lightbox-date').textContent=_mFmtDate(r.created_at);document.getElementById('comment-avatar-mini').textContent=currentUser?_mInitials(currentUser.name):'U';_mRenderComments(pid);document.getElementById('lightbox-overlay').classList.add('open');document.body.style.overflow='hidden';}
+function _mTagKey(r){for(var k in M_TAG_MAP){if(M_TAG_MAP[k]&&(r.tags||[]).indexOf(M_TAG_MAP[k])>-1)return k;}return'all';}
+function _mFmtDate(iso){if(!iso)return'';var d=new Date(iso);var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return mo[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();}
+function _mTimeAgo(ts){var s=Math.floor((Date.now()-ts)/1000);if(s<60)return'just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago';}
+function _mInitials(n){return(n||'U').split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);}
+async function _mFetch(tag){if(!CLOUDINARY_CLOUD||CLOUDINARY_CLOUD==='YOUR_CLOUD_NAME'){var v=M_TAG_MAP[tag];return v?DEMO_MOMENTS.filter(function(r){return(r.tags||[]).indexOf(v)>-1;}):DEMO_MOMENTS;}var v2=M_TAG_MAP[tag]||'site_moments';try{var res=await fetch('https://res.cloudinary.com/'+CLOUDINARY_CLOUD+'/image/list/'+v2+'.json');if(!res.ok)throw new Error('fail');var data=await res.json();return(data.resources||[]).sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at);});}catch(e){var v3=M_TAG_MAP[tag];return v3?DEMO_MOMENTS.filter(function(r){return(r.tags||[]).indexOf(v3)>-1;}):DEMO_MOMENTS;}}
+function _mRenderGrid(resources){
+  var grid=document.getElementById('moments-grid');
+  if(!resources.length){grid.innerHTML='<div class="moments-empty">No moments in this category yet.</div>';return;}
+  grid.innerHTML=resources.map(function(r){
+    var pid=r.public_id;
+    var safe=pid.replace(/[^a-z0-9]/gi,'_');
+    var cap=(r.context&&r.context.custom&&r.context.custom.caption)||pid.replace(/[/_-]/g,' ');
+    var tk=_mTagKey(r);
+    var dt=_mFmtDate(r.created_at);
+    var lk=_mlikes[pid]||0;
+    var liked=_mliked[pid]?'liked':'';
+    return '<div class="moment-card" onclick="openMomentLightbox(this.dataset.pid)" data-pid="'+safe+'">'+
+      '<div style="position:relative">'+
+      '<img class="moment-img" src="'+r.secure_url+'" alt="moment" loading="lazy" onerror="this.src=\'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=60\'"/>'+
+      '<div class="moment-overlay"><div class="moment-overlay-content">'+
+      '<div class="moment-overlay-caption">'+cap+'</div>'+
+      '<span class="moment-tag-pill">'+M_LABELS[tk]+'</span>'+
+      '</div></div></div>'+
+      '<div class="moment-card-footer">'+
+      '<span class="moment-card-date">'+dt+'</span>'+
+      '<button class="moment-like-btn '+liked+'" id="lbtn_'+safe+'" onclick="event.stopPropagation();toggleMomentLike(this.dataset.safe)" data-safe="'+safe+'">'+
+      '<svg viewBox="0 0 24 24" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>'+
+      '<span id="lcnt_'+safe+'">'+lk+'</span>'+
+      '</button></div></div>';
+  }).join('');
+  // Store pid map
+  window._momentsPidMap=window._momentsPidMap||{};
+  resources.forEach(function(r){window._momentsPidMap[r.public_id.replace(/[^a-z0-9]/gi,'_')]=r.public_id;});
+}
+async function _mLoadTab(tag){var grid=document.getElementById('moments-grid');if(!grid)return;grid.innerHTML='<div class="moments-loading"><div class="moments-spinner"></div><span>Loading moments...</span></div>';if(!window._momentsCache[tag])window._momentsCache[tag]=await _mFetch(tag);_mRenderGrid(window._momentsCache[tag]);}
+function switchMomentsTab(tag,btn){_mActiveTab=tag;document.querySelectorAll('.mtab').forEach(function(t){t.classList.remove('active');});if(btn)btn.classList.add('active');_mLoadTab(tag);}
+function toggleMomentLike(safe){var was=_mliked[safe]||false;_mliked[safe]=!was;_mlikes[safe]=Math.max(0,(_mlikes[safe]||0)+(was?-1:1));var b=document.getElementById('lbtn_'+safe);var c=document.getElementById('lcnt_'+safe);if(b)b.classList.toggle('liked',!was);if(c)c.textContent=_mlikes[safe];}
+function openMomentLightbox(safe){
+  var pid=(window._momentsPidMap&&window._momentsPidMap[safe])||safe;
+  _mLightboxId=safe;
+  var res=window._momentsCache[_mActiveTab]||DEMO_MOMENTS;
+  var r=res.find(function(x){return x.public_id===pid||x.public_id.replace(/[^a-z0-9]/gi,'_')===safe;})||res[0];
+  if(!r)return;
+  var cap=(r.context&&r.context.custom&&r.context.custom.caption)||safe.replace(/_/g,' ');
+  var tk=_mTagKey(r);
+  document.getElementById('lightbox-img').src=r.secure_url;
+  document.getElementById('lightbox-caption').textContent=cap;
+  document.getElementById('lightbox-tag-badge').textContent=M_LABELS[tk]||tk;
+  document.getElementById('lightbox-date').textContent=_mFmtDate(r.created_at);
+  document.getElementById('comment-avatar-mini').textContent=currentUser?_mInitials(currentUser.name):'U';
+  _mRenderComments(safe);
+  document.getElementById('lightbox-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
 function closeLightbox(){document.getElementById('lightbox-overlay').classList.remove('open');document.body.style.overflow='';_mLightboxId=null;}
-function _mRenderComments(pid){const list=document.getElementById('comments-list');const items=_mcomments[pid]||[];if(!items.length){list.innerHTML='<div class="no-comments">No comments yet — be the first!</div>';return;}list.innerHTML=items.map(c=>'<div class="comment-item"><div class="comment-avatar">'+c.initials+'</div><div class="comment-body"><div class="comment-author">'+c.author+'</div><div class="comment-text">'+c.text+'</div><div class="comment-time">'+_mTimeAgo(c.ts)+'</div></div></div>').join('');list.scrollTop=list.scrollHeight;}
-function submitComment(){const input=document.getElementById('comment-input');const text=(input.value||'').trim();if(!text||!_mLightboxId)return;const pid=_mLightboxId;if(!_mcomments[pid])_mcomments[pid]=[];const author=currentUser?currentUser.name:'Agent';_mcomments[pid].push({author,initials:_mInitials(author),text,ts:Date.now()});input.value='';_mRenderComments(pid);}
-
-window.doLogin=doLogin; window.doLogout=doLogout; window.showPage=showPage;
-window.openSimulation=openSimulation; window.toggleAddUser=toggleAddUser;
-window.addUser=addUser; window.removeUser=removeUser; window.doChangePassword=doChangePassword;
-window.switchMomentsTab=switchMomentsTab; window.toggleMomentLike=toggleMomentLike;
-window.openMomentLightbox=openMomentLightbox; window.closeLightbox=closeLightbox;
-window.submitComment=submitComment; window.loadRosterSummary=loadRosterSummary;
+function _mRenderComments(safe){var list=document.getElementById('comments-list');var items=_mcomments[safe]||[];if(!items.length){list.innerHTML='<div class="no-comments">No comments yet - be the first!</div>';return;}list.innerHTML=items.map(function(c){return'<div class="comment-item"><div class="comment-avatar">'+c.initials+'</div><div class="comment-body"><div class="comment-author">'+c.author+'</div><div class="comment-text">'+c.text+'</div><div class="comment-time">'+_mTimeAgo(c.ts)+'</div></div></div>';}).join('');list.scrollTop=list.scrollHeight;}
+function submitComment(){var input=document.getElementById('comment-input');var text=(input.value||'').trim();if(!text||!_mLightboxId)return;var safe=_mLightboxId;if(!_mcomments[safe])_mcomments[safe]=[];var author=currentUser?currentUser.name:'Agent';_mcomments[safe].push({author:author,initials:_mInitials(author),text:text,ts:Date.now()});input.value='';_mRenderComments(safe);}
 </script>
 
 
