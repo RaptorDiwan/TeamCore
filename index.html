@@ -873,6 +873,70 @@
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--navy-border); border-radius: 4px; }
+
+  /* === TEAM MOMENTS === */
+  .moments-page { display:flex; flex-direction:column; gap:1.5rem; padding-bottom:3rem; }
+  .moments-title { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:600; color:var(--text-primary); margin-bottom:.2rem; }
+  .moments-sub { color:var(--text-muted); font-size:.875rem; }
+  .moments-tabs { display:flex; gap:.4rem; flex-wrap:wrap; border-bottom:1px solid var(--navy-border); padding-bottom:0; margin-bottom:.5rem; }
+  .mtab { display:flex; align-items:center; gap:.4rem; padding:.5rem 1rem; background:transparent; border:none; border-bottom:2px solid transparent; color:var(--text-muted); font-family:'DM Sans',sans-serif; font-size:.84rem; font-weight:500; cursor:pointer; transition:all .2s; margin-bottom:-1px; border-radius:6px 6px 0 0; }
+  .mtab:hover { color:var(--text-primary); background:var(--navy-hover); }
+  .mtab.active { color:var(--gold); border-bottom-color:var(--gold); background:rgba(239,73,60,.06); }
+  .moments-grid { columns:4 200px; column-gap:1rem; }
+  .moment-card { break-inside:avoid; margin-bottom:1rem; border-radius:var(--radius); overflow:hidden; background:var(--navy-card); border:1px solid var(--navy-border); cursor:pointer; transition:all .22s; position:relative; display:block; }
+  .moment-card:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(7,13,45,.14); border-color:rgba(239,73,60,.3); }
+  .moment-card:hover .moment-overlay { opacity:1; }
+  .moment-img { width:100%; display:block; object-fit:cover; background:var(--navy-mid); }
+  .moment-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(7,13,45,.72) 0%,transparent 55%); opacity:0; transition:opacity .22s; display:flex; align-items:flex-end; padding:.9rem; }
+  .moment-overlay-content { width:100%; }
+  .moment-overlay-caption { color:#fff; font-size:.78rem; font-weight:500; line-height:1.3; margin-bottom:.3rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .moment-tag-pill { display:inline-flex; align-items:center; gap:.3rem; font-size:.62rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:.18rem .5rem; border-radius:20px; background:rgba(255,255,255,.18); color:#fff; backdrop-filter:blur(4px); }
+  .moment-card-footer { padding:.55rem .7rem; display:flex; align-items:center; justify-content:space-between; }
+  .moment-card-date { font-size:.68rem; color:var(--text-dim); }
+  .moment-like-btn { display:flex; align-items:center; gap:.3rem; background:none; border:none; color:var(--text-dim); font-size:.7rem; cursor:pointer; font-family:'DM Sans',sans-serif; padding:.18rem .35rem; border-radius:4px; transition:all .2s; }
+  .moment-like-btn:hover,.moment-like-btn.liked { color:var(--gold); }
+  .moment-like-btn svg { width:13px; height:13px; stroke:currentColor; fill:none; transition:fill .2s; }
+  .moment-like-btn.liked svg { fill:var(--gold); stroke:var(--gold); }
+  .moments-loading { display:flex; align-items:center; justify-content:center; gap:.8rem; padding:4rem; color:var(--text-dim); font-size:.875rem; }
+  .moments-spinner { width:22px; height:22px; border-radius:50%; border:2px solid var(--navy-border); border-top-color:var(--gold); animation:spin .8s linear infinite; }
+  .moments-empty { text-align:center; padding:4rem 2rem; color:var(--text-dim); font-size:.875rem; }
+  .moments-empty .empty-icon { font-size:2.5rem; margin-bottom:.75rem; }
+  /* Lightbox */
+  .lightbox-overlay { position:fixed; inset:0; background:rgba(4,8,30,.88); backdrop-filter:blur(8px); z-index:9999; display:none; align-items:center; justify-content:center; padding:1.5rem; }
+  .lightbox-overlay.open { display:flex; animation:fadeIn .2s ease; }
+  .lightbox-box { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:18px; overflow:hidden; max-width:920px; width:100%; max-height:90vh; display:flex; flex-direction:row; box-shadow:0 32px 80px rgba(4,8,30,.5); position:relative; animation:fadeUp .25s ease; }
+  .lightbox-close { position:absolute; top:.9rem; right:.9rem; background:rgba(7,13,45,.55); border:none; color:#fff; width:32px; height:32px; border-radius:50%; font-size:.85rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:background .2s; }
+  .lightbox-close:hover { background:var(--gold); }
+  .lightbox-media { flex:1; min-width:0; background:#0a0f24; display:flex; align-items:center; justify-content:center; overflow:hidden; max-height:90vh; }
+  .lightbox-media img { max-width:100%; max-height:90vh; object-fit:contain; display:block; }
+  .lightbox-info { width:290px; flex-shrink:0; display:flex; flex-direction:column; padding:1.4rem; overflow-y:auto; max-height:90vh; }
+  .lightbox-meta { display:flex; align-items:center; gap:.6rem; margin-bottom:.8rem; }
+  .lightbox-tag-badge { font-size:.62rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:.18rem .55rem; border-radius:20px; background:rgba(239,73,60,.12); color:var(--gold); border:1px solid rgba(239,73,60,.2); }
+  .lightbox-date { font-size:.7rem; color:var(--text-dim); }
+  .lightbox-caption { font-size:.9rem; color:var(--text-primary); line-height:1.5; margin-bottom:1.1rem; font-weight:500; }
+  /* Comments */
+  .comment-section { flex:1; display:flex; flex-direction:column; border-top:1px solid var(--navy-border); padding-top:.9rem; }
+  .comment-section-title { font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--text-dim); font-weight:500; display:flex; align-items:center; gap:.4rem; margin-bottom:.75rem; }
+  .comments-list { flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:.7rem; margin-bottom:.8rem; max-height:200px; }
+  .comment-item { display:flex; gap:.55rem; align-items:flex-start; animation:fadeIn .2s ease; }
+  .comment-avatar { width:26px; height:26px; border-radius:50%; background:linear-gradient(135deg,var(--gold-dim),var(--gold-light)); display:flex; align-items:center; justify-content:center; font-size:.6rem; font-weight:600; color:#fff; flex-shrink:0; }
+  .comment-body { flex:1; background:#F1F6FD; border-radius:0 8px 8px 8px; padding:.45rem .7rem; }
+  .comment-author { font-size:.68rem; font-weight:600; color:var(--text-primary); margin-bottom:.15rem; }
+  .comment-text { font-size:.78rem; color:var(--text-muted); line-height:1.4; word-break:break-word; }
+  .comment-time { font-size:.6rem; color:var(--text-dim); margin-top:.25rem; }
+  .no-comments { text-align:center; color:var(--text-dim); font-size:.78rem; padding:.8rem 0; }
+  .comment-input-row { display:flex; gap:.5rem; align-items:center; }
+  .comment-avatar-mini { width:26px; height:26px; border-radius:50%; background:linear-gradient(135deg,var(--gold-dim),var(--gold)); display:flex; align-items:center; justify-content:center; font-size:.6rem; font-weight:600; color:#fff; flex-shrink:0; }
+  .comment-input { flex:1; background:#F1F6FD; border:1px solid var(--navy-border); border-radius:20px; padding:.42rem .85rem; font-family:'DM Sans',sans-serif; font-size:.78rem; color:var(--text-primary); outline:none; transition:border-color .2s; }
+  .comment-input:focus { border-color:var(--gold-dim); box-shadow:0 0 0 2px rgba(239,73,60,.1); }
+  .comment-send-btn { width:30px; height:30px; border-radius:50%; background:var(--gold); border:none; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background .2s; }
+  .comment-send-btn:hover { background:var(--gold-light); }
+  @media (max-width:700px) {
+    .lightbox-box { flex-direction:column; }
+    .lightbox-info { width:100%; max-height:50vh; }
+    .lightbox-media { max-height:40vh; }
+    .moments-grid { columns:2 150px; }
+  }
 </style>
 </head>
 <body>
@@ -1229,15 +1293,55 @@
         </div>
       </div>
 
-      <!-- ── MOMENTS PAGE ── -->
+      <!-- MOMENTS PAGE -->
       <div class="page" id="page-moments">
-        <div class="placeholder-page">
-          <div class="big-icon">
-            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round"/></svg>
+        <div class="moments-page">
+          <div class="moments-header">
+            <div>
+              <h2 class="moments-title">Team Moments</h2>
+              <p class="moments-sub">Celebrating our wins, our fun, and everything in between.</p>
+            </div>
           </div>
-          <h2>Team Moments</h2>
-          <p>Cloudinary-powered photo grid for outings, games, achievements and team celebrations.</p>
-          <span class="coming-badge">Coming Next</span>
+          <div class="moments-tabs">
+            <button class="mtab active" onclick="switchMomentsTab('all',this)"><span>&#128247;</span> Recents</button>
+            <button class="mtab" onclick="switchMomentsTab('birthday',this)"><span>&#127874;</span> Birthdays</button>
+            <button class="mtab" onclick="switchMomentsTab('outing',this)"><span>&#127957;&#65039;</span> Team Outing</button>
+            <button class="mtab" onclick="switchMomentsTab('dinner',this)"><span>&#127869;&#65039;</span> Team Dinner</button>
+            <button class="mtab" onclick="switchMomentsTab('funfriday',this)"><span>&#127881;</span> Fun Friday</button>
+          </div>
+          <div class="moments-grid" id="moments-grid">
+            <div class="moments-loading"><div class="moments-spinner"></div><span>Loading moments...</span></div>
+          </div>
+          <!-- Lightbox -->
+          <div class="lightbox-overlay" id="lightbox-overlay" onclick="closeLightbox()">
+            <div class="lightbox-box" onclick="event.stopPropagation()">
+              <button class="lightbox-close" onclick="closeLightbox()">&#10005;</button>
+              <div class="lightbox-media">
+                <img id="lightbox-img" src="" alt="moment"/>
+              </div>
+              <div class="lightbox-info">
+                <div class="lightbox-meta">
+                  <span class="lightbox-tag-badge" id="lightbox-tag-badge"></span>
+                  <span class="lightbox-date" id="lightbox-date"></span>
+                </div>
+                <div class="lightbox-caption" id="lightbox-caption"></div>
+                <div class="comment-section">
+                  <div class="comment-section-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                    Comments
+                  </div>
+                  <div class="comments-list" id="comments-list"></div>
+                  <div class="comment-input-row">
+                    <div class="comment-avatar-mini" id="comment-avatar-mini">U</div>
+                    <input class="comment-input" id="comment-input" placeholder="Add a comment..." maxlength="200" onkeydown="if(event.key==='Enter')submitComment()"/>
+                    <button class="comment-send-btn" onclick="submitComment()">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1763,23 +1867,40 @@
     return { uid: fbUser?.uid || null, email, name, role };
   }
 
-  onAuthStateChanged(firebaseAuth, async user => {
+  // FAST LOGIN FIX: Enter dashboard instantly from Auth token (no Firestore wait).
+  // Firestore profile syncs silently in background — zero extra delay on login.
+  onAuthStateChanged(firebaseAuth, user => {
     const statusEl = document.getElementById('login-status');
     if (user) {
-      statusEl.style.display = 'block';
-      const fallbackUser = {
+      const email = user.email || '';
+      const isAdmin = ADMIN_EMAILS.includes(email.toLowerCase());
+      // Instant user from Auth — no await, no Firestore round-trip
+      currentUser = {
         uid: user.uid,
-        email: user.email || '',
-        name: user.displayName || (user.email || '').split('@')[0] || 'Agent',
-        role: ADMIN_EMAILS.includes((user.email || '').toLowerCase()) ? 'admin' : 'agent',
+        email,
+        name: user.displayName || email.split('@')[0] || 'Agent',
+        role: isAdmin ? 'admin' : 'agent',
       };
-      currentUser = await buildCurrentUser(user).catch(e => {
-        console.warn('buildCurrentUser failed, using fallback user:', e);
-        return fallbackUser;
-      });
-      if (!currentUser) currentUser = fallbackUser;
       statusEl.style.display = 'none';
-      enterDashboard();
+      enterDashboard();  // <-- enters dashboard immediately
+
+      // Silent background Firestore sync (does NOT block login)
+      if (db && user.uid) {
+        getDoc(doc(db, 'users', user.uid)).then(snap => {
+          if (!snap.exists()) return;
+          const d = snap.data();
+          let changed = false;
+          if (d.name && d.name !== currentUser.name) { currentUser.name = d.name; changed = true; }
+          if (d.role && !isAdmin && d.role !== currentUser.role) { currentUser.role = d.role; changed = true; }
+          if (changed) {
+            document.getElementById('agent-display').textContent = currentUser.name;
+            const ini = currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+            document.getElementById('avatar-initials').textContent = ini;
+            document.getElementById('greet-name').textContent = currentUser.name.split(' ')[0];
+            updateAdminVisibility();
+          }
+        }).catch(() => {});
+      }
     } else {
       currentUser = null;
       updateAdminVisibility();
@@ -1929,6 +2050,153 @@
   window.addUser = addUser;
   window.removeUser = removeUser;
   window.doChangePassword = doChangePassword;
+
+  // === TEAM MOMENTS JS ===
+  const CLOUDINARY_CLOUD = 'YOUR_CLOUD_NAME';
+  const M_TAG_MAP = { all:null, birthday:'birthday', outing:'team-outing', dinner:'team-dinner', funfriday:'fun-friday' };
+  const M_LABELS  = { all:'Recents', birthday:'Birthday', outing:'Team Outing', dinner:'Team Dinner', funfriday:'Fun Friday' };
+  const M_EMOJIS  = { all:'', birthday:'Birthday', outing:'Outing', dinner:'Dinner', funfriday:'Fun Friday' };
+  const _mlikes={}, _mliked={}, _mcomments={};
+  let _mActiveTab='all', _mLightboxId=null;
+  window._momentsCache={};
+
+  const DEMO_MOMENTS=[
+    {public_id:'dm1',secure_url:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80',created_at:'2025-04-10T10:00:00Z',context:{custom:{caption:'Birthday bash for Priya'}},tags:['birthday']},
+    {public_id:'dm2',secure_url:'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=600&q=80',created_at:'2025-04-15T10:00:00Z',context:{custom:{caption:'Q1 team outing at Yelagiri'}},tags:['team-outing']},
+    {public_id:'dm3',secure_url:'https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=600&q=80',created_at:'2025-05-03T10:00:00Z',context:{custom:{caption:'Team dinner at Spice Garden'}},tags:['team-dinner']},
+    {public_id:'dm4',secure_url:'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&q=80',created_at:'2025-05-06T10:00:00Z',context:{custom:{caption:'Happy birthday Arjun!'}},tags:['birthday']},
+    {public_id:'dm5',secure_url:'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80',created_at:'2025-05-07T10:00:00Z',context:{custom:{caption:'Fun Friday talent show'}},tags:['fun-friday']},
+    {public_id:'dm6',secure_url:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=80',created_at:'2025-05-08T10:00:00Z',context:{custom:{caption:'Project launch night dinner'}},tags:['team-dinner']},
+    {public_id:'dm7',secure_url:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',created_at:'2025-05-09T10:00:00Z',context:{custom:{caption:'ECR picnic day'}},tags:['team-outing']},
+    {public_id:'dm8',secure_url:'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80',created_at:'2025-05-10T10:00:00Z',context:{custom:{caption:'Meera completes 2 years with us!'}},tags:['birthday']},
+    {public_id:'dm9',secure_url:'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&q=80',created_at:'2025-05-12T10:00:00Z',context:{custom:{caption:'Desk decoration contest'}},tags:['fun-friday']},
+    {public_id:'dm10',secure_url:'https://images.unsplash.com/photo-1470338745628-171cf53de3a8?w=600&q=80',created_at:'2025-05-13T10:00:00Z',context:{custom:{caption:'Friday biryani tradition'}},tags:['team-dinner']},
+    {public_id:'dm11',secure_url:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80',created_at:'2025-05-14T10:00:00Z',context:{custom:{caption:'Birthday girl Sneha steals the show'}},tags:['birthday']},
+    {public_id:'dm12',secure_url:'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&q=80',created_at:'2025-05-14T12:00:00Z',context:{custom:{caption:'Games afternoon — who won?'}},tags:['fun-friday']},
+  ];
+
+  function _mTagKey(r){ for(const[k,v] of Object.entries(M_TAG_MAP)){ if(v&&(r.tags||[]).includes(v))return k; } return 'all'; }
+  function _mFmtDate(iso){ if(!iso)return''; const d=new Date(iso); const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return mo[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear(); }
+  function _mTimeAgo(ts){ const s=Math.floor((Date.now()-ts)/1000); if(s<60)return'just now'; if(s<3600)return Math.floor(s/60)+'m ago'; if(s<86400)return Math.floor(s/3600)+'h ago'; return Math.floor(s/86400)+'d ago'; }
+  function _mInitials(n){ return(n||'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
+
+  async function _mFetch(tag){
+    if(!CLOUDINARY_CLOUD||CLOUDINARY_CLOUD==='YOUR_CLOUD_NAME'){
+      const v=M_TAG_MAP[tag]; return v?DEMO_MOMENTS.filter(r=>(r.tags||[]).includes(v)):DEMO_MOMENTS;
+    }
+    const v=M_TAG_MAP[tag]||'site_moments';
+    try{
+      const res=await fetch('https://res.cloudinary.com/'+CLOUDINARY_CLOUD+'/image/list/'+v+'.json');
+      if(!res.ok)throw new Error('fail');
+      const data=await res.json();
+      return (data.resources||[]).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+    }catch(e){
+      const v2=M_TAG_MAP[tag]; return v2?DEMO_MOMENTS.filter(r=>(r.tags||[]).includes(v2)):DEMO_MOMENTS;
+    }
+  }
+
+  function _mRenderGrid(resources){
+    const grid=document.getElementById('moments-grid');
+    if(!resources.length){ grid.innerHTML='<div class="moments-empty"><div class="empty-icon">No photos yet</div>Upload images to Cloudinary with the right tags and they will appear here.</div>'; return; }
+    grid.innerHTML=resources.map(r=>{
+      const pid=r.public_id;
+      const safe=pid.replace(/[^a-z0-9]/gi,'_');
+      const esc=pid.replace(/\/g,'\\').replace(/'/g,"\'");
+      const cap=(r.context&&r.context.custom&&r.context.custom.caption)||pid.replace(/[/_-]/g,' ');
+      const tk=_mTagKey(r);
+      const dt=_mFmtDate(r.created_at);
+      const lk=_mlikes[pid]||0;
+      const liked=_mliked[pid]?'liked':'';
+      return '<div class="moment-card" onclick="openMomentLightbox(''+esc+'')">'+
+        '<div style="position:relative">'+
+        '<img class="moment-img" src="'+r.secure_url+'" alt="'+cap+'" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=60'"/>'+
+        '<div class="moment-overlay"><div class="moment-overlay-content">'+
+        '<div class="moment-overlay-caption">'+cap+'</div>'+
+        '<span class="moment-tag-pill">'+M_LABELS[tk]+'</span>'+
+        '</div></div></div>'+
+        '<div class="moment-card-footer">'+
+        '<span class="moment-card-date">'+dt+'</span>'+
+        '<button class="moment-like-btn '+liked+'" id="lbtn_'+safe+'" onclick="event.stopPropagation();toggleMomentLike(''+esc+'')">'+
+        '<svg viewBox="0 0 24 24" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>'+
+        '<span id="lcnt_'+safe+'">'+lk+'</span></button></div></div>';
+    }).join('');
+  }
+
+  async function _mLoadTab(tag){
+    const grid=document.getElementById('moments-grid');
+    grid.innerHTML='<div class="moments-loading"><div class="moments-spinner"></div><span>Loading moments...</span></div>';
+    if(!window._momentsCache[tag]) window._momentsCache[tag]=await _mFetch(tag);
+    _mRenderGrid(window._momentsCache[tag]);
+  }
+
+  window.switchMomentsTab=function(tag,btn){
+    _mActiveTab=tag;
+    document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('active'));
+    if(btn)btn.classList.add('active');
+    _mLoadTab(tag);
+  };
+
+  window.toggleMomentLike=function(pid){
+    const safe=pid.replace(/[^a-z0-9]/gi,'_');
+    const was=_mliked[pid]||false;
+    _mliked[pid]=!was;
+    _mlikes[pid]=Math.max(0,(_mlikes[pid]||0)+(was?-1:1));
+    const btn=document.getElementById('lbtn_'+safe);
+    const cnt=document.getElementById('lcnt_'+safe);
+    if(btn)btn.classList.toggle('liked',!was);
+    if(cnt)cnt.textContent=_mlikes[pid];
+  };
+
+  window.openMomentLightbox=function(pid){
+    _mLightboxId=pid;
+    const res=window._momentsCache[_mActiveTab]||DEMO_MOMENTS;
+    const r=res.find(x=>x.public_id===pid)||res[0];
+    if(!r)return;
+    const cap=(r.context&&r.context.custom&&r.context.custom.caption)||pid.replace(/[/_-]/g,' ');
+    const tk=_mTagKey(r);
+    document.getElementById('lightbox-img').src=r.secure_url;
+    document.getElementById('lightbox-caption').textContent=cap;
+    document.getElementById('lightbox-tag-badge').textContent=M_LABELS[tk]||tk;
+    document.getElementById('lightbox-date').textContent=_mFmtDate(r.created_at);
+    document.getElementById('comment-avatar-mini').textContent=currentUser?_mInitials(currentUser.name):'U';
+    _mRenderComments(pid);
+    document.getElementById('lightbox-overlay').classList.add('open');
+    document.body.style.overflow='hidden';
+  };
+
+  window.closeLightbox=function(){
+    document.getElementById('lightbox-overlay').classList.remove('open');
+    document.body.style.overflow='';
+    _mLightboxId=null;
+  };
+
+  function _mRenderComments(pid){
+    const list=document.getElementById('comments-list');
+    const items=_mcomments[pid]||[];
+    if(!items.length){ list.innerHTML='<div class="no-comments">No comments yet — be the first!</div>'; return; }
+    list.innerHTML=items.map(c=>'<div class="comment-item"><div class="comment-avatar">'+c.initials+'</div><div class="comment-body"><div class="comment-author">'+c.author+'</div><div class="comment-text">'+c.text+'</div><div class="comment-time">'+_mTimeAgo(c.ts)+'</div></div></div>').join('');
+    list.scrollTop=list.scrollHeight;
+  }
+
+  window.submitComment=function(){
+    const input=document.getElementById('comment-input');
+    const text=(input.value||'').trim();
+    if(!text||!_mLightboxId)return;
+    const pid=_mLightboxId;
+    if(!_mcomments[pid])_mcomments[pid]=[];
+    const author=currentUser?currentUser.name:'Agent';
+    _mcomments[pid].push({author,initials:_mInitials(author),text,ts:Date.now()});
+    input.value='';
+    _mRenderComments(pid);
+  };
+
+  // Hook showPage to auto-load moments tab
+  const _origShowPage=window.showPage;
+  window.showPage=function(id,el){
+    _origShowPage(id,el);
+    if(id==='moments') setTimeout(function(){_mLoadTab(_mActiveTab);},60);
+  };
+
 </script>
 
 
