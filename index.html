@@ -1097,6 +1097,63 @@
   .qa-nav-btn { background:var(--navy-card); border:1px solid var(--navy-border); color:var(--text-muted); padding:.6rem 1.4rem; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.85rem; cursor:pointer; transition:all .2s; }
   .qa-nav-btn:hover { background:var(--navy-hover); color:var(--text-primary); }
   .qa-nav-btn:disabled { opacity:.4; cursor:not-allowed; }
+
+  /* ── REDESIGNED HOME ── */
+  .live-stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
+  @media(max-width:900px){ .live-stats-row{ grid-template-columns:repeat(2,1fr); } }
+  .live-stat-card { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:1.2rem 1.4rem; display:flex; align-items:center; gap:1rem; transition:all var(--transition); }
+  .live-stat-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(7,13,45,.08); }
+  .live-stat-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .live-stat-body { flex:1; }
+  .live-stat-val { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:600; color:var(--text-primary); line-height:1; }
+  .live-stat-label { font-size:.72rem; color:var(--text-dim); margin-top:.25rem; letter-spacing:.04em; }
+
+  .home-two-col { display:grid; grid-template-columns:260px 1fr; gap:1.5rem; }
+  @media(max-width:900px){ .home-two-col{ grid-template-columns:1fr; } }
+
+  /* Who's Active panel */
+  .whos-active-panel { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:1.4rem; height:fit-content; }
+  .whos-active-list { display:flex; flex-direction:column; gap:.5rem; }
+  .wa-agent { display:flex; align-items:center; gap:.75rem; padding:.55rem .65rem; border-radius:8px; transition:background var(--transition); }
+  .wa-agent:hover { background:var(--navy-hover); }
+  .wa-avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--gold-dim),var(--gold)); display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; color:#fff; flex-shrink:0; }
+  .wa-name { font-size:.82rem; font-weight:500; color:var(--text-primary); flex:1; }
+  .wa-status { font-size:.65rem; font-weight:600; padding:.18rem .55rem; border-radius:20px; white-space:nowrap; }
+  .wa-status.active { background:rgba(46,197,111,.12); color:#1a7a45; }
+  .wa-status.break { background:rgba(239,73,60,.1); color:var(--gold); }
+  .wa-status.out { background:rgba(123,135,153,.1); color:var(--text-dim); }
+
+  /* Module list */
+  .home-module-list { display:flex; flex-direction:column; gap:.5rem; }
+  .hm-card { display:flex; align-items:center; gap:.9rem; padding:.85rem 1rem; background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius-sm); cursor:pointer; transition:all var(--transition); }
+  .hm-card:hover { border-color:rgba(239,73,60,.25); background:rgba(239,73,60,.02); transform:translateX(3px); }
+  .hm-icon { width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .hm-body { flex:1; }
+  .hm-title { font-size:.875rem; font-weight:500; color:var(--text-primary); }
+  .hm-sub { font-size:.72rem; color:var(--text-dim); margin-top:.1rem; }
+
+  /* Announcement banner */
+  .ann-banner { border-radius:var(--radius); padding:1rem 1.4rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:1rem; background:linear-gradient(135deg,rgba(239,73,60,.08),rgba(76,118,168,.06)); border:1px solid rgba(239,73,60,.2); animation:fadeIn .4s ease; }
+  .ann-icon { font-size:1.3rem; flex-shrink:0; }
+  .ann-body { flex:1; }
+  .ann-title { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:.2rem; }
+  .ann-text { font-size:.88rem; color:var(--text-primary); line-height:1.5; font-weight:500; }
+  .ann-meta { font-size:.7rem; color:var(--text-dim); margin-top:.2rem; }
+
+  /* Announcements admin page */
+  .ann-page { display:flex; flex-direction:column; gap:1.5rem; padding-bottom:3rem; max-width:700px; }
+  .ann-compose { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:1.4rem; }
+  .ann-compose h3 { font-size:.95rem; font-weight:600; color:var(--text-primary); margin-bottom:1rem; }
+  .ann-textarea { width:100%; min-height:100px; padding:.8rem 1rem; background:#F1F6FD; border:1px solid var(--navy-border); border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.9rem; color:var(--text-primary); outline:none; resize:vertical; transition:border-color .2s; box-sizing:border-box; }
+  .ann-textarea:focus { border-color:var(--gold-dim); box-shadow:0 0 0 3px rgba(239,73,60,.1); }
+  .ann-post-btn { background:linear-gradient(135deg,var(--gold),var(--gold-light)); border:none; color:#fff; padding:.65rem 1.6rem; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.875rem; font-weight:600; cursor:pointer; transition:opacity .2s; margin-top:.75rem; }
+  .ann-post-btn:hover { opacity:.88; }
+  .ann-item { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:1.1rem 1.4rem; display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; }
+  .ann-item-text { font-size:.9rem; color:var(--text-primary); line-height:1.5; flex:1; }
+  .ann-item-meta { font-size:.72rem; color:var(--text-dim); margin-top:.35rem; }
+  .ann-pin-btn { background:rgba(239,73,60,.08); border:1px solid rgba(239,73,60,.2); color:var(--gold); padding:.3rem .75rem; border-radius:6px; font-size:.72rem; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .2s; white-space:nowrap; }
+  .ann-pin-btn.pinned { background:rgba(239,73,60,.18); }
+  .ann-pin-btn:hover { background:rgba(239,73,60,.18); }
 </style>
 </head>
 <body>
@@ -1216,6 +1273,13 @@
         </svg>
         Team Moments
       </div>
+      <div class="sidebar-item admin-only" onclick="showPage('announcements', this)">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 01-3.46 0"/>
+        </svg>
+        Announcements
+      </div>
       <div class="sidebar-item" onclick="showPage('reports', this)">
         <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/>
@@ -1276,137 +1340,133 @@
 
       <!-- ── HOME PAGE ── -->
       <div class="page active" id="page-home">
+
+        <!-- ANNOUNCEMENT BANNER -->
+        <div id="announcement-banner" style="display:none;"></div>
+
+        <!-- GREETING -->
         <div class="home-greeting">
-          <div class="date-pill" id="date-display">Wednesday, May 14 2025</div>
-          <h1>Good <span id="time-greet">morning</span>, <span id="greet-name">Agent</span> 👋</h1>
-          <p>Here's your workspace at a glance. Stay sharp, stay ahead.</p>
+          <div class="date-pill" id="date-display"></div>
+          <h1>Good <span id="time-greet">morning</span>, <span id="greet-name">Agent</span> &#128075;</h1>
+          <p>Here&#39;s your workspace at a glance. Stay sharp, stay ahead.</p>
         </div>
 
-        <!-- Absence Banner -->
-        <div class="absence-banner">
-          <div class="absence-icon">
-            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke-linecap="round"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87" stroke-linecap="round"/></svg>
+        <!-- LIVE STATS -->
+        <div class="live-stats-row" id="live-stats-row">
+          <div class="live-stat-card" id="stat-loggedin">
+            <div class="live-stat-icon" style="background:rgba(46,197,111,0.1);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2EC56F" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div class="live-stat-body">
+              <div class="live-stat-val" id="stat-val-loggedin">--</div>
+              <div class="live-stat-label">Logged In Today</div>
+            </div>
           </div>
-          <div class="absence-text">
-            <strong id="absence-title">Loading roster...</strong>
-            <span id="absence-detail"></span>
+          <div class="live-stat-card" id="stat-onbreak">
+            <div class="live-stat-icon" style="background:rgba(239,73,60,0.1);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div class="live-stat-body">
+              <div class="live-stat-val" id="stat-val-onbreak">--</div>
+              <div class="live-stat-label">On Break Now</div>
+            </div>
           </div>
-        </div>
-
-        <!-- Quiz CTA -->
-        <div class="quiz-cta" onclick="showPage('quiz', null)">
-          <div class="quiz-cta-text">
-            <strong>📋 Today's Daily Quiz is live!</strong>
-            <span>Question 1 of 1 pending — submit before end of shift.</span>
+          <div class="live-stat-card" id="stat-absent">
+            <div class="live-stat-icon" style="background:rgba(76,118,168,0.1);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/></svg>
+            </div>
+            <div class="live-stat-body">
+              <div class="live-stat-val" id="stat-val-absent">--</div>
+              <div class="live-stat-label">Absent Today</div>
+            </div>
           </div>
-          <button class="quiz-cta-btn">Take Quiz →</button>
-        </div>
-
-        <!-- Stats Row -->
-        <div class="section-title">Team Overview</div>
-        <div class="stats-row">
-          <div class="stat-card">
-            <div class="stat-label">Total Agents</div>
-            <div class="stat-val">24</div>
-            <div class="stat-sub">Active this month</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Present Today</div>
-            <div class="stat-val">22</div>
-            <div class="stat-sub stat-up">↑ 91.6%</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Quiz Completion</div>
-            <div class="stat-val">18</div>
-            <div class="stat-sub">of 22 submitted</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Avg Score</div>
-            <div class="stat-val">84%</div>
-            <div class="stat-sub stat-up">↑ This month</div>
+          <div class="live-stat-card" id="stat-total">
+            <div class="live-stat-icon" style="background:rgba(142,124,169,0.1);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E7CA9" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            </div>
+            <div class="live-stat-body">
+              <div class="live-stat-val" id="stat-val-total">--</div>
+              <div class="live-stat-label">Total Agents</div>
+            </div>
           </div>
         </div>
 
-        <!-- Module Cards -->
-        <div class="section-title">Modules</div>
-        <div class="module-grid">
+        <!-- TWO COLUMN LAYOUT: Who's Active + Modules -->
+        <div class="home-two-col">
 
-          <div class="module-card gold" onclick="openSimulation()">
-            <div class="mc-icon gold">
-              <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round"/><path d="M7 8l3 3-3 3M13 14h4" stroke-linecap="round"/></svg>
+          <!-- WHO'S ACTIVE -->
+          <div class="whos-active-panel">
+            <div class="section-title" style="margin-bottom:1rem;">Who&#39;s Active</div>
+            <div id="whos-active-list" class="whos-active-list">
+              <div style="color:var(--text-dim);font-size:.82rem;padding:1rem 0;">Loading...</div>
             </div>
-            <div class="mc-title">UI Simulation</div>
-            <div class="mc-desc">Multi-product simulation environment for your team.</div>
           </div>
 
-          <div class="module-card blue" onclick="showPage('kb', null)">
-            <div class="mc-icon blue">
-              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/><path d="M11 8v6M8 11h6" stroke-linecap="round"/></svg>
+          <!-- QUICK ACCESS MODULES -->
+          <div class="home-modules-col">
+            <div class="section-title" style="margin-bottom:1rem;">Quick Access</div>
+            <div class="home-module-list">
+              <div class="hm-card" onclick="openSimulation()">
+                <div class="hm-icon" style="background:rgba(174,123,76,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M7 8l3 3-3 3M13 14h4"/></svg></div>
+                <div class="hm-body"><div class="hm-title">UI Simulation</div><div class="hm-sub">Multi-product training environment</div></div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              </div>
+              <div class="hm-card" onclick="showPage('quiz',null)">
+                <div class="hm-icon" style="background:rgba(46,197,111,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2EC56F" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div>
+                <div class="hm-body"><div class="hm-title">Daily Quiz</div><div class="hm-sub">Today&#39;s question — one attempt only</div></div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              </div>
+              <div class="hm-card" onclick="showPage('kb',null)">
+                <div class="hm-icon" style="background:rgba(76,118,168,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg></div>
+                <div class="hm-body"><div class="hm-title">KB Search</div><div class="hm-sub">Troubleshooting steps &amp; articles</div></div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              </div>
+              <div class="hm-card" onclick="showPage('roster',null)">
+                <div class="hm-icon" style="background:rgba(142,124,169,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8E7CA9" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+                <div class="hm-body"><div class="hm-title">Roster</div><div class="hm-sub">Live schedule &amp; absence tracker</div></div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              </div>
+              <div class="hm-card" onclick="showPage('moments',null)">
+                <div class="hm-icon" style="background:rgba(239,73,60,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+                <div class="hm-body"><div class="hm-title">Team Moments</div><div class="hm-sub">Photos from outings &amp; celebrations</div></div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              </div>
+              <div class="hm-card" onclick="showPage('assessment',null)">
+                <div class="hm-icon" style="background:rgba(239,73,60,0.08)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.8"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg></div>
+                <div class="hm-body"><div class="hm-title">Assessment</div><div class="hm-sub">Monthly formal assessment</div></div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              </div>
             </div>
-            <div class="mc-title">KB Search</div>
-            <div class="mc-desc">Search troubleshooting steps and knowledge articles.</div>
-          </div>
 
-          <div class="module-card green" onclick="showPage('quiz', null)">
-            <div class="mc-icon green">
-              <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4" stroke-linecap="round"/><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/></svg>
+            <!-- Admin quick tools -->
+            <div class="admin-only" style="margin-top:1.5rem;">
+              <div class="section-title" style="margin-bottom:1rem;">Admin Tools</div>
+              <div class="home-module-list">
+                <div class="hm-card" onclick="showPage('quiz-admin',null)">
+                  <div class="hm-icon" style="background:rgba(174,123,76,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div>
+                  <div class="hm-body"><div class="hm-title">Quiz Builder</div><div class="hm-sub">Create &amp; schedule daily quizzes</div></div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </div>
+                <div class="hm-card" onclick="showPage('users',null)">
+                  <div class="hm-icon" style="background:rgba(76,118,168,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="1.8"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></div>
+                  <div class="hm-body"><div class="hm-title">Manage Users</div><div class="hm-sub">Add, remove, and manage agents</div></div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </div>
+                <div class="hm-card admin-only" onclick="showPage('reports',null)">
+                  <div class="hm-icon" style="background:rgba(142,124,169,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8E7CA9" stroke-width="1.8"><path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 3v6h6M8 17v-4M12 17v-7M16 17v-2"/></svg></div>
+                  <div class="hm-body"><div class="hm-title">Reports</div><div class="hm-sub">Attendance, breaks &amp; performance</div></div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </div>
+                <div class="hm-card" onclick="showPage('announcements',null)">
+                  <div class="hm-icon" style="background:rgba(239,73,60,0.08)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+                  <div class="hm-body"><div class="hm-title">Announcements</div><div class="hm-sub">Post notices to the whole team</div></div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </div>
+              </div>
             </div>
-            <div class="mc-title">Daily Quiz</div>
-            <div class="mc-desc">Auto-refreshing daily questions with monthly reports.</div>
-          </div>
-
-          <div class="module-card red" onclick="showPage('assessment', null)">
-            <div class="mc-icon red">
-              <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" stroke-linecap="round"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4" stroke-linecap="round"/></svg>
-            </div>
-            <div class="mc-title">Assessment</div>
-            <div class="mc-desc">Monthly formal assessments with TL report export.</div>
-          </div>
-
-          <div class="module-card purple" onclick="showPage('roster', null)">
-            <div class="mc-icon purple">
-              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke-linecap="round"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round"/></svg>
-            </div>
-            <div class="mc-title">Roster</div>
-            <div class="mc-desc">Live Google Sheets sync — schedules & absences.</div>
-          </div>
-
-          <div class="module-card gold" onclick="showPage('moments', null)">
-            <div class="mc-icon gold">
-              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round"/></svg>
-            </div>
-            <div class="mc-title">Team Moments</div>
-            <div class="mc-desc">Outings, achievements & team celebrations.</div>
-          </div>
-
-        </div>
-
-        <div class="section-title admin-only">Admin Tools</div>
-        <div class="module-grid admin-only">
-          <div class="module-card gold" onclick="showPage('quiz-admin', null)">
-            <div class="mc-icon gold">
-              <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
-            </div>
-            <div class="mc-title">Quiz Builder</div>
-            <div class="mc-desc">Add daily questions, answer keys, and active dates.</div>
-          </div>
-
-          <div class="module-card red" onclick="showPage('assessment-admin', null)">
-            <div class="mc-icon red">
-              <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg>
-            </div>
-            <div class="mc-title">Assessment Builder</div>
-            <div class="mc-desc">Prepare monthly assessments and scoring rules.</div>
-          </div>
-
-          <div class="module-card blue" onclick="showPage('reports', null)">
-            <div class="mc-icon blue">
-              <svg viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 3v6h6M8 17v-4M12 17v-7M16 17v-2"/></svg>
-            </div>
-            <div class="mc-title">Reports</div>
-            <div class="mc-desc">Pull quiz, assessment, and monthly performance reports.</div>
           </div>
         </div>
+
       </div>
 
       <!-- ── SIMULATION PAGE ── -->
@@ -1640,6 +1700,30 @@
 
         <div id="um-user-list" style="margin-top:1.5rem;">
           <div style="color:var(--text-dim);font-size:0.875rem;padding:1rem;text-align:center;">Loading agents…</div>
+        </div>
+      </div>
+
+      <!-- ANNOUNCEMENTS PAGE (Admin) -->
+      <div class="page" id="page-announcements">
+        <div class="ann-page">
+          <div><h2 class="qa-title">&#128276; Announcements</h2><p class="qa-sub">Post notices that appear on every agent&#39;s dashboard instantly.</p></div>
+          <div class="ann-compose">
+            <h3>&#9999;&#65039; Post New Announcement</h3>
+            <textarea class="ann-textarea" id="ann-input" placeholder="Type your announcement here... e.g. Team meeting at 3PM in Conference Room B"></textarea>
+            <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+              <button class="ann-post-btn" onclick="postAnnouncement()">&#128276; Post to All Agents</button>
+              <label style="display:flex;align-items:center;gap:.45rem;font-size:.8rem;color:var(--text-muted);cursor:pointer;">
+                <input type="checkbox" id="ann-pin" style="accent-color:var(--gold);"/> Pin to top
+              </label>
+            </div>
+            <div id="ann-msg" style="font-size:.82rem;margin-top:.6rem;display:none;"></div>
+          </div>
+          <div>
+            <div class="section-title">Posted Announcements</div>
+            <div id="ann-list" style="display:flex;flex-direction:column;gap:.75rem;">
+              <div style="color:var(--text-dim);font-size:.875rem;padding:1rem;">Loading...</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -2999,6 +3083,194 @@ window.showPage=function(id,el){
   if(id==='assessment')loadAgentAssessment();
   if(id==='quiz-admin'){loadQuizBuilderList();}
   if(id==='assessment-admin'){loadAssessmentBuilderList();}
+};
+
+
+// ===================================================
+//  LIVE DASHBOARD — Stats, Who's Active, Announcements
+// ===================================================
+
+function animateCount(elId, target){
+  var el = document.getElementById(elId);
+  if(!el) return;
+  var start = 0, duration = 800, startTime = null;
+  function step(ts){
+    if(!startTime) startTime = ts;
+    var progress = Math.min((ts - startTime) / duration, 1);
+    el.textContent = Math.floor(progress * target);
+    if(progress < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(step);
+}
+
+async function loadLiveDashboard(){
+  try {
+    // 1. Total agents from users table
+    var users = await sbQuery('users', 'select=id,name,role');
+    var total = users ? users.length : 0;
+    animateCount('stat-val-total', total);
+
+    // 2. Logged in today from attendance
+    var today = todayStr();
+    var attendance = await sbQuery('attendance', 'date=eq.'+today+'&select=id,user_id,user_name,login_time,logout_time');
+    var loggedIn = attendance ? attendance.length : 0;
+    animateCount('stat-val-loggedin', loggedIn);
+
+    // 3. Currently on break — agents with active breaks (started but not ended today)
+    var breaks = await sbQuery('breaks', 'date=eq.'+today+'&select=user_id,user_name,break_type,end_time');
+    // Active breaks = those without end_time or still running
+    var onBreakNow = 0;
+    var onBreakUsers = new Set();
+    if(breaks){
+      breaks.forEach(function(b){
+        if(!b.end_time) { onBreakNow++; onBreakUsers.add(b.user_name); }
+      });
+    }
+    animateCount('stat-val-onbreak', onBreakNow);
+
+    // 4. Absent from roster banner (reuse existing)
+    var absentEl = document.getElementById('stat-val-absent');
+    if(absentEl) absentEl.textContent = '...';
+    // Will be updated by roster load
+
+    // 5. Who's active list
+    renderWhosActive(users, attendance, onBreakUsers);
+
+  } catch(e) {
+    console.warn('Dashboard load failed:', e.message);
+    ['stat-val-total','stat-val-loggedin','stat-val-onbreak','stat-val-absent'].forEach(function(id){
+      var el = document.getElementById(id); if(el) el.textContent = '--';
+    });
+  }
+}
+
+function renderWhosActive(users, attendance, onBreakUsers){
+  var list = document.getElementById('whos-active-list');
+  if(!list) return;
+
+  var attendedIds = new Set();
+  if(attendance) attendance.forEach(function(a){ attendedIds.add(a.user_id); });
+
+  if(!users || !users.length){
+    list.innerHTML = '<div style="color:var(--text-dim);font-size:.82rem;padding:.5rem 0;">No agents found.</div>';
+    return;
+  }
+
+  list.innerHTML = users.map(function(u){
+    var ini = (u.name||'?').split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
+    var isIn = attendedIds.has(u.id);
+    var isOnBreak = onBreakUsers.has(u.name);
+    var statusClass = isOnBreak ? 'break' : isIn ? 'active' : 'out';
+    var statusLabel = isOnBreak ? 'On Break' : isIn ? 'Active' : 'Not In';
+    return '<div class="wa-agent">'+
+      '<div class="wa-avatar">'+ini+'</div>'+
+      '<div class="wa-name">'+u.name+'</div>'+
+      '<span class="wa-status '+statusClass+'">'+statusLabel+'</span>'+
+    '</div>';
+  }).sort(function(a,b){
+    // Active first, then break, then out
+    var order = {'active':0,'break':1,'out':2};
+    var getO = function(html){ if(html.includes('wa-status active'))return 0; if(html.includes('wa-status break'))return 1; return 2; };
+    return getO(a) - getO(b);
+  }).join('');
+}
+
+// Update absent count from roster
+function updateAbsentStat(count){
+  var el = document.getElementById('stat-val-absent');
+  if(el) animateCount('stat-val-absent', count);
+}
+
+// ── ANNOUNCEMENTS ──
+async function loadAnnouncements(){
+  try{
+    var rows = await sbQuery('announcements', 'select=id,text,posted_by,created_at,pinned&order=pinned.desc,created_at.desc&limit=10');
+    if(!rows || !rows.length) return;
+    // Show latest/pinned on dashboard banner
+    var banner = document.getElementById('announcement-banner');
+    if(banner){
+      var latest = rows[0];
+      var d = new Date(latest.created_at);
+      var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var timeStr = mo[d.getMonth()]+' '+d.getDate()+', '+d.getHours()%12||12+':'+(d.getMinutes()<10?'0':'')+d.getMinutes()+(d.getHours()>=12?'PM':'AM');
+      banner.innerHTML = '<div class="ann-banner">'+
+        '<div class="ann-icon">'+(latest.pinned?'&#128204;':'&#128276;')+'</div>'+
+        '<div class="ann-body">'+
+          '<div class="ann-title">'+(latest.pinned?'Pinned Notice':'Latest Announcement')+'</div>'+
+          '<div class="ann-text">'+latest.text+'</div>'+
+          '<div class="ann-meta">Posted by '+latest.posted_by+' &nbsp;&middot;&nbsp; '+timeStr+'</div>'+
+        '</div>'+
+      '</div>';
+      banner.style.display = 'block';
+    }
+  } catch(e){ console.warn('Announcements load failed:', e.message); }
+}
+
+async function loadAnnouncementsAdmin(){
+  var list = document.getElementById('ann-list');
+  if(!list) return;
+  try{
+    var rows = await sbQuery('announcements', 'select=id,text,posted_by,created_at,pinned&order=pinned.desc,created_at.desc');
+    if(!rows || !rows.length){ list.innerHTML='<div style="color:var(--text-dim);font-size:.875rem;padding:1rem;">No announcements yet.</div>'; return; }
+    list.innerHTML = rows.map(function(a){
+      var d = new Date(a.created_at);
+      var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var timeStr = mo[d.getMonth()]+' '+d.getDate()+' at '+d.getHours()%12+':'+(d.getMinutes()<10?'0':'')+d.getMinutes()+(d.getHours()>=12?'PM':'AM');
+      return '<div class="ann-item">'+
+        '<div>'+
+          '<div class="ann-item-text">'+(a.pinned?'&#128204; ':'')+a.text+'</div>'+
+          '<div class="ann-item-meta">Posted by '+a.posted_by+' &nbsp;&middot;&nbsp; '+timeStr+'</div>'+
+        '</div>'+
+        '<div style="display:flex;gap:.5rem;flex-shrink:0;">'+
+          '<button class="ann-pin-btn'+(a.pinned?' pinned':'')+'" onclick="togglePin(''+a.id+'','+a.pinned+')">'+(a.pinned?'&#128204; Pinned':'&#128394; Pin')+'</button>'+
+          '<button class="qa-del-btn" onclick="deleteAnnouncement(''+a.id+'')">Delete</button>'+
+        '</div>'+
+      '</div>';
+    }).join('');
+  } catch(e){ list.innerHTML='<div style="color:var(--accent-red);font-size:.875rem;padding:1rem;">Error: '+e.message+'</div>'; }
+}
+
+async function postAnnouncement(){
+  var text = (document.getElementById('ann-input').value||'').trim();
+  var pinned = document.getElementById('ann-pin').checked;
+  var msgEl = document.getElementById('ann-msg');
+  if(!text){ msgEl.textContent='Please type an announcement.'; msgEl.style.color='var(--accent-red)'; msgEl.style.display='block'; return; }
+  try{
+    await sbInsert('announcements',{ text:text, posted_by:currentUser.name, pinned:pinned });
+    document.getElementById('ann-input').value='';
+    document.getElementById('ann-pin').checked=false;
+    msgEl.textContent='Posted successfully!'; msgEl.style.color='#1a7a45'; msgEl.style.display='block';
+    setTimeout(function(){ msgEl.style.display='none'; },3000);
+    loadAnnouncementsAdmin();
+    loadAnnouncements();
+  } catch(e){ msgEl.textContent='Error: '+e.message; msgEl.style.color='var(--accent-red)'; msgEl.style.display='block'; }
+}
+
+async function togglePin(id, current){
+  try{ await sbUpdate('announcements','id',id,{pinned:!current}); loadAnnouncementsAdmin(); loadAnnouncements(); }
+  catch(e){ alert('Could not toggle pin.'); }
+}
+
+async function deleteAnnouncement(id){
+  if(!confirm('Delete this announcement?')) return;
+  try{ await sbDelete('announcements','id',id); loadAnnouncementsAdmin(); loadAnnouncements(); }
+  catch(e){ alert('Delete failed.'); }
+}
+
+// Hook into showPage
+var _origShowPageHome = window.showPage;
+window.showPage = function(id, el){
+  _origShowPageHome(id, el);
+  if(id === 'announcements'){ loadAnnouncementsAdmin(); }
+};
+
+// Load dashboard data on login
+var _origEnterDashboard = enterDashboard;
+enterDashboard = function(){
+  _origEnterDashboard();
+  setTimeout(loadLiveDashboard, 300);
+  setTimeout(loadAnnouncements, 400);
 };
 
 </script>
