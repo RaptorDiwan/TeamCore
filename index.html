@@ -1132,6 +1132,13 @@
         </svg>
         Team Moments
       </div>
+      <div class="sidebar-item" onclick="showPage('reports', this)">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/>
+          <path d="M14 3v6h6M8 17v-4M12 17v-7M16 17v-2"/>
+        </svg>
+        Reports
+      </div>
 
       <div class="sidebar-section">Account</div>
 
@@ -1162,7 +1169,7 @@
         Assessment Builder
       </div>
 
-      <div class="sidebar-item admin-only" onclick="showPage('reports', this)">
+      <div class="sidebar-item" onclick="showPage('reports', this)">
         <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/>
           <path d="M14 3v6h6M8 17v-4M12 17v-7M16 17v-2"/>
@@ -1647,7 +1654,7 @@ function showPage(id,elem){
 }
 
 function isAdminUser(){return currentUser&&(currentUser.role==='admin'||currentUser.role==='tl');}
-function isAdminPage(id){return['quiz-admin','assessment-admin','reports','users'].indexOf(id)>-1;}
+function isAdminPage(id){return['quiz-admin','assessment-admin','users'].indexOf(id)>-1;} // reports accessible to all logged-in users
 function updateAdminVisibility(){
   var show=isAdminUser();
   document.querySelectorAll('.admin-only').forEach(function(el){
@@ -2019,43 +2026,145 @@ async function loadReport(){
   var output = document.getElementById('report-output');
 
   if(!from || !to){ output.innerHTML='<div style="color:var(--accent-red);padding:2rem;">Please select both From and To dates.</div>'; return; }
-  output.innerHTML='<div style="color:var(--text-dim);padding:2rem;">Loading...</div>';
+  output.innerHTML='<div style="color:var(--text-dim);padding:2rem;text-align:center;">Loading...</div>';
 
   try {
-    var table = type === 'attendance' ? 'attendance' : 'breaks';
-    var filters = 'date=gte.'+from+'&date=lte.'+to+'&order=date.desc,user_name.asc';
-    if(agent) filters += '&user_id=eq.'+agent;
-    var rows = await sbQuery(table, filters);
-    _reportData = rows || [];
-
-    if(!_reportData.length){ output.innerHTML='<div style="color:var(--text-dim);padding:2rem;text-align:center;">No data found for selected filters.</div>'; return; }
-
     if(type === 'attendance'){
-      output.innerHTML = '<table class="reports-table"><thead><tr><th>Date</th><th>Agent</th><th>Login Time</th><th>Logout Time</th><th>Duration</th></tr></thead><tbody>'+
-        _reportData.map(function(r){
-          var dur = '';
-          if(r.login_time && r.logout_time){
-            var diff = Math.floor((new Date(r.logout_time)-new Date(r.login_time))/1000);
-            var h=Math.floor(diff/3600),m=Math.floor((diff%3600)/60);
-            dur = h+'h '+m+'m';
-          }
-          return '<tr><td>'+r.date+'</td><td>'+r.user_name+'</td><td>'+fmtTime(r.login_time)+'</td><td>'+(r.logout_time?fmtTime(r.logout_time):'<span style="color:var(--gold)">Still in</span>')+'</td><td>'+dur+'</td></tr>';
-        }).join('')+'</tbody></table>';
+      var filters = 'date=gte.'+from+'&date=lte.'+to+'&order=date.asc,user_name.asc';
+      if(agent) filters += '&user_id=eq.'+agent;
+      var rows = await sbQuery('attendance', filters);
+      _reportData = rows || [];
+      if(!_reportData.length){ output.innerHTML='<div style="color:var(--text-dim);padding:2rem;text-align:center;">No attendance data found for selected period.</div>'; return; }
+      renderAttendanceReport(_reportData);
+
     } else {
-      output.innerHTML = '<table class="reports-table"><thead><tr><th>Date</th><th>Agent</th><th>Break Type</th><th>Start</th><th>End</th><th>Duration</th><th>Limit</th><th>Status</th></tr></thead><tbody>'+
-        _reportData.map(function(r){
-          var durMin = Math.floor(r.duration_seconds/60), durSec = r.duration_seconds%60;
-          var durStr = durMin+'m '+durSec+'s';
-          var limit = BREAK_LIMITS[r.break_type]||0;
-          var status = r.over_limit
-            ? '<span class="over-badge">Over by '+Math.floor(r.over_by_seconds/60)+'m '+r.over_by_seconds%60+'s</span>'
-            : '<span class="ok-badge">On time</span>';
-          return '<tr><td>'+r.date+'</td><td>'+r.user_name+'</td><td>'+BREAK_LABELS[r.break_type]+'</td><td>'+fmtTime(r.start_time)+'</td><td>'+fmtTime(r.end_time)+'</td><td>'+durStr+'</td><td>'+limit+'m</td><td>'+status+'</td></tr>';
-        }).join('')+'</tbody></table>';
+      // Break report — grouped by date then agent (like your Excel format)
+      var filters2 = 'date=gte.'+from+'&date=lte.'+to+'&order=date.asc,user_name.asc';
+      if(agent) filters2 += '&user_id=eq.'+agent;
+      var breaks = await sbQuery('breaks', filters2);
+      _reportData = breaks || [];
+      if(!_reportData.length){ output.innerHTML='<div style="color:var(--text-dim);padding:2rem;text-align:center;">No break data found for selected period.</div>'; return; }
+      renderBreakReport(_reportData, from, to);
     }
   } catch(e){
-    output.innerHTML='<div style="color:var(--accent-red);padding:2rem;">Error: '+e.message+'. Make sure attendance/breaks tables exist in Supabase.</div>';
+    output.innerHTML='<div style="color:var(--accent-red);padding:2rem;text-align:center;"><strong>Error: '+e.message+'</strong><br><br>Make sure the attendance and breaks tables exist in Supabase.</div>';
   }
+}
+
+function fmtDurMin(secs){
+  if(!secs && secs!==0) return '-';
+  var m=Math.floor(secs/60);
+  var h=Math.floor(m/60), rm=m%60;
+  if(h>0) return h+' Hr(s) '+(rm<10?'0':'')+rm+' Min';
+  return m+' Min';
+}
+
+function fmtDateHeader(dateStr){
+  var d = new Date(dateStr+'T00:00:00');
+  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var day=d.getDate();
+  var suffix=day===1||day===21||day===31?'st':day===2||day===22?'nd':day===3||day===23?'rd':'th';
+  return day+suffix+' '+months[d.getMonth()]+' '+d.getFullYear()+' ('+days[d.getDay()]+')';
+}
+
+function renderBreakReport(breaks, from, to){
+  var output = document.getElementById('report-output');
+  // Group by date
+  var byDate = {};
+  breaks.forEach(function(b){
+    if(!byDate[b.date]) byDate[b.date] = {};
+    if(!byDate[b.date][b.user_name]) byDate[b.date][b.user_name] = {};
+    byDate[b.date][b.user_name][b.break_type] = b;
+  });
+
+  var dates = Object.keys(byDate).sort();
+  var html = '';
+
+  dates.forEach(function(date){
+    var agentMap = byDate[date];
+    var agents = Object.keys(agentMap).sort();
+
+    html += '<table class="reports-table" style="margin-bottom:2rem;">';
+    // Date header
+    html += '<thead><tr><th colspan="7" style="text-align:center;background:#E8B84B;color:#1a1000;font-size:0.95rem;font-weight:700;padding:0.8rem;letter-spacing:0.04em;">'+fmtDateHeader(date)+'</th></tr>';
+    // Column headers
+    html += '<tr style="background:#C5D5E8;">' +
+      '<th style="color:#1a2a4a;">Username</th>' +
+      '<th style="color:#1a2a4a;">Breakfast<br><span style="font-weight:400;font-size:0.65rem;opacity:0.7;">Limit: 20 Min</span></th>' +
+      '<th style="color:#1a2a4a;">Lunch<br><span style="font-weight:400;font-size:0.65rem;opacity:0.7;">Limit: 45 Min</span></th>' +
+      '<th style="color:#1a2a4a;">Beverage<br><span style="font-weight:400;font-size:0.65rem;opacity:0.7;">Limit: 20 Min</span></th>' +
+      '<th style="color:#1a2a4a;">Short Break<br><span style="font-weight:400;font-size:0.65rem;opacity:0.7;">Limit: 10 Min</span></th>' +
+      '<th style="color:#1a2a4a;">Total Break Time</th>' +
+      '<th style="color:#1a2a4a;">Exceeded Limits</th>' +
+      '</tr></thead><tbody>';
+
+    agents.forEach(function(name){
+      var ag = agentMap[name];
+      var bf = ag['breakfast'], lu = ag['lunch'], bv = ag['beverage'], sb = ag['shortbreak'];
+      var totalSec = (bf?bf.duration_seconds:0)+(lu?lu.duration_seconds:0)+(bv?bv.duration_seconds:0)+(sb?sb.duration_seconds:0);
+      var exceeded = [];
+      if(bf && bf.over_limit) exceeded.push('Breakfast');
+      if(lu && lu.over_limit) exceeded.push('Lunch');
+      if(bv && bv.over_limit) exceeded.push('Beverage');
+      if(sb && sb.over_limit) exceeded.push('Short Break');
+
+      var cellStyle = function(b){ return b && b.over_limit ? ' style="background:rgba(232,150,75,0.35);font-weight:600;"' : ''; };
+
+      html += '<tr>' +
+        '<td style="font-weight:500;">'+name+'</td>' +
+        '<td'+cellStyle(bf)+'>'+( bf?fmtDurMin(bf.duration_seconds):'-')+'</td>' +
+        '<td'+cellStyle(lu)+'>'+( lu?fmtDurMin(lu.duration_seconds):'-')+'</td>' +
+        '<td'+cellStyle(bv)+'>'+( bv?fmtDurMin(bv.duration_seconds):'-')+'</td>' +
+        '<td'+cellStyle(sb)+'>'+( sb?fmtDurMin(sb.duration_seconds):'-')+'</td>' +
+        '<td style="font-weight:600;">'+fmtDurMin(totalSec)+'</td>' +
+        '<td style="color:'+(exceeded.length?'var(--accent-red)':'var(--text-dim)')+';">'+(exceeded.length?exceeded.join(', '):'-')+'</td>' +
+        '</tr>';
+    });
+
+    html += '</tbody></table>';
+  });
+
+  output.style.display='block';
+  output.style.padding='1rem';
+  output.innerHTML = html;
+}
+
+function renderAttendanceReport(rows){
+  var output = document.getElementById('report-output');
+  // Group by date
+  var byDate = {};
+  rows.forEach(function(r){ if(!byDate[r.date]) byDate[r.date]=[]; byDate[r.date].push(r); });
+  var dates = Object.keys(byDate).sort();
+  var html = '';
+
+  dates.forEach(function(date){
+    var agents = byDate[date];
+    html += '<table class="reports-table" style="margin-bottom:2rem;">';
+    html += '<thead><tr><th colspan="4" style="text-align:center;background:#E8B84B;color:#1a1000;font-size:0.95rem;font-weight:700;padding:0.8rem;">'+fmtDateHeader(date)+'</th></tr>';
+    html += '<tr style="background:#C5D5E8;"><th style="color:#1a2a4a;">Username</th><th style="color:#1a2a4a;">Login Time</th><th style="color:#1a2a4a;">Logout Time</th><th style="color:#1a2a4a;">Total Hours</th></tr></thead><tbody>';
+
+    agents.forEach(function(r){
+      var dur = '-';
+      if(r.login_time && r.logout_time){
+        var diff=Math.floor((new Date(r.logout_time)-new Date(r.login_time))/1000);
+        var h=Math.floor(diff/3600),m=Math.floor((diff%3600)/60);
+        dur = h+' Hr(s) '+m+' Min';
+      }
+      var stillIn = r.login_time && !r.logout_time;
+      html += '<tr>'+
+        '<td style="font-weight:500;">'+r.user_name+'</td>'+
+        '<td>'+fmtTime(r.login_time)+'</td>'+
+        '<td>'+(stillIn?'<span style="color:var(--gold);font-weight:500;">Still in</span>':fmtTime(r.logout_time))+'</td>'+
+        '<td style="font-weight:600;">'+dur+'</td>'+
+        '</tr>';
+    });
+    html += '</tbody></table>';
+  });
+
+  output.style.display='block';
+  output.style.padding='1rem';
+  output.innerHTML = html;
 }
 
 function exportReportCSV(){
@@ -2063,16 +2172,36 @@ function exportReportCSV(){
   var type = document.getElementById('report-type').value;
   var headers, rows;
   if(type==='attendance'){
-    headers = ['Date','Agent','Login Time','Logout Time'];
-    rows = _reportData.map(function(r){ return [r.date,r.user_name,fmtTime(r.login_time),r.logout_time?fmtTime(r.logout_time):'Still in']; });
+    headers = ['Date','Agent','Login Time','Logout Time','Total Hours'];
+    rows = _reportData.map(function(r){
+      var dur='-';
+      if(r.login_time&&r.logout_time){var diff=Math.floor((new Date(r.logout_time)-new Date(r.login_time))/1000);dur=Math.floor(diff/3600)+'h '+Math.floor((diff%3600)/60)+'m';}
+      return [r.date,r.user_name,fmtTime(r.login_time),r.logout_time?fmtTime(r.logout_time):'Still in',dur];
+    });
   } else {
-    headers = ['Date','Agent','Break Type','Start','End','Duration (sec)','Over Limit','Over By (sec)'];
-    rows = _reportData.map(function(r){ return [r.date,r.user_name,BREAK_LABELS[r.break_type],fmtTime(r.start_time),fmtTime(r.end_time),r.duration_seconds,r.over_limit?'Yes':'No',r.over_by_seconds]; });
+    // Group by date+agent for Excel-style export
+    headers = ['Date','Username','Breakfast','Lunch','Beverage','Short Break','Total Break Time','Exceeded Limits'];
+    var byDateAgent = {};
+    _reportData.forEach(function(b){
+      var key=b.date+'__'+b.user_name;
+      if(!byDateAgent[key]) byDateAgent[key]={date:b.date,name:b.user_name,breakfast:null,lunch:null,beverage:null,shortbreak:null};
+      byDateAgent[key][b.break_type]=b;
+    });
+    rows = Object.values(byDateAgent).sort(function(a,b){return a.date.localeCompare(b.date)||a.name.localeCompare(b.name);}).map(function(ag){
+      var bf=ag.breakfast,lu=ag.lunch,bv=ag.beverage,sb=ag.shortbreak;
+      var total=(bf?bf.duration_seconds:0)+(lu?lu.duration_seconds:0)+(bv?bv.duration_seconds:0)+(sb?sb.duration_seconds:0);
+      var exc=[];
+      if(bf&&bf.over_limit)exc.push('Breakfast');
+      if(lu&&lu.over_limit)exc.push('Lunch');
+      if(bv&&bv.over_limit)exc.push('Beverage');
+      if(sb&&sb.over_limit)exc.push('Short Break');
+      return [ag.date,ag.name,bf?fmtDurMin(bf.duration_seconds):'-',lu?fmtDurMin(lu.duration_seconds):'-',bv?fmtDurMin(bv.duration_seconds):'-',sb?fmtDurMin(sb.duration_seconds):'-',fmtDurMin(total),exc.length?exc.join(', '):'-'];
+    });
   }
-  var csv = [headers.join(',')].concat(rows.map(function(r){ return r.map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; }).join(','); })).join('\n');
-  var blob = new Blob([csv], {type:'text/csv'});
-  var a = document.createElement('a'); a.href=URL.createObjectURL(blob);
-  a.download = type+'_report_'+todayStr()+'.csv'; a.click();
+  var csv=[headers.join(',')].concat(rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');})).join('\n');
+  var blob=new Blob([csv],{type:'text/csv'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=type+'_report_'+todayStr()+'.csv';a.click();
 }
 
 async function loadReportAgents(){
