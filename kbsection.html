@@ -116,13 +116,14 @@ code{background:#fef3c7;border:1px solid #fde68a;padding:1px 6px;border-radius:5
 .comments-header{font-size:15px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;margin-bottom:1.4rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
 .comment-compose{display:flex;gap:12px;margin-bottom:1.5rem;}
 .comment-compose-avatar{width:38px;height:38px;border-radius:50%;background:var(--accent);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:2px;}
-.comment-compose-body{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:10px 14px;transition:border-color 0.2s;}
-.comment-compose-body:focus-within{border-color:var(--accent-border);background:#fff;}
-.comment-name-input{width:100%;background:none;border:none;outline:none;font-size:13px;font-weight:600;color:var(--text);font-family:inherit;margin-bottom:6px;}
+.comment-compose-body{flex:1;display:flex;flex-direction:column;gap:8px;}
+.comment-name-input{width:100%;background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:9px 13px;font-size:13px;font-weight:600;color:var(--text);font-family:inherit;outline:none;transition:border-color 0.2s;}
+.comment-name-input:focus{border-color:var(--accent);}
 .comment-name-input::placeholder{color:var(--text3);font-weight:400;}
-.comment-textarea{width:100%;background:none;border:none;outline:none;font-size:13.5px;color:var(--text);font-family:inherit;resize:none;min-height:70px;line-height:1.6;}
+.comment-textarea{width:100%;background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;font-size:13.5px;color:var(--text);font-family:inherit;resize:vertical;min-height:80px;line-height:1.6;outline:none;transition:border-color 0.2s;}
+.comment-textarea:focus{border-color:var(--accent);}
 .comment-textarea::placeholder{color:var(--text3);}
-.comment-compose-footer{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
+.comment-compose-footer{display:flex;align-items:center;justify-content:space-between;margin-top:4px;padding-top:8px;border-top:1px solid var(--border);}
 .note-solved-check{display:flex;align-items:center;gap:7px;cursor:pointer;}
 .note-solved-check input{accent-color:var(--green);width:13px;height:13px;}
 .note-solved-check span{font-size:12px;color:var(--text2);font-weight:500;}
@@ -546,7 +547,7 @@ async function submitNote(){
   if(!agent||!text){alert('Please enter your name and note.');return;}
   const article=ARTICLES.find(a=>a.id===currentArticleId);
   const btn=document.getElementById('noteSubmitBtn');
-  btn.disabled=true;btn.textContent='Posting...';
+  btn.disabled=true;btn.innerHTML='Posting...';
   try{
     const{error}=await sb.from('notes').insert({article_id:currentArticleId,article_title:article?article.title:'',agent_name:agent,note_text:text,solved:solved});
     if(error)throw error;
@@ -559,7 +560,7 @@ async function submitNote(){
   }catch(e){
     alert('Could not post note. Please try again. Error: '+e.message);
   }
-  btn.disabled=false;btn.textContent='Post Note';
+  btn.disabled=false;btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Post Note';
 }
 
 async function submitRequest(){
