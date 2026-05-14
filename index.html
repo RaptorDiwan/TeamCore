@@ -168,13 +168,16 @@
   .login-btn:hover { background: linear-gradient(135deg, #DE3E32, var(--gold-light)); transform: translateY(-1px); }
   .login-btn:active { transform: translateY(0); }
 
-  .login-error {
-    color: var(--accent-red);
+  .login-error,
+  .login-status {
     font-size: 0.82rem;
     margin-top: 0.8rem;
     text-align: center;
     display: none;
   }
+
+  .login-error { color: var(--accent-red); }
+  .login-status { color: var(--text-dim); }
 
   .login-footer {
     margin-top: 2rem;
@@ -613,6 +616,94 @@
   .placeholder-page h2 { font-size: 1.1rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.5rem; }
   .placeholder-page p { font-size: 0.82rem; max-width: 300px; line-height: 1.6; }
 
+  .roster-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 60vh;
+  }
+
+  .roster-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .roster-header h2 {
+    margin-bottom: 0.25rem;
+    font-size: 1.35rem;
+  }
+
+  .roster-header p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .roster-refresh-btn {
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 10px;
+    background: var(--gold);
+    color: #111;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition);
+  }
+
+  .roster-refresh-btn:hover {
+    background: var(--gold-light);
+  }
+
+  .roster-table-wrap {
+    overflow-x: auto;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 18px;
+    padding: 1rem;
+    min-height: 320px;
+  }
+
+  .roster-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
+  }
+
+  .roster-table th,
+  .roster-table td {
+    padding: 0.75rem 0.9rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    text-align: left;
+    font-size: 0.92rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  .roster-table th {
+    position: sticky;
+    top: 0;
+    background: rgba(249,251,255,0.95);
+    color: var(--text-muted);
+    font-weight: 700;
+  }
+
+  .roster-table tr:nth-child(even) {
+    background: rgba(226,235,245,0.45);
+  }
+
+  .roster-highlight {
+    background: rgba(239,73,60,0.12);
+    font-weight: 600;
+  }
+
+  .roster-error {
+    color: var(--accent-red);
+    font-size: 0.95rem;
+  }
+
   .coming-badge {
     margin-top: 1.2rem;
     display: inline-block;
@@ -732,6 +823,7 @@
     </div>
 
     <div class="login-error" id="login-error">Invalid email or password. Please try again.</div>
+    <div class="login-status" id="login-status">Loading profile…</div>
 
     <button class="login-btn" onclick="doLogin()">Sign In</button>
 
@@ -891,7 +983,7 @@
           </div>
           <div class="absence-text">
             <strong id="absence-title">Loading roster...</strong>
-            <span id="absence-detail">Syncing today's schedule from Google Sheets.</span>
+            <span id="absence-detail"></span>
           </div>
         </div>
 
@@ -1061,13 +1153,15 @@
 
       <!-- ── ROSTER PAGE ── -->
       <div class="page" id="page-roster">
-        <div class="placeholder-page">
-          <div class="big-icon">
-            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke-linecap="round"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round"/></svg>
+        <div class="roster-page">
+          <div class="roster-header">
+            <div>
+              <h2>Team Roster</h2>
+              <p>Live-synced Google Sheets roster with today's status and absence details.</p>
+            </div>
+            <button class="roster-refresh-btn" onclick="loadRosterSummary()">Refresh roster</button>
           </div>
-          <h2>Team Roster</h2>
-          <p>Live-synced Google Sheets roster with today's absences highlighted automatically.</p>
-          <span class="coming-badge">Coming Next</span>
+          <div id="roster-table-wrap" class="roster-table-wrap">Loading roster…</div>
         </div>
       </div>
 
@@ -1245,6 +1339,7 @@
   const ROSTER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTUz9_-oYx9wJQGEifWDYUyPIFwo513v2vNBkPm4L1v-02o3d6Yqkoz_GDFQIMWUaRrMlsPwQmmujWA/pub?output=csv';
   const NOT_PRESENT_CODES = new Set(['L', 'CO', 'W']);
   let currentUser = null;
+  window.rosterCache = null;
 
   // ── LOGIN ──
   // Agents log in with their email + password.
@@ -1316,6 +1411,10 @@
     }
     if (id === 'users') loadUsersPage();
     if (id === 'changepass') resetChangePasswordForm();
+    if (id === 'roster') {
+      if (window.rosterCache) renderRosterPage(window.rosterCache);
+      else loadRosterSummary();
+    }
   }
 
   function isAdminUser() {
@@ -1569,29 +1668,49 @@
 
   // ── BUILD CURRENT USER FROM FIREBASE + FIRESTORE ──
   async function buildCurrentUser(fbUser) {
-    const email = fbUser.email || '';
-    let name = fbUser.displayName || email.split('@')[0] || 'Agent';
+    const email = fbUser?.email || '';
+    let name = fbUser?.displayName || email.split('@')[0] || 'Agent';
     let role = ADMIN_EMAILS.includes(email.toLowerCase()) ? 'admin' : 'agent';
 
-    // Pull display name and role from Firestore (admin may have set these)
+    // Firestore is optional for basic login. If reading the user profile fails,
+    // return a fallback user object so login still succeeds.
     try {
-      const snap = await getDoc(doc(db, 'users', fbUser.uid));
-      if (snap.exists()) {
-        if (snap.data().name) name = snap.data().name;
-        if (snap.data().role && !ADMIN_EMAILS.includes(email.toLowerCase())) role = snap.data().role;
+      if (db && fbUser?.uid) {
+        const snap = await getDoc(doc(db, 'users', fbUser.uid));
+        if (snap.exists()) {
+          const data = snap.data();
+          if (data?.name) name = data.name;
+          if (data?.role && !ADMIN_EMAILS.includes(email.toLowerCase())) role = data.role;
+        }
       }
-    } catch(e) {}
+    } catch (e) {
+      console.warn('Could not load user profile from Firestore:', e);
+    }
 
-    return { uid: fbUser.uid, email, name, role };
+    return { uid: fbUser?.uid || null, email, name, role };
   }
 
   onAuthStateChanged(firebaseAuth, async user => {
+    const statusEl = document.getElementById('login-status');
     if (user) {
-      currentUser = await buildCurrentUser(user);
+      statusEl.style.display = 'block';
+      const fallbackUser = {
+        uid: user.uid,
+        email: user.email || '',
+        name: user.displayName || (user.email || '').split('@')[0] || 'Agent',
+        role: ADMIN_EMAILS.includes((user.email || '').toLowerCase()) ? 'admin' : 'agent',
+      };
+      currentUser = await buildCurrentUser(user).catch(e => {
+        console.warn('buildCurrentUser failed, using fallback user:', e);
+        return fallbackUser;
+      });
+      if (!currentUser) currentUser = fallbackUser;
+      statusEl.style.display = 'none';
       enterDashboard();
     } else {
       currentUser = null;
       updateAdminVisibility();
+      statusEl.style.display = 'none';
       document.getElementById('dashboard-view').classList.remove('active');
       document.getElementById('login-view').classList.add('active');
     }
@@ -1648,7 +1767,43 @@
     if (summary.wfh.length) pieces.push(`WFH: ${formatNames(summary.wfh,'')}`);
     if (summary.halfDay.length) pieces.push(`Half-day leave: ${formatNames(summary.halfDay,'')}`);
     document.getElementById('absence-title').textContent = `${summary.absent.length} ${absentLabel} today`;
-    document.getElementById('absence-detail').textContent = `Roster is synced from Google Sheets - ${pieces.join('. ')}.`;
+    document.getElementById('absence-detail').textContent = pieces.join('. ');
+  }
+
+  function renderRosterPage(rows, todayCol, error) {
+    const wrap = document.getElementById('roster-table-wrap');
+    if (error) {
+      wrap.innerHTML = `<div class="roster-error">Could not load roster. Please try again later.</div>`;
+      return;
+    }
+    if (!rows || !rows.length) {
+      wrap.innerHTML = '<div class="roster-error">No roster data available.</div>';
+      return;
+    }
+    const dateRow = rows.find(row => String(row[1]).trim().toUpperCase() === 'DATE');
+    if (!dateRow) {
+      wrap.innerHTML = '<div class="roster-error">Roster header not found in the sheet.</div>';
+      return;
+    }
+    const headerCells = dateRow.map((cell,i) => {
+      if (i === 0) return 'Emp ID';
+      if (i === 1) return 'Name';
+      return cell || '';
+    });
+    const bodyRows = rows.slice(rows.indexOf(dateRow) + 2).filter(row => String(row[0]||'').trim() || String(row[1]||'').trim());
+    const tableHtml = `
+      <table class="roster-table">
+        <thead><tr>${headerCells.map(h => `<th>${h}</th>`).join('')}</tr></thead>
+        <tbody>${bodyRows.map(row => {
+          const isAbsent = todayCol >= 0 && row[todayCol] && NOT_PRESENT_CODES.has(String(row[todayCol]).toUpperCase().trim());
+          const isWfh = todayCol >= 0 && String(row[todayCol]||'').toUpperCase().includes('WFH');
+          const isHalf = todayCol >= 0 && String(row[todayCol]||'').toUpperCase().includes('HL');
+          const highlightClass = todayCol >= 0 && (isAbsent || isWfh || isHalf) ? 'roster-highlight' : '';
+          return `<tr class="${highlightClass}">${row.map((cell, idx) => `<td${idx===todayCol?' class="roster-highlight"':''}>${cell||''}</td>`).join('')}</tr>`;
+        }).join('')}</tbody>
+      </table>
+    `;
+    wrap.innerHTML = tableHtml;
   }
 
   function updateRosterError() {
@@ -1661,6 +1816,7 @@
       const response = await fetch(`${ROSTER_CSV_URL}&cacheBust=${Date.now()}`);
       if (!response.ok) throw new Error('fetch failed');
       const rows = parseCsv(await response.text());
+      window.rosterCache = rows;
       const monthRow = rows.find(row => row.some(cell => /[A-Za-z]+\s*-\s*\d{4}/.test(cell)));
       const dateRow = rows.find(row => String(row[1]).trim().toUpperCase()==='DATE');
       if (!monthRow||!dateRow) throw new Error('header not found');
@@ -1669,6 +1825,7 @@
       if (!monthInfo||monthInfo.month!==today.getMonth()||monthInfo.year!==today.getFullYear()) {
         document.getElementById('absence-title').textContent='Roster month does not match today';
         document.getElementById('absence-detail').textContent='Please publish the current month roster in Google Sheets.';
+        renderRosterPage(rows, false);
         return;
       }
       const day = String(today.getDate());
@@ -1684,7 +1841,11 @@
         if (parts.includes('HL')) summary.halfDay.push(name);
       }
       updateRosterBanner(summary);
-    } catch(e) { updateRosterError(); }
+      renderRosterPage(rows, dateCol);
+    } catch(e) {
+      updateRosterError();
+      renderRosterPage(null, null, e);
+    }
   }
 
   window.doLogin = doLogin;
