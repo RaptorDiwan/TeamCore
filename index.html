@@ -1013,6 +1013,90 @@
 
   /* push main content up when break bar is showing */
   .main-content { padding-bottom: 4rem; }
+
+  /* ── QUIZ & ASSESSMENT ── */
+  .qa-page { display:flex; flex-direction:column; gap:1.5rem; padding-bottom:5rem; }
+  .qa-title { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:600; color:var(--text-primary); }
+  .qa-sub { color:var(--text-muted); font-size:.875rem; margin-top:.2rem; }
+
+  /* Admin builder card */
+  .qa-builder-card { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:1.6rem; }
+  .qa-builder-card h3 { font-size:1rem; font-weight:600; color:var(--text-primary); margin-bottom:1.2rem; display:flex; align-items:center; gap:.5rem; }
+  .qa-form-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; margin-bottom:1rem; }
+  .qa-field { display:flex; flex-direction:column; gap:.35rem; }
+  .qa-field label { font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); font-weight:500; }
+  .qa-field input, .qa-field select, .qa-field textarea { padding:.65rem .9rem; background:#F1F6FD; border:1px solid var(--navy-border); border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.875rem; color:var(--text-primary); outline:none; transition:border-color .2s; }
+  .qa-field input:focus, .qa-field select:focus, .qa-field textarea:focus { border-color:var(--gold-dim); box-shadow:0 0 0 3px rgba(239,73,60,.1); }
+  .qa-field textarea { resize:vertical; min-height:80px; }
+  .qa-choices { display:flex; flex-direction:column; gap:.5rem; margin:1rem 0; }
+  .qa-choice-row { display:flex; align-items:center; gap:.6rem; }
+  .qa-choice-row input[type=text] { flex:1; padding:.55rem .8rem; background:#F1F6FD; border:1px solid var(--navy-border); border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.85rem; color:var(--text-primary); outline:none; }
+  .qa-choice-row input[type=radio], .qa-choice-row input[type=checkbox] { accent-color:var(--gold); width:16px; height:16px; cursor:pointer; }
+  .qa-correct-label { font-size:.7rem; color:var(--text-dim); white-space:nowrap; }
+  .qa-add-choice { background:transparent; border:1px dashed var(--navy-border); color:var(--text-dim); padding:.45rem 1rem; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.8rem; cursor:pointer; transition:all .2s; width:100%; margin-top:.25rem; }
+  .qa-add-choice:hover { background:var(--navy-hover); color:var(--text-primary); }
+  .qa-save-btn { background:linear-gradient(135deg,var(--gold),var(--gold-light)); border:none; color:#fff; padding:.65rem 1.6rem; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.875rem; font-weight:600; cursor:pointer; transition:opacity .2s; }
+  .qa-save-btn:hover { opacity:.88; }
+  .qa-cancel-btn { background:transparent; border:1px solid var(--navy-border); color:var(--text-muted); padding:.65rem 1.2rem; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.875rem; cursor:pointer; transition:all .2s; }
+  .qa-cancel-btn:hover { background:var(--navy-hover); }
+
+  /* Quiz/Assessment list */
+  .qa-list { display:flex; flex-direction:column; gap:.75rem; }
+  .qa-item { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:1.1rem 1.4rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  .qa-item-left { flex:1; }
+  .qa-item-title { font-weight:600; font-size:.95rem; color:var(--text-primary); margin-bottom:.25rem; }
+  .qa-item-meta { font-size:.75rem; color:var(--text-dim); display:flex; gap:1rem; flex-wrap:wrap; }
+  .qa-status-pill { font-size:.65rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:.2rem .65rem; border-radius:20px; }
+  .qa-status-pill.locked { background:rgba(123,135,153,.12); color:var(--text-dim); }
+  .qa-status-pill.open { background:rgba(46,197,111,.14); color:#1a7a45; }
+  .qa-status-pill.closed { background:rgba(239,73,60,.12); color:var(--accent-red); }
+  .qa-status-pill.upcoming { background:rgba(239,73,60,.08); color:var(--gold); }
+  .qa-del-btn { background:rgba(239,73,60,.08); border:1px solid rgba(239,73,60,.22); color:var(--accent-red); padding:.35rem .85rem; border-radius:6px; font-size:.78rem; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .2s; }
+  .qa-del-btn:hover { background:rgba(239,73,60,.18); }
+  .qa-toggle-btn { background:rgba(76,118,168,.1); border:1px solid rgba(76,118,168,.25); color:var(--accent-blue); padding:.35rem .85rem; border-radius:6px; font-size:.78rem; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .2s; }
+  .qa-toggle-btn:hover { background:rgba(76,118,168,.2); }
+  .qa-toggle-btn.on { background:rgba(46,197,111,.12); border-color:rgba(46,197,111,.3); color:#1a7a45; }
+
+  /* Agent quiz/assessment view */
+  .quiz-lock-screen { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; text-align:center; gap:1rem; }
+  .quiz-lock-icon { font-size:3rem; margin-bottom:.5rem; }
+  .quiz-lock-title { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:600; color:var(--text-primary); }
+  .quiz-lock-sub { color:var(--text-muted); font-size:.9rem; max-width:360px; line-height:1.6; }
+  .quiz-countdown { font-size:2.2rem; font-weight:700; font-variant-numeric:tabular-nums; color:var(--gold); font-family:'Cormorant Garamond',serif; margin:.5rem 0; }
+  .quiz-card { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:2rem; max-width:680px; margin:0 auto; }
+  .quiz-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; flex-wrap:wrap; gap:.5rem; }
+  .quiz-q-label { font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--text-dim); }
+  .quiz-timer-badge { background:rgba(239,73,60,.1); border:1px solid rgba(239,73,60,.25); color:var(--gold); font-size:.82rem; font-weight:600; padding:.3rem .85rem; border-radius:20px; font-variant-numeric:tabular-nums; }
+  .quiz-timer-badge.urgent { background:rgba(239,73,60,.2); animation:pulse 1s infinite; }
+  .quiz-question { font-size:1.05rem; font-weight:500; color:var(--text-primary); line-height:1.6; margin-bottom:1.5rem; }
+  .quiz-options { display:flex; flex-direction:column; gap:.65rem; margin-bottom:1.5rem; }
+  .quiz-option { display:flex; align-items:center; gap:.85rem; padding:.75rem 1rem; background:#F1F6FD; border:1.5px solid var(--navy-border); border-radius:var(--radius-sm); cursor:pointer; transition:all .2s; font-size:.9rem; color:var(--text-primary); }
+  .quiz-option:hover { border-color:var(--gold-dim); background:rgba(239,73,60,.05); }
+  .quiz-option.selected { border-color:var(--gold); background:rgba(239,73,60,.08); font-weight:500; }
+  .quiz-option.correct { border-color:#2EC56F; background:rgba(46,197,111,.1); color:#1a7a45; }
+  .quiz-option.wrong { border-color:var(--accent-red); background:rgba(239,73,60,.08); color:var(--accent-red); }
+  .quiz-option input[type=radio] { accent-color:var(--gold); width:16px; height:16px; flex-shrink:0; }
+  .quiz-essay { width:100%; min-height:120px; padding:.75rem 1rem; background:#F1F6FD; border:1.5px solid var(--navy-border); border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.9rem; color:var(--text-primary); outline:none; resize:vertical; transition:border-color .2s; box-sizing:border-box; }
+  .quiz-essay:focus { border-color:var(--gold-dim); }
+  .quiz-submit-btn { background:linear-gradient(135deg,var(--gold),var(--gold-light)); border:none; color:#fff; padding:.75rem 2rem; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.9rem; font-weight:600; cursor:pointer; transition:opacity .2s; width:100%; }
+  .quiz-submit-btn:hover { opacity:.88; }
+  .quiz-submit-btn:disabled { opacity:.5; cursor:not-allowed; }
+
+  /* Review state */
+  .quiz-result-banner { padding:1rem 1.4rem; border-radius:var(--radius-sm); margin-bottom:1.2rem; font-weight:500; font-size:.9rem; }
+  .quiz-result-banner.pass { background:rgba(46,197,111,.1); border:1px solid rgba(46,197,111,.3); color:#1a7a45; }
+  .quiz-result-banner.review { background:rgba(76,118,168,.1); border:1px solid rgba(76,118,168,.25); color:var(--accent-blue); }
+  .quiz-review-note { font-size:.78rem; color:var(--text-dim); text-align:center; margin-top:1rem; font-style:italic; }
+  .assessment-progress { display:flex; gap:.35rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+  .aq-dot { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.7rem; font-weight:600; cursor:pointer; border:1.5px solid var(--navy-border); background:var(--navy-card); color:var(--text-muted); transition:all .2s; }
+  .aq-dot.answered { background:rgba(239,73,60,.12); border-color:var(--gold-dim); color:var(--gold); }
+  .aq-dot.current { background:var(--gold); border-color:var(--gold); color:#fff; }
+  .aq-dot.correct { background:rgba(46,197,111,.15); border-color:#2EC56F; color:#1a7a45; }
+  .aq-dot.wrong { background:rgba(239,73,60,.15); border-color:var(--accent-red); color:var(--accent-red); }
+  .qa-nav-row { display:flex; gap:.75rem; justify-content:space-between; margin-top:1.2rem; }
+  .qa-nav-btn { background:var(--navy-card); border:1px solid var(--navy-border); color:var(--text-muted); padding:.6rem 1.4rem; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.85rem; cursor:pointer; transition:all .2s; }
+  .qa-nav-btn:hover { background:var(--navy-hover); color:var(--text-primary); }
+  .qa-nav-btn:disabled { opacity:.4; cursor:not-allowed; }
 </style>
 </head>
 <body>
@@ -1342,25 +1426,15 @@
 
       <!-- ── QUIZ PAGE ── -->
       <div class="page" id="page-quiz">
-        <div class="placeholder-page">
-          <div class="big-icon">
-            <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4" stroke-linecap="round"/><circle cx="12" cy="12" r="10"/></svg>
-          </div>
-          <h2>Daily Quiz</h2>
-          <p>Auto-scheduled daily questions with one-attempt submission and monthly report export.</p>
-          <span class="coming-badge">Coming Next</span>
+        <div class="qa-page" style="max-width:720px;">
+          <div id="quiz-agent-content"><div class="quiz-lock-screen"><div class="quiz-lock-icon">&#128274;</div><div class="quiz-lock-title">Daily Quiz</div><div class="quiz-lock-sub">Loading...</div></div></div>
         </div>
       </div>
 
       <!-- ── ASSESSMENT PAGE ── -->
       <div class="page" id="page-assessment">
-        <div class="placeholder-page">
-          <div class="big-icon">
-            <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" stroke-linecap="round"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4" stroke-linecap="round"/></svg>
-          </div>
-          <h2>Monthly Assessment</h2>
-          <p>Formal assessments with time-boxed sessions and TL-accessible performance reports.</p>
-          <span class="coming-badge">Coming Next</span>
+        <div class="qa-page" style="max-width:720px;">
+          <div id="assessment-agent-content"><div class="quiz-lock-screen"><div class="quiz-lock-icon">&#128203;</div><div class="quiz-lock-title">Assessment</div><div class="quiz-lock-sub">Loading...</div></div></div>
         </div>
       </div>
 
@@ -1419,17 +1493,58 @@
 
       <!-- â”€â”€ ADMIN: QUIZ BUILDER â”€â”€ -->
       <div class="page" id="page-quiz-admin">
-        <div class="placeholder-page">
-          <div class="big-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+        <div class="qa-page">
+          <div><h2 class="qa-title">&#9997; Quiz Builder</h2><p class="qa-sub">Create daily quiz questions with unlock and close times.</p></div>
+          <div class="qa-builder-card">
+            <h3>&#43; New Quiz Question</h3>
+            <div class="qa-form-grid">
+              <div class="qa-field" style="grid-column:1/-1"><label>Question</label><textarea id="qb-question" placeholder="Type your question here..."></textarea></div>
+              <div class="qa-field"><label>Question Type</label><select id="qb-type" onchange="qbTypeChange()"><option value="mcq">Multiple Choice</option><option value="truefalse">True / False</option><option value="essay">Essay / Text</option></select></div>
+              <div class="qa-field"><label>Active Date</label><input type="date" id="qb-date"/></div>
+              <div class="qa-field"><label>Opens At</label><input type="time" id="qb-open"/></div>
+              <div class="qa-field"><label>Closes At</label><input type="time" id="qb-close"/></div>
+              <div class="qa-field"><label>Max Attempts</label><input type="number" id="qb-attempts" value="1" min="1" max="10"/></div>
+            </div>
+            <div id="qb-choices-wrap">
+              <label style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);font-weight:500;display:block;margin-bottom:.5rem;">Answer Choices <span style="font-weight:400;opacity:.7;">(tick the correct one)</span></label>
+              <div class="qa-choices" id="qb-choices">
+                <div class="qa-choice-row"><input type="radio" name="qb-correct" value="0"/><input type="text" placeholder="Choice A" class="qb-choice-input"/><span class="qa-correct-label">Correct</span></div>
+                <div class="qa-choice-row"><input type="radio" name="qb-correct" value="1"/><input type="text" placeholder="Choice B" class="qb-choice-input"/></div>
+              </div>
+              <button class="qa-add-choice" onclick="qbAddChoice()">&#43; Add Choice</button>
+            </div>
+            <div id="qb-tf-wrap" style="display:none;margin:1rem 0;">
+              <label style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);font-weight:500;display:block;margin-bottom:.5rem;">Correct Answer</label>
+              <div style="display:flex;gap:1rem;"><label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;"><input type="radio" name="qb-tf" value="true" style="accent-color:var(--gold);"/> True</label><label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;"><input type="radio" name="qb-tf" value="false" style="accent-color:var(--gold);"/> False</label></div>
+            </div>
+            <div id="qb-essay-note" style="display:none;margin:1rem 0;padding:.75rem 1rem;background:rgba(76,118,168,.08);border:1px solid rgba(76,118,168,.2);border-radius:8px;font-size:.82rem;color:var(--accent-blue);">&#128221; Essay type — agents type their answer freely. You review manually.</div>
+            <div id="qb-msg" style="font-size:.82rem;margin:.75rem 0;display:none;"></div>
+            <div style="display:flex;gap:.75rem;margin-top:1rem;"><button class="qa-save-btn" onclick="saveQuiz()">Save Quiz</button><button class="qa-cancel-btn" onclick="resetQuizBuilder()">Clear</button></div>
           </div>
-          <h2>Quiz Builder</h2>
-          <p>Admin-only area to add daily quiz questions, choices, correct answers, and active dates.</p>
-          <span class="coming-badge">Admin Only</span>
+          <div><div class="section-title" style="margin-top:.5rem;">Saved Quizzes</div><div class="qa-list" id="qb-list"><div style="color:var(--text-dim);font-size:.875rem;padding:1rem;">Loading...</div></div></div>
         </div>
       </div>
 
       <!-- â”€â”€ ADMIN: ASSESSMENT BUILDER â”€â”€ -->
+      <div class="page" id="page-assessment-admin">
+        <div class="qa-page">
+          <div><h2 class="qa-title">&#128203; Assessment Builder</h2><p class="qa-sub">Create assessments with multiple questions, time limits, and unlock schedules.</p></div>
+          <div class="qa-builder-card">
+            <h3>&#43; New Assessment</h3>
+            <div class="qa-form-grid">
+              <div class="qa-field" style="grid-column:1/-1"><label>Assessment Title</label><input type="text" id="ab-title" placeholder="e.g. May Monthly Assessment"/></div>
+              <div class="qa-field"><label>Active Date</label><input type="date" id="ab-date"/></div>
+              <div class="qa-field"><label>Opens At</label><input type="time" id="ab-open"/></div>
+              <div class="qa-field"><label>Closes At</label><input type="time" id="ab-close"/></div>
+              <div class="qa-field"><label>Time Limit (minutes)</label><input type="number" id="ab-timelimit" value="30" min="1"/></div>
+              <div class="qa-field"><label>Max Attempts</label><input type="number" id="ab-attempts" value="1" min="1" max="5"/></div>
+            </div>
+            <div id="ab-msg" style="font-size:.82rem;margin:.5rem 0;display:none;"></div>
+            <div style="display:flex;gap:.75rem;margin-top:1rem;"><button class="qa-save-btn" onclick="saveAssessment()">Create Assessment</button><button class="qa-cancel-btn" onclick="resetAssessmentBuilder()">Clear</button></div>
+          </div>
+          <div><div class="section-title" style="margin-top:.5rem;">Saved Assessments</div><div class="qa-list" id="ab-list"><div style="color:var(--text-dim);font-size:.875rem;padding:1rem;">Loading...</div></div></div>
+        </div>
+      </div>
       <div class="page" id="page-assessment-admin">
         <div class="placeholder-page">
           <div class="big-icon">
@@ -2221,6 +2336,670 @@ function initReportDates(){
   if(from && !from.value) from.value = today;
   if(to && !to.value) to.value = today;
 }
+
+
+// ===================================================
+//  QUIZ & ASSESSMENT SYSTEM
+// ===================================================
+
+// ── HELPERS ──
+function qaMsg(elId, msg, isError){
+  var el=document.getElementById(elId);
+  if(!el)return;
+  el.textContent=msg;
+  el.style.display=msg?'block':'none';
+  el.style.color=isError?'var(--accent-red)':'#1a7a45';
+}
+
+function qaDateTimeToISO(date, time){
+  return date && time ? date+'T'+time+':00' : null;
+}
+
+function qaGetStatus(openISO, closeISO){
+  var now=Date.now();
+  var open=openISO?new Date(openISO).getTime():null;
+  var close=closeISO?new Date(closeISO).getTime():null;
+  if(!open) return 'upcoming';
+  if(now < open) return 'upcoming';
+  if(close && now > close) return 'closed';
+  return 'open';
+}
+
+function qaFmtDateTime(iso){
+  if(!iso)return'--';
+  var d=new Date(iso);
+  var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var h=d.getHours(),m=d.getMinutes(),a=h>=12?'PM':'AM';
+  h=h%12||12;
+  return mo[d.getMonth()]+' '+d.getDate()+', '+h+':'+(m<10?'0':'')+m+' '+a;
+}
+
+// ── QUIZ BUILDER (Admin) ──
+function qbTypeChange(){
+  var type=document.getElementById('qb-type').value;
+  document.getElementById('qb-choices-wrap').style.display=type==='mcq'?'block':'none';
+  document.getElementById('qb-tf-wrap').style.display=type==='truefalse'?'block':'none';
+  document.getElementById('qb-essay-note').style.display=type==='essay'?'block':'none';
+}
+
+function qbAddChoice(){
+  var choices=document.getElementById('qb-choices');
+  var idx=choices.children.length;
+  var letters=['A','B','C','D','E','F'];
+  var row=document.createElement('div');
+  row.className='qa-choice-row';
+  row.innerHTML='<input type="radio" name="qb-correct" value="'+idx+'"/><input type="text" placeholder="Choice '+(letters[idx]||idx+1)+'" class="qb-choice-input"/><button onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--accent-red);cursor:pointer;font-size:.9rem;">&#10005;</button>';
+  choices.appendChild(row);
+}
+
+function resetQuizBuilder(){
+  document.getElementById('qb-question').value='';
+  document.getElementById('qb-type').value='mcq';
+  document.getElementById('qb-date').value='';
+  document.getElementById('qb-open').value='';
+  document.getElementById('qb-close').value='';
+  document.getElementById('qb-attempts').value='1';
+  document.getElementById('qb-choices').innerHTML=
+    '<div class="qa-choice-row"><input type="radio" name="qb-correct" value="0"/><input type="text" placeholder="Choice A" class="qb-choice-input"/><span class="qa-correct-label">Correct</span></div>'+
+    '<div class="qa-choice-row"><input type="radio" name="qb-correct" value="1"/><input type="text" placeholder="Choice B" class="qb-choice-input"/></div>';
+  qbTypeChange();
+  qaMsg('qb-msg','',false);
+}
+
+async function saveQuiz(){
+  var question=document.getElementById('qb-question').value.trim();
+  var type=document.getElementById('qb-type').value;
+  var date=document.getElementById('qb-date').value;
+  var open=document.getElementById('qb-open').value;
+  var close=document.getElementById('qb-close').value;
+  var attempts=parseInt(document.getElementById('qb-attempts').value)||1;
+
+  if(!question||!date||!open||!close){qaMsg('qb-msg','Please fill in question, date, open and close times.',true);return;}
+
+  var correctAnswer=null, choices=[];
+  if(type==='mcq'){
+    var inputs=document.querySelectorAll('.qb-choice-input');
+    var checked=document.querySelector('input[name="qb-correct"]:checked');
+    if(!checked){qaMsg('qb-msg','Please select the correct answer.',true);return;}
+    inputs.forEach(function(inp,i){choices.push(inp.value.trim());});
+    choices=choices.filter(function(c){return c;});
+    if(choices.length<2){qaMsg('qb-msg','Please add at least 2 choices.',true);return;}
+    correctAnswer=choices[parseInt(checked.value)];
+  } else if(type==='truefalse'){
+    var tf=document.querySelector('input[name="qb-tf"]:checked');
+    if(!tf){qaMsg('qb-msg','Please select True or False as correct answer.',true);return;}
+    choices=['True','False'];
+    correctAnswer=tf.value==='true'?'True':'False';
+  } else {
+    correctAnswer=null; choices=[];
+  }
+
+  try{
+    await sbInsert('quizzes',{
+      question:question, type:type, choices:JSON.stringify(choices),
+      correct_answer:correctAnswer, date:date,
+      open_time:qaDateTimeToISO(date,open),
+      close_time:qaDateTimeToISO(date,close),
+      max_attempts:attempts, review_enabled:false,
+      created_by:currentUser.name
+    });
+    qaMsg('qb-msg','Quiz saved successfully!',false);
+    resetQuizBuilder();
+    loadQuizBuilderList();
+  }catch(e){qaMsg('qb-msg','Error: '+e.message,true);}
+}
+
+async function loadQuizBuilderList(){
+  var list=document.getElementById('qb-list');
+  if(!list)return;
+  try{
+    var rows=await sbQuery('quizzes','select=id,question,type,date,open_time,close_time,max_attempts,review_enabled&order=date.desc,open_time.desc');
+    if(!rows||!rows.length){list.innerHTML='<div style="color:var(--text-dim);padding:1rem;font-size:.875rem;">No quizzes yet. Create one above.</div>';return;}
+    list.innerHTML=rows.map(function(q){
+      var status=qaGetStatus(q.open_time,q.close_time);
+      var statusLabels={upcoming:'Upcoming',open:'Open Now',closed:'Closed'};
+      return '<div class="qa-item">'+
+        '<div class="qa-item-left">'+
+          '<div class="qa-item-title">'+q.question.slice(0,80)+(q.question.length>80?'...':'')+'</div>'+
+          '<div class="qa-item-meta">'+
+            '<span>'+q.type.toUpperCase()+'</span>'+
+            '<span>'+qaFmtDateTime(q.open_time)+' &#8594; '+qaFmtDateTime(q.close_time)+'</span>'+
+            '<span>Max '+q.max_attempts+' attempt(s)</span>'+
+          '</div>'+
+        '</div>'+
+        '<div style="display:flex;align-items:center;gap:.5rem;">'+
+          '<span class="qa-status-pill '+status+'">'+statusLabels[status]+'</span>'+
+          '<button class="qa-toggle-btn'+(q.review_enabled?' on':'')+'" onclick="toggleQuizReview(\''+q.id+'\','+q.review_enabled+')" title="Toggle review mode">&#128065; Review '+(q.review_enabled?'ON':'OFF')+'</button>'+
+          '<button class="qa-del-btn" onclick="deleteQuiz(\''+q.id+'\')">Delete</button>'+
+        '</div>'+
+      '</div>';
+    }).join('');
+  }catch(e){list.innerHTML='<div style="color:var(--accent-red);padding:1rem;font-size:.875rem;">Error loading quizzes: '+e.message+'</div>';}
+}
+
+async function toggleQuizReview(id, current){
+  try{
+    await sbUpdate('quizzes','id',id,{review_enabled:!current});
+    loadQuizBuilderList();
+  }catch(e){alert('Could not toggle review: '+e.message);}
+}
+
+async function deleteQuiz(id){
+  if(!confirm('Delete this quiz?'))return;
+  try{await sbDelete('quizzes','id',id);loadQuizBuilderList();}catch(e){alert('Delete failed.');}
+}
+
+// ── AGENT QUIZ VIEW ──
+var _quizData=null, _quizAnswer=null, _quizSubmitted=false, _quizCountdownTimer=null;
+
+async function loadAgentQuiz(){
+  var content=document.getElementById('quiz-agent-content');
+  if(!content)return;
+  content.innerHTML='<div class="quiz-lock-screen"><div class="quiz-lock-icon">&#8987;</div><div class="quiz-lock-title">Loading quiz...</div></div>';
+  try{
+    var today=todayStr();
+    var rows=await sbQuery('quizzes','date=eq.'+today+'&order=open_time.asc&limit=1');
+    if(!rows||!rows.length){
+      content.innerHTML='<div class="quiz-lock-screen"><div class="quiz-lock-icon">&#128218;</div><div class="quiz-lock-title">No Quiz Today</div><div class="quiz-lock-sub">Check back later. Your admin hasn\'t scheduled a quiz for today.</div></div>';
+      return;
+    }
+    _quizData=rows[0];
+    _quizData.choices_arr=_quizData.choices?JSON.parse(_quizData.choices):[];
+    renderAgentQuiz();
+  }catch(e){content.innerHTML='<div class="quiz-lock-screen"><div class="quiz-lock-icon">&#9888;</div><div class="quiz-lock-title">Error</div><div class="quiz-lock-sub">'+e.message+'</div></div>';}
+}
+
+async function renderAgentQuiz(){
+  if(!_quizData)return;
+  var content=document.getElementById('quiz-agent-content');
+  var status=qaGetStatus(_quizData.open_time,_quizData.close_time);
+
+  // Check if already attempted
+  var attempts=await sbQuery('quiz_responses','quiz_id=eq.'+_quizData.id+'&user_id=eq.'+currentUser.id+'&select=id,answer,submitted_at');
+  var attemptCount=attempts?attempts.length:0;
+  var lastAttempt=attempts&&attempts.length?attempts[attempts.length-1]:null;
+  var maxAttempts=_quizData.max_attempts||1;
+
+  if(status==='upcoming'){
+    // Show countdown
+    if(_quizCountdownTimer)clearInterval(_quizCountdownTimer);
+    function updateCountdown(){
+      var diff=Math.max(0,Math.floor((new Date(_quizData.open_time).getTime()-Date.now())/1000));
+      var h=Math.floor(diff/3600),m=Math.floor((diff%3600)/60),s=diff%60;
+      var cd=document.getElementById('quiz-countdown-val');
+      if(cd)cd.textContent=(h>0?h+'h ':'')+m+'m '+s+'s';
+      if(diff===0){clearInterval(_quizCountdownTimer);renderAgentQuiz();}
+    }
+    content.innerHTML='<div class="quiz-lock-screen">'+
+      '<div class="quiz-lock-icon">&#128274;</div>'+
+      '<div class="quiz-lock-title">Quiz Locked</div>'+
+      '<div class="quiz-lock-sub">Today\'s quiz opens at '+qaFmtDateTime(_quizData.open_time)+'</div>'+
+      '<div class="quiz-countdown" id="quiz-countdown-val">--</div>'+
+      '<div style="font-size:.78rem;color:var(--text-dim);">Closes at '+qaFmtDateTime(_quizData.close_time)+'</div>'+
+    '</div>';
+    updateCountdown();
+    _quizCountdownTimer=setInterval(updateCountdown,1000);
+    return;
+  }
+
+  if(status==='closed'){
+    var reviewHtml='';
+    if(_quizData.review_enabled && lastAttempt){
+      reviewHtml=buildQuizReview(lastAttempt.answer);
+    } else if(lastAttempt) {
+      reviewHtml='<div class="quiz-result-banner review">&#128203; You submitted: <strong>'+lastAttempt.answer+'</strong>. Review will be available when your admin enables it.</div>';
+    }
+    content.innerHTML='<div class="quiz-card">'+
+      '<div class="quiz-result-banner '+(lastAttempt?'pass':'review')+'">'+(lastAttempt?'&#9989; You completed this quiz.':'&#128274; Quiz closed. You did not attempt.')+'</div>'+
+      (reviewHtml||'')+
+      '<div class="quiz-question">'+_quizData.question+'</div>'+
+      '</div>';
+    return;
+  }
+
+  // Quiz is OPEN
+  if(attemptCount>=maxAttempts && lastAttempt){
+    // Already used all attempts
+    var reviewHtml2='';
+    if(_quizData.review_enabled){
+      reviewHtml2=buildQuizReview(lastAttempt.answer);
+    }
+    content.innerHTML='<div class="quiz-card">'+
+      '<div class="quiz-result-banner pass">&#9989; You have used all '+maxAttempts+' attempt(s).</div>'+
+      (reviewHtml2||'<div class="quiz-review-note">Review will be available when your admin enables it.</div>')+
+    '</div>';
+    return;
+  }
+
+  // Render the quiz question
+  _quizAnswer=null; _quizSubmitted=false;
+  var choicesHtml='';
+  if(_quizData.type==='mcq'||_quizData.type==='truefalse'){
+    choicesHtml='<div class="quiz-options">'+
+      _quizData.choices_arr.map(function(ch,i){
+        return '<label class="quiz-option" id="qopt_'+i+'">'+
+          '<input type="radio" name="quiz-answer" value="'+ch+'" onchange="selectQuizOption(\''+ch.replace(/'/g,"\\'")+'\')" style="accent-color:var(--gold);width:16px;height:16px;flex-shrink:0;"/>'+
+          ch+'</label>';
+      }).join('')+
+    '</div>';
+  } else {
+    choicesHtml='<textarea class="quiz-essay" id="quiz-essay-input" placeholder="Type your answer here..." oninput="_quizAnswer=this.value"></textarea>';
+  }
+
+  content.innerHTML='<div class="quiz-card">'+
+    '<div class="quiz-card-header">'+
+      '<span class="quiz-q-label">Daily Quiz &nbsp;&#8226;&nbsp; Attempt '+(attemptCount+1)+' of '+maxAttempts+'</span>'+
+      '<span class="quiz-timer-badge" id="quiz-close-timer">Closes at '+qaFmtDateTime(_quizData.close_time)+'</span>'+
+    '</div>'+
+    '<div class="quiz-question">'+_quizData.question+'</div>'+
+    choicesHtml+
+    '<button class="quiz-submit-btn" id="quiz-submit-btn" onclick="submitQuiz()" disabled>Submit Answer</button>'+
+  '</div>';
+}
+
+function selectQuizOption(val){
+  _quizAnswer=val;
+  document.querySelectorAll('.quiz-option').forEach(function(el){el.classList.remove('selected');});
+  event.currentTarget.classList.add('selected');
+  var btn=document.getElementById('quiz-submit-btn');
+  if(btn)btn.disabled=false;
+}
+
+function buildQuizReview(userAnswer){
+  if(!_quizData)return'';
+  if(_quizData.type==='essay'){
+    return '<div class="quiz-result-banner review">&#128221; Your essay answer: <em>'+userAnswer+'</em></div>';
+  }
+  var html='<div class="quiz-options" style="pointer-events:none;">';
+  _quizData.choices_arr.forEach(function(ch){
+    var isCorrect=ch===_quizData.correct_answer;
+    var isUserAnswer=ch===userAnswer;
+    var cls='quiz-option';
+    if(isCorrect)cls+=' correct';
+    else if(isUserAnswer&&!isCorrect)cls+=' wrong';
+    html+='<div class="'+cls+'">'+ch+(isCorrect?' &#9989;':'')+(isUserAnswer&&!isCorrect?' &#10060;':'')+'</div>';
+  });
+  html+='</div>';
+  if(userAnswer===_quizData.correct_answer){
+    html='<div class="quiz-result-banner pass">&#127881; Correct! Well done.</div>'+html;
+  } else {
+    html='<div class="quiz-result-banner" style="background:rgba(239,73,60,.08);border:1px solid rgba(239,73,60,.25);color:var(--accent-red);">&#10060; Incorrect. The correct answer is: <strong>'+_quizData.correct_answer+'</strong></div>'+html;
+  }
+  return html;
+}
+
+async function submitQuiz(){
+  if(!_quizAnswer&&_quizData.type!=='essay'){alert('Please select an answer.');return;}
+  if(_quizData.type==='essay'){
+    var ta=document.getElementById('quiz-essay-input');
+    _quizAnswer=ta?ta.value.trim():'';
+    if(!_quizAnswer){alert('Please type your answer.');return;}
+  }
+  var btn=document.getElementById('quiz-submit-btn');
+  if(btn){btn.disabled=true;btn.textContent='Submitting...';}
+  try{
+    await sbInsert('quiz_responses',{
+      quiz_id:_quizData.id, user_id:currentUser.id, user_name:currentUser.name,
+      answer:_quizAnswer, date:todayStr(), submitted_at:new Date().toISOString(),
+      is_correct:_quizData.type!=='essay'?(_quizAnswer===_quizData.correct_answer):null
+    });
+    _quizSubmitted=true;
+    renderAgentQuiz();
+  }catch(e){
+    if(btn){btn.disabled=false;btn.textContent='Submit Answer';}
+    alert('Submit failed: '+e.message);
+  }
+}
+
+// ── ASSESSMENT BUILDER (Admin) ──
+var _editingAssessmentId=null;
+
+function resetAssessmentBuilder(){
+  document.getElementById('ab-title').value='';
+  document.getElementById('ab-date').value='';
+  document.getElementById('ab-open').value='';
+  document.getElementById('ab-close').value='';
+  document.getElementById('ab-timelimit').value='30';
+  document.getElementById('ab-attempts').value='1';
+  qaMsg('ab-msg','',false);
+  _editingAssessmentId=null;
+}
+
+async function saveAssessment(){
+  var title=document.getElementById('ab-title').value.trim();
+  var date=document.getElementById('ab-date').value;
+  var open=document.getElementById('ab-open').value;
+  var close=document.getElementById('ab-close').value;
+  var timelimit=parseInt(document.getElementById('ab-timelimit').value)||30;
+  var attempts=parseInt(document.getElementById('ab-attempts').value)||1;
+  if(!title||!date||!open||!close){qaMsg('ab-msg','Please fill all fields.',true);return;}
+  try{
+    await sbInsert('assessments',{
+      title:title, date:date,
+      open_time:qaDateTimeToISO(date,open),
+      close_time:qaDateTimeToISO(date,close),
+      time_limit_minutes:timelimit, max_attempts:attempts,
+      review_enabled:false, created_by:currentUser.name
+    });
+    qaMsg('ab-msg','Assessment created!',false);
+    resetAssessmentBuilder();
+    loadAssessmentBuilderList();
+  }catch(e){qaMsg('ab-msg','Error: '+e.message,true);}
+}
+
+async function loadAssessmentBuilderList(){
+  var list=document.getElementById('ab-list');
+  if(!list)return;
+  try{
+    var rows=await sbQuery('assessments','select=id,title,date,open_time,close_time,time_limit_minutes,max_attempts,review_enabled&order=date.desc');
+    if(!rows||!rows.length){list.innerHTML='<div style="color:var(--text-dim);padding:1rem;font-size:.875rem;">No assessments yet.</div>';return;}
+    list.innerHTML=rows.map(function(a){
+      var status=qaGetStatus(a.open_time,a.close_time);
+      var statusLabels={upcoming:'Upcoming',open:'Open Now',closed:'Closed'};
+      return '<div class="qa-item" style="flex-direction:column;align-items:stretch;">'+
+        '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">'+
+          '<div class="qa-item-left">'+
+            '<div class="qa-item-title">'+a.title+'</div>'+
+            '<div class="qa-item-meta">'+
+              '<span>'+qaFmtDateTime(a.open_time)+' &#8594; '+qaFmtDateTime(a.close_time)+'</span>'+
+              '<span>'+a.time_limit_minutes+' min limit</span>'+
+              '<span>Max '+a.max_attempts+' attempt(s)</span>'+
+            '</div>'+
+          '</div>'+
+          '<div style="display:flex;align-items:center;gap:.5rem;">'+
+            '<span class="qa-status-pill '+status+'">'+statusLabels[status]+'</span>'+
+            '<button class="qa-toggle-btn'+(a.review_enabled?' on':'')+'" onclick="toggleAssessmentReview(\''+a.id+'\','+a.review_enabled+')" >&#128065; Review '+(a.review_enabled?'ON':'OFF')+'</button>'+
+            '<button class="qa-toggle-btn" onclick="showAssessmentQuestions(\''+a.id+'\',\''+a.title.replace(/'/g,"\\'")+'\')">&#10010; Questions</button>'+
+            '<button class="qa-del-btn" onclick="deleteAssessment(\''+a.id+'\')">Delete</button>'+
+          '</div>'+
+        '</div>'+
+        '<div id="aq-panel-'+a.id+'" style="display:none;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--navy-border);"></div>'+
+      '</div>';
+    }).join('');
+  }catch(e){list.innerHTML='<div style="color:var(--accent-red);padding:1rem;">Error: '+e.message+'</div>';}
+}
+
+async function toggleAssessmentReview(id,current){
+  try{await sbUpdate('assessments','id',id,{review_enabled:!current});loadAssessmentBuilderList();}
+  catch(e){alert('Toggle failed: '+e.message);}
+}
+
+async function deleteAssessment(id){
+  if(!confirm('Delete this assessment and all its questions?'))return;
+  try{
+    await sbDelete('assessment_questions','assessment_id',id);
+    await sbDelete('assessments','id',id);
+    loadAssessmentBuilderList();
+  }catch(e){alert('Delete failed.');}
+}
+
+async function showAssessmentQuestions(id, title){
+  var panel=document.getElementById('aq-panel-'+id);
+  if(!panel)return;
+  if(panel.style.display==='block'){panel.style.display='none';return;}
+  panel.style.display='block';
+  panel.innerHTML='<div style="color:var(--text-dim);font-size:.85rem;">Loading questions...</div>';
+  try{
+    var qs=await sbQuery('assessment_questions','assessment_id=eq.'+id+'&order=created_at.asc');
+    var qList=(qs&&qs.length)?qs.map(function(q,i){
+      return '<div style="padding:.6rem 0;border-bottom:1px solid var(--navy-border);display:flex;align-items:center;justify-content:space-between;">'+
+        '<span style="font-size:.85rem;color:var(--text-primary);">'+(i+1)+'. '+q.question.slice(0,80)+'... <em style="color:var(--text-dim);font-size:.75rem;">('+q.type+')</em></span>'+
+        '<button class="qa-del-btn" style="padding:.25rem .6rem;font-size:.72rem;" onclick="deleteAssessmentQuestion(\''+q.id+'\',\''+id+'\',\''+title.replace(/'/g,"\\'")+'\')">Remove</button>'+
+      '</div>';
+    }).join(''):'<div style="color:var(--text-dim);font-size:.82rem;margin-bottom:.75rem;">No questions yet. Add below.</div>';
+
+    panel.innerHTML='<div style="margin-bottom:1rem;font-weight:600;font-size:.875rem;color:var(--text-primary);">Questions for: '+title+'</div>'+
+      qList+
+      '<div style="margin-top:1rem;padding:1rem;background:#F1F6FD;border-radius:var(--radius-sm);">'+
+        '<div class="qa-form-grid" style="margin-bottom:.75rem;">'+
+          '<div class="qa-field" style="grid-column:1/-1"><label>Question</label><textarea id="aq-q-'+id+'" placeholder="Type question..." style="min-height:60px;padding:.55rem .8rem;background:#fff;border:1px solid var(--navy-border);border-radius:var(--radius-sm);font-family:DM Sans,sans-serif;font-size:.85rem;width:100%;box-sizing:border-box;outline:none;resize:vertical;"></textarea></div>'+
+          '<div class="qa-field"><label>Type</label><select id="aq-type-'+id+'" onchange="aqTypeChange(\''+id+'\')"><option value="mcq">Multiple Choice</option><option value="truefalse">True / False</option><option value="essay">Essay</option></select></div>'+
+        '</div>'+
+        '<div id="aq-mcq-'+id+'">' +
+          '<div class="qa-choices" id="aq-choices-'+id+'">'+
+            '<div class="qa-choice-row"><input type="radio" name="aq-correct-'+id+'" value="0"/><input type="text" placeholder="Choice A" class="aq-ci-'+id+'"/><span class="qa-correct-label">Correct</span></div>'+
+            '<div class="qa-choice-row"><input type="radio" name="aq-correct-'+id+'" value="1"/><input type="text" placeholder="Choice B" class="aq-ci-'+id+'"/></div>'+
+          '</div>'+
+          '<button class="qa-add-choice" onclick="aqAddChoice(\''+id+'\')">+ Add Choice</button>'+
+        '</div>'+
+        '<div id="aq-tf-'+id+'" style="display:none;margin:.5rem 0;">'+
+          '<label style="font-size:.72rem;color:var(--text-muted);display:block;margin-bottom:.35rem;">Correct Answer</label>'+
+          '<div style="display:flex;gap:1rem;"><label style="display:flex;align-items:center;gap:.4rem;cursor:pointer;"><input type="radio" name="aq-tf-'+id+'" value="true" style="accent-color:var(--gold);"/> True</label><label style="display:flex;align-items:center;gap:.4rem;cursor:pointer;"><input type="radio" name="aq-tf-'+id+'" value="false" style="accent-color:var(--gold);"/> False</label></div>'+
+        '</div>'+
+        '<div id="aq-essay-'+id+'" style="display:none;font-size:.78rem;color:var(--accent-blue);padding:.5rem;background:rgba(76,118,168,.08);border-radius:6px;margin:.5rem 0;">Essay — agents type freely, manually reviewed.</div>'+
+        '<button class="qa-save-btn" style="margin-top:.75rem;" onclick="addAssessmentQuestion(\''+id+'\')">Add Question</button>'+
+        '<span id="aq-msg-'+id+'" style="font-size:.78rem;margin-left:1rem;color:var(--accent-red);"></span>'+
+      '</div>';
+  }catch(e){panel.innerHTML='<div style="color:var(--accent-red);">Error: '+e.message+'</div>';}
+}
+
+function aqTypeChange(id){
+  var type=document.getElementById('aq-type-'+id).value;
+  document.getElementById('aq-mcq-'+id).style.display=type==='mcq'?'block':'none';
+  document.getElementById('aq-tf-'+id).style.display=type==='truefalse'?'block':'none';
+  document.getElementById('aq-essay-'+id).style.display=type==='essay'?'block':'none';
+}
+
+function aqAddChoice(id){
+  var choices=document.getElementById('aq-choices-'+id);
+  var idx=choices.children.length;
+  var letters=['A','B','C','D','E','F'];
+  var row=document.createElement('div');
+  row.className='qa-choice-row';
+  row.innerHTML='<input type="radio" name="aq-correct-'+id+'" value="'+idx+'"/><input type="text" placeholder="Choice '+(letters[idx]||idx+1)+'" class="aq-ci-'+id+'"/><button onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--accent-red);cursor:pointer;">&#10005;</button>';
+  choices.appendChild(row);
+}
+
+async function addAssessmentQuestion(assessmentId){
+  var q=document.getElementById('aq-q-'+assessmentId);
+  var type=document.getElementById('aq-type-'+assessmentId);
+  var msgEl=document.getElementById('aq-msg-'+assessmentId);
+  if(!q||!q.value.trim()){if(msgEl)msgEl.textContent='Question is required.';return;}
+  var qText=q.value.trim();
+  var qType=type.value;
+  var choices=[], correctAnswer=null;
+
+  if(qType==='mcq'){
+    var inputs=document.querySelectorAll('.aq-ci-'+assessmentId);
+    var checked=document.querySelector('input[name="aq-correct-'+assessmentId+'"]:checked');
+    if(!checked){if(msgEl)msgEl.textContent='Select the correct answer.';return;}
+    inputs.forEach(function(inp){if(inp.value.trim())choices.push(inp.value.trim());});
+    if(choices.length<2){if(msgEl)msgEl.textContent='Add at least 2 choices.';return;}
+    correctAnswer=choices[parseInt(checked.value)]||choices[0];
+  } else if(qType==='truefalse'){
+    var tf=document.querySelector('input[name="aq-tf-'+assessmentId+'"]:checked');
+    if(!tf){if(msgEl)msgEl.textContent='Select True or False.';return;}
+    choices=['True','False']; correctAnswer=tf.value==='true'?'True':'False';
+  }
+
+  try{
+    await sbInsert('assessment_questions',{
+      assessment_id:assessmentId, question:qText, type:qType,
+      choices:JSON.stringify(choices), correct_answer:correctAnswer
+    });
+    if(msgEl){msgEl.style.color='#1a7a45';msgEl.textContent='Question added!';}
+    showAssessmentQuestions(assessmentId,'');
+    setTimeout(function(){showAssessmentQuestions(assessmentId,'');},300);
+  }catch(e){if(msgEl)msgEl.textContent='Error: '+e.message;}
+}
+
+async function deleteAssessmentQuestion(qId, assessmentId, title){
+  if(!confirm('Remove this question?'))return;
+  try{await sbDelete('assessment_questions','id',qId);showAssessmentQuestions(assessmentId,title);}
+  catch(e){alert('Delete failed.');}
+}
+
+// ── AGENT ASSESSMENT VIEW ──
+var _assData=null, _assQuestions=[], _assAnswers={}, _assCurrentQ=0, _assTimerInterval=null, _assSecondsLeft=0;
+
+async function loadAgentAssessment(){
+  var content=document.getElementById('assessment-agent-content');
+  if(!content)return;
+  content.innerHTML='<div class="quiz-lock-screen"><div class="quiz-lock-icon">&#8987;</div><div class="quiz-lock-title">Loading...</div></div>';
+  try{
+    var today=todayStr();
+    var rows=await sbQuery('assessments','date=eq.'+today+'&order=open_time.asc&limit=1');
+    if(!rows||!rows.length){
+      content.innerHTML='<div class="quiz-lock-screen"><div class="quiz-lock-icon">&#128203;</div><div class="quiz-lock-title">No Assessment Today</div><div class="quiz-lock-sub">No assessment scheduled for today.</div></div>';
+      return;
+    }
+    _assData=rows[0];
+    var qs=await sbQuery('assessment_questions','assessment_id=eq.'+_assData.id+'&order=created_at.asc');
+    _assQuestions=qs||[];
+    renderAgentAssessment();
+  }catch(e){content.innerHTML='<div class="quiz-lock-screen"><div class="quiz-lock-icon">&#9888;</div><div class="quiz-lock-title">Error</div><div class="quiz-lock-sub">'+e.message+'</div></div>';}
+}
+
+async function renderAgentAssessment(){
+  var content=document.getElementById('assessment-agent-content');
+  if(!_assData)return;
+  var status=qaGetStatus(_assData.open_time,_assData.close_time);
+
+  if(status==='upcoming'){
+    content.innerHTML='<div class="quiz-lock-screen">'+
+      '<div class="quiz-lock-icon">&#128274;</div>'+
+      '<div class="quiz-lock-title">'+_assData.title+'</div>'+
+      '<div class="quiz-lock-sub">Opens at '+qaFmtDateTime(_assData.open_time)+'</div>'+
+      '<div class="quiz-countdown" id="ass-countdown">--</div>'+
+    '</div>';
+    var timer=setInterval(function(){
+      var diff=Math.max(0,Math.floor((new Date(_assData.open_time).getTime()-Date.now())/1000));
+      var h=Math.floor(diff/3600),m=Math.floor((diff%3600)/60),s=diff%60;
+      var el=document.getElementById('ass-countdown');
+      if(el)el.textContent=(h>0?h+'h ':'')+m+'m '+s+'s';
+      if(diff===0){clearInterval(timer);renderAgentAssessment();}
+    },1000);
+    return;
+  }
+
+  // Check attempts
+  var attempts=await sbQuery('assessment_responses','assessment_id=eq.'+_assData.id+'&user_id=eq.'+currentUser.id+'&select=id,answers,submitted_at,score');
+  var attemptCount=attempts?attempts.length:0;
+  var lastAttempt=attempts&&attempts.length?attempts[attempts.length-1]:null;
+
+  if(status==='closed'||(attemptCount>=(_assData.max_attempts||1)&&lastAttempt)){
+    var score=lastAttempt?lastAttempt.score:null;
+    var reviewHtml='';
+    if(_assData.review_enabled && lastAttempt && lastAttempt.answers){
+      var savedAnswers=JSON.parse(lastAttempt.answers);
+      reviewHtml='<div style="margin-top:1rem;">'+_assQuestions.map(function(q,i){
+        var userAns=savedAnswers[q.id]||'(not answered)';
+        var isCorrect=q.type==='essay'?null:(userAns===q.correct_answer);
+        var choices=q.choices?JSON.parse(q.choices):[];
+        var choicesHtml=q.type==='essay'?'<div style="padding:.5rem .75rem;background:#F1F6FD;border-radius:6px;font-size:.85rem;">'+userAns+'</div>':
+          '<div class="quiz-options" style="pointer-events:none;">'+choices.map(function(ch){
+            var isc=ch===q.correct_answer, isu=ch===userAns;
+            var cls='quiz-option'+(isc?' correct':isu&&!isc?' wrong':'');
+            return '<div class="'+cls+'">'+ch+(isc?' &#9989;':'')+(isu&&!isc?' &#10060;':'')+'</div>';
+          }).join('')+'</div>';
+        return '<div style="margin-bottom:1.5rem;"><div class="quiz-q-label" style="margin-bottom:.5rem;">Q'+(i+1)+'. <span style="color:var(--text-primary);font-size:.9rem;font-weight:500;">'+q.question+'</span></div>'+choicesHtml+'</div>';
+      }).join('')+'</div>';
+    }
+    content.innerHTML='<div class="quiz-card">'+
+      '<div class="quiz-result-banner '+(lastAttempt?'pass':'review')+'">'+
+        (lastAttempt?'&#9989; Submitted'+(score!==null?' — Score: '+score+'/'+_assQuestions.length:''):'&#128274; Not attempted')+
+      '</div>'+
+      (reviewHtml||(!lastAttempt?'':(lastAttempt&&!_assData.review_enabled?'<div class="quiz-review-note">Review will be available when your admin enables it.</div>':'')))+
+    '</div>';
+    return;
+  }
+
+  // Start assessment
+  _assAnswers={}; _assCurrentQ=0;
+  _assSecondsLeft=(_assData.time_limit_minutes||30)*60;
+  renderAssessmentQuestion();
+  startAssessmentTimer();
+}
+
+function startAssessmentTimer(){
+  if(_assTimerInterval)clearInterval(_assTimerInterval);
+  _assTimerInterval=setInterval(function(){
+    _assSecondsLeft=Math.max(0,_assSecondsLeft-1);
+    var el=document.getElementById('ass-timer');
+    if(el){
+      var m=Math.floor(_assSecondsLeft/60),s=_assSecondsLeft%60;
+      el.textContent=m+':'+(s<10?'0':'')+s;
+      el.className='quiz-timer-badge'+(_assSecondsLeft<60?' urgent':'');
+    }
+    if(_assSecondsLeft===0){clearInterval(_assTimerInterval);submitAssessment(true);}
+  },1000);
+}
+
+function renderAssessmentQuestion(){
+  var content=document.getElementById('assessment-agent-content');
+  if(!_assQuestions.length){content.innerHTML='<div class="quiz-lock-screen"><div class="quiz-lock-icon">&#9888;</div><div class="quiz-lock-title">No Questions</div><div class="quiz-lock-sub">This assessment has no questions yet.</div></div>';return;}
+  var q=_assQuestions[_assCurrentQ];
+  var total=_assQuestions.length;
+  var choices=q.choices?JSON.parse(q.choices):[];
+  var curAnswer=_assAnswers[q.id]||null;
+  var m=Math.floor(_assSecondsLeft/60),s=_assSecondsLeft%60;
+
+  var progressDots=_assQuestions.map(function(qq,i){
+    var cls='aq-dot';
+    if(i===_assCurrentQ)cls+=' current';
+    else if(_assAnswers[qq.id])cls+=' answered';
+    return '<div class="'+cls+'" onclick="jumpAssessmentQ('+i+')">'+(i+1)+'</div>';
+  }).join('');
+
+  var choicesHtml='';
+  if(q.type==='mcq'||q.type==='truefalse'){
+    choicesHtml='<div class="quiz-options">'+choices.map(function(ch){
+      var sel=curAnswer===ch?' selected':'';
+      return '<label class="quiz-option'+sel+'">'+
+        '<input type="radio" name="ass-answer" value="'+ch+'" '+(curAnswer===ch?'checked':'')+' onchange="selectAssessmentOption(\''+ch.replace(/'/g,"\\'")+'\',\''+q.id+'\')" style="accent-color:var(--gold);width:16px;height:16px;flex-shrink:0;"/>'+
+        ch+'</label>';
+    }).join('')+'</div>';
+  } else {
+    choicesHtml='<textarea class="quiz-essay" id="ass-essay-input" placeholder="Type your answer..." oninput="selectAssessmentOption(this.value,\''+q.id+'\')">'+( curAnswer||'')+'</textarea>';
+  }
+
+  content.innerHTML='<div class="quiz-card">'+
+    '<div class="quiz-card-header">'+
+      '<span class="quiz-q-label">'+_assData.title+' &nbsp;&#8226;&nbsp; Q'+(  _assCurrentQ+1)+'/'+total+'</span>'+
+      '<span class="quiz-timer-badge" id="ass-timer">'+m+':'+(s<10?'0':'')+s+'</span>'+
+    '</div>'+
+    '<div class="assessment-progress">'+progressDots+'</div>'+
+    '<div class="quiz-question">'+q.question+'</div>'+
+    choicesHtml+
+    '<div class="qa-nav-row">'+
+      '<button class="qa-nav-btn" onclick="navAssessmentQ(-1)" '+(_assCurrentQ===0?'disabled':'')+'>&#8592; Previous</button>'+
+      (_assCurrentQ===total-1?
+        '<button class="quiz-submit-btn" style="width:auto;padding:.6rem 2rem;" onclick="submitAssessment(false)">Submit Assessment</button>':
+        '<button class="qa-nav-btn" onclick="navAssessmentQ(1)">Next &#8594;</button>')+
+    '</div>'+
+  '</div>';
+}
+
+function selectAssessmentOption(val, qId){ _assAnswers[qId]=val; }
+function jumpAssessmentQ(i){ _assCurrentQ=i; renderAssessmentQuestion(); }
+function navAssessmentQ(dir){ _assCurrentQ=Math.max(0,Math.min(_assQuestions.length-1,_assCurrentQ+dir)); renderAssessmentQuestion(); }
+
+async function submitAssessment(autoSubmit){
+  if(!autoSubmit){
+    var unanswered=_assQuestions.filter(function(q){return!_assAnswers[q.id];}).length;
+    if(unanswered>0&&!confirm(unanswered+' question(s) unanswered. Submit anyway?'))return;
+  }
+  if(_assTimerInterval)clearInterval(_assTimerInterval);
+  var score=_assQuestions.filter(function(q){return q.type!=='essay'&&_assAnswers[q.id]===q.correct_answer;}).length;
+  try{
+    await sbInsert('assessment_responses',{
+      assessment_id:_assData.id, user_id:currentUser.id, user_name:currentUser.name,
+      answers:JSON.stringify(_assAnswers), score:score,
+      total_questions:_assQuestions.length, submitted_at:new Date().toISOString(), date:todayStr()
+    });
+    renderAgentAssessment();
+  }catch(e){alert('Submit failed: '+e.message);}
+}
+
+// ── Hook showPage to load quiz/assessment ──
+var _origShowPageQA=window.showPage;
+window.showPage=function(id,el){
+  _origShowPageQA(id,el);
+  if(id==='quiz')loadAgentQuiz();
+  if(id==='assessment')loadAgentAssessment();
+  if(id==='quiz-admin'){loadQuizBuilderList();}
+  if(id==='assessment-admin'){loadAssessmentBuilderList();}
+};
 
 </script>
 
