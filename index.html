@@ -1098,62 +1098,61 @@
   .qa-nav-btn:hover { background:var(--navy-hover); color:var(--text-primary); }
   .qa-nav-btn:disabled { opacity:.4; cursor:not-allowed; }
 
-  /* ── REDESIGNED HOME ── */
-  .live-stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
-  @media(max-width:900px){ .live-stats-row{ grid-template-columns:repeat(2,1fr); } }
-  .live-stat-card { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:1.2rem 1.4rem; display:flex; align-items:center; gap:1rem; transition:all var(--transition); }
-  .live-stat-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(7,13,45,.08); }
-  .live-stat-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  .live-stat-body { flex:1; }
-  .live-stat-val { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:600; color:var(--text-primary); line-height:1; }
-  .live-stat-label { font-size:.72rem; color:var(--text-dim); margin-top:.25rem; letter-spacing:.04em; }
+  /* LIVE STATS */
+  .live-stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+  .live-stat-card{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:var(--radius);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1rem;transition:all var(--transition);}
+  .live-stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(7,13,45,.08);}
+  .live-stat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .live-stat-body{flex:1;}
+  .live-stat-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--text-primary);line-height:1;}
+  .live-stat-label{font-size:.72rem;color:var(--text-dim);margin-top:.25rem;}
 
-  .home-two-col { display:grid; grid-template-columns:260px 1fr; gap:1.5rem; }
-  @media(max-width:900px){ .home-two-col{ grid-template-columns:1fr; } }
+  /* WHO'S ACTIVE */
+  .home-two-col{display:grid;grid-template-columns:260px 1fr;gap:1.5rem;margin-top:1.5rem;}
+  .whos-active-panel{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:var(--radius);padding:1.4rem;height:fit-content;}
+  .whos-active-list{display:flex;flex-direction:column;gap:.4rem;margin-top:.75rem;}
+  .wa-agent{display:flex;align-items:center;gap:.75rem;padding:.5rem .6rem;border-radius:8px;transition:background var(--transition);}
+  .wa-agent:hover{background:var(--navy-hover);}
+  .wa-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dim),var(--gold));display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0;}
+  .wa-name{font-size:.82rem;font-weight:500;color:var(--text-primary);flex:1;}
+  .wa-status{font-size:.65rem;font-weight:600;padding:.18rem .55rem;border-radius:20px;white-space:nowrap;}
+  .wa-status.active{background:rgba(46,197,111,.12);color:#1a7a45;}
+  .wa-status.onbreak{background:rgba(239,73,60,.1);color:var(--gold);}
+  .wa-status.out{background:rgba(123,135,153,.1);color:var(--text-dim);}
 
-  /* Who's Active panel */
-  .whos-active-panel { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:1.4rem; height:fit-content; }
-  .whos-active-list { display:flex; flex-direction:column; gap:.5rem; }
-  .wa-agent { display:flex; align-items:center; gap:.75rem; padding:.55rem .65rem; border-radius:8px; transition:background var(--transition); }
-  .wa-agent:hover { background:var(--navy-hover); }
-  .wa-avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--gold-dim),var(--gold)); display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; color:#fff; flex-shrink:0; }
-  .wa-name { font-size:.82rem; font-weight:500; color:var(--text-primary); flex:1; }
-  .wa-status { font-size:.65rem; font-weight:600; padding:.18rem .55rem; border-radius:20px; white-space:nowrap; }
-  .wa-status.active { background:rgba(46,197,111,.12); color:#1a7a45; }
-  .wa-status.break { background:rgba(239,73,60,.1); color:var(--gold); }
-  .wa-status.out { background:rgba(123,135,153,.1); color:var(--text-dim); }
+  /* MODULE LIST */
+  .home-modules-col{flex:1;}
+  .home-module-list{display:flex;flex-direction:column;gap:.5rem;}
+  .hm-card{display:flex;align-items:center;gap:.9rem;padding:.85rem 1rem;background:var(--navy-card);border:1px solid var(--navy-border);border-radius:var(--radius-sm);cursor:pointer;transition:all var(--transition);}
+  .hm-card:hover{border-color:rgba(239,73,60,.25);transform:translateX(3px);}
+  .hm-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .hm-body{flex:1;}
+  .hm-title{font-size:.875rem;font-weight:500;color:var(--text-primary);}
+  .hm-sub{font-size:.72rem;color:var(--text-dim);margin-top:.1rem;}
+  .hm-arrow{width:14px;height:14px;opacity:.4;flex-shrink:0;}
 
-  /* Module list */
-  .home-module-list { display:flex; flex-direction:column; gap:.5rem; }
-  .hm-card { display:flex; align-items:center; gap:.9rem; padding:.85rem 1rem; background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius-sm); cursor:pointer; transition:all var(--transition); }
-  .hm-card:hover { border-color:rgba(239,73,60,.25); background:rgba(239,73,60,.02); transform:translateX(3px); }
-  .hm-icon { width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  .hm-body { flex:1; }
-  .hm-title { font-size:.875rem; font-weight:500; color:var(--text-primary); }
-  .hm-sub { font-size:.72rem; color:var(--text-dim); margin-top:.1rem; }
+  /* ANNOUNCEMENT BANNER */
+  .ann-banner{border-radius:var(--radius);padding:1rem 1.4rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;background:linear-gradient(135deg,rgba(239,73,60,.06),rgba(76,118,168,.04));border:1px solid rgba(239,73,60,.18);animation:fadeIn .4s ease;}
+  .ann-icon{font-size:1.2rem;flex-shrink:0;}
+  .ann-body{flex:1;}
+  .ann-tag{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:.2rem;}
+  .ann-text-main{font-size:.88rem;color:var(--text-primary);line-height:1.5;font-weight:500;}
+  .ann-meta-sm{font-size:.68rem;color:var(--text-dim);margin-top:.2rem;}
 
-  /* Announcement banner */
-  .ann-banner { border-radius:var(--radius); padding:1rem 1.4rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:1rem; background:linear-gradient(135deg,rgba(239,73,60,.08),rgba(76,118,168,.06)); border:1px solid rgba(239,73,60,.2); animation:fadeIn .4s ease; }
-  .ann-icon { font-size:1.3rem; flex-shrink:0; }
-  .ann-body { flex:1; }
-  .ann-title { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:.2rem; }
-  .ann-text { font-size:.88rem; color:var(--text-primary); line-height:1.5; font-weight:500; }
-  .ann-meta { font-size:.7rem; color:var(--text-dim); margin-top:.2rem; }
+  /* ANNOUNCEMENTS ADMIN PAGE */
+  .ann-page{display:flex;flex-direction:column;gap:1.5rem;padding-bottom:3rem;max-width:700px;}
+  .ann-compose{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:var(--radius);padding:1.4rem;}
+  .ann-compose h3{font-size:.95rem;font-weight:600;color:var(--text-primary);margin-bottom:1rem;}
+  .ann-textarea{width:100%;min-height:100px;padding:.8rem 1rem;background:#F1F6FD;border:1px solid var(--navy-border);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--text-primary);outline:none;resize:vertical;transition:border-color .2s;box-sizing:border-box;}
+  .ann-textarea:focus{border-color:var(--gold-dim);box-shadow:0 0 0 3px rgba(239,73,60,.1);}
+  .ann-post-btn{background:linear-gradient(135deg,var(--gold),var(--gold-light));border:none;color:#fff;padding:.65rem 1.6rem;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:.875rem;font-weight:600;cursor:pointer;transition:opacity .2s;margin-top:.75rem;}
+  .ann-post-btn:hover{opacity:.88;}
+  .ann-item{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:var(--radius);padding:1.1rem 1.4rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;}
+  .ann-item-text{font-size:.9rem;color:var(--text-primary);line-height:1.5;flex:1;}
+  .ann-item-meta{font-size:.72rem;color:var(--text-dim);margin-top:.35rem;}
+  .ann-pin-btn{background:rgba(239,73,60,.08);border:1px solid rgba(239,73,60,.2);color:var(--gold);padding:.3rem .75rem;border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap;}
+  .ann-pin-btn.pinned{background:rgba(239,73,60,.18);}
 
-  /* Announcements admin page */
-  .ann-page { display:flex; flex-direction:column; gap:1.5rem; padding-bottom:3rem; max-width:700px; }
-  .ann-compose { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:1.4rem; }
-  .ann-compose h3 { font-size:.95rem; font-weight:600; color:var(--text-primary); margin-bottom:1rem; }
-  .ann-textarea { width:100%; min-height:100px; padding:.8rem 1rem; background:#F1F6FD; border:1px solid var(--navy-border); border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.9rem; color:var(--text-primary); outline:none; resize:vertical; transition:border-color .2s; box-sizing:border-box; }
-  .ann-textarea:focus { border-color:var(--gold-dim); box-shadow:0 0 0 3px rgba(239,73,60,.1); }
-  .ann-post-btn { background:linear-gradient(135deg,var(--gold),var(--gold-light)); border:none; color:#fff; padding:.65rem 1.6rem; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.875rem; font-weight:600; cursor:pointer; transition:opacity .2s; margin-top:.75rem; }
-  .ann-post-btn:hover { opacity:.88; }
-  .ann-item { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:1.1rem 1.4rem; display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; }
-  .ann-item-text { font-size:.9rem; color:var(--text-primary); line-height:1.5; flex:1; }
-  .ann-item-meta { font-size:.72rem; color:var(--text-dim); margin-top:.35rem; }
-  .ann-pin-btn { background:rgba(239,73,60,.08); border:1px solid rgba(239,73,60,.2); color:var(--gold); padding:.3rem .75rem; border-radius:6px; font-size:.72rem; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .2s; white-space:nowrap; }
-  .ann-pin-btn.pinned { background:rgba(239,73,60,.18); }
-  .ann-pin-btn:hover { background:rgba(239,73,60,.18); }
 </style>
 </head>
 <body>
@@ -1274,10 +1273,7 @@
         Team Moments
       </div>
       <div class="sidebar-item admin-only" onclick="showPage('announcements', this)">
-        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-          <path d="M13.73 21a2 2 0 01-3.46 0"/>
-        </svg>
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
         Announcements
       </div>
       <div class="sidebar-item" onclick="showPage('reports', this)">
@@ -1341,48 +1337,45 @@
       <!-- ── HOME PAGE ── -->
       <div class="page active" id="page-home">
 
-        <!-- ANNOUNCEMENT BANNER -->
-        <div id="announcement-banner" style="display:none;"></div>
+        <div id="announcement-banner"></div>
 
-        <!-- GREETING -->
         <div class="home-greeting">
           <div class="date-pill" id="date-display"></div>
           <h1>Good <span id="time-greet">morning</span>, <span id="greet-name">Agent</span> &#128075;</h1>
           <p>Here&#39;s your workspace at a glance. Stay sharp, stay ahead.</p>
         </div>
 
-        <!-- LIVE STATS -->
-        <div class="live-stats-row" id="live-stats-row">
-          <div class="live-stat-card" id="stat-loggedin">
-            <div class="live-stat-icon" style="background:rgba(46,197,111,0.1);">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2EC56F" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        <div class="live-stats-row">
+          <div class="live-stat-card">
+            <div class="live-stat-icon" style="background:rgba(46,197,111,.1);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2EC56F" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
             </div>
             <div class="live-stat-body">
               <div class="live-stat-val" id="stat-val-loggedin">--</div>
               <div class="live-stat-label">Logged In Today</div>
             </div>
           </div>
-          <div class="live-stat-card" id="stat-onbreak">
-            <div class="live-stat-icon" style="background:rgba(239,73,60,0.1);">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <div class="live-stat-card">
+            <div class="live-stat-icon" style="background:rgba(239,73,60,.1);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
             </div>
             <div class="live-stat-body">
               <div class="live-stat-val" id="stat-val-onbreak">--</div>
               <div class="live-stat-label">On Break Now</div>
             </div>
           </div>
-          <div class="live-stat-card" id="stat-absent">
-            <div class="live-stat-icon" style="background:rgba(76,118,168,0.1);">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/></svg>
+          <div class="live-stat-card">
+            <div class="live-stat-icon" style="background:rgba(76,118,168,.1);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/></svg>
             </div>
             <div class="live-stat-body">
               <div class="live-stat-val" id="stat-val-absent">--</div>
               <div class="live-stat-label">Absent Today</div>
             </div>
           </div>
-          <div class="live-stat-card" id="stat-total">
-            <div class="live-stat-icon" style="background:rgba(142,124,169,0.1);">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E7CA9" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          <div class="live-stat-card">
+            <div class="live-stat-icon" style="background:rgba(142,124,169,.1);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8E7CA9" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
             </div>
             <div class="live-stat-body">
               <div class="live-stat-val" id="stat-val-total">--</div>
@@ -1391,76 +1384,78 @@
           </div>
         </div>
 
-        <!-- TWO COLUMN LAYOUT: Who's Active + Modules -->
-        <div class="home-two-col">
+        <div id="absent-names-bar" style="display:none;background:rgba(199,102,95,0.07);border:1px solid rgba(199,102,95,0.2);border-radius:var(--radius);padding:.8rem 1.2rem;margin-bottom:1rem;display:flex;align-items:center;gap:.85rem;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="2" style="flex-shrink:0;"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/></svg>
+          <div>
+            <strong id="absence-title" style="font-size:.82rem;color:var(--accent-red);display:block;"></strong>
+            <span id="absence-detail" style="font-size:.78rem;color:var(--text-muted);"></span>
+          </div>
+        </div>
 
-          <!-- WHO'S ACTIVE -->
+        <div class="home-two-col">
           <div class="whos-active-panel">
-            <div class="section-title" style="margin-bottom:1rem;">Who&#39;s Active</div>
-            <div id="whos-active-list" class="whos-active-list">
-              <div style="color:var(--text-dim);font-size:.82rem;padding:1rem 0;">Loading...</div>
+            <div class="section-title" style="margin-bottom:0;">Who&#39;s Active</div>
+            <div class="whos-active-list" id="whos-active-list">
+              <div style="color:var(--text-dim);font-size:.82rem;padding:.5rem 0;">Loading...</div>
             </div>
           </div>
 
-          <!-- QUICK ACCESS MODULES -->
           <div class="home-modules-col">
-            <div class="section-title" style="margin-bottom:1rem;">Quick Access</div>
+            <div class="section-title" style="margin-bottom:.75rem;">Quick Access</div>
             <div class="home-module-list">
               <div class="hm-card" onclick="openSimulation()">
-                <div class="hm-icon" style="background:rgba(174,123,76,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M7 8l3 3-3 3M13 14h4"/></svg></div>
+                <div class="hm-icon" style="background:rgba(174,123,76,.1);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M7 8l3 3-3 3M13 14h4"/></svg></div>
                 <div class="hm-body"><div class="hm-title">UI Simulation</div><div class="hm-sub">Multi-product training environment</div></div>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                <svg class="hm-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
               </div>
               <div class="hm-card" onclick="showPage('quiz',null)">
-                <div class="hm-icon" style="background:rgba(46,197,111,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2EC56F" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div>
+                <div class="hm-icon" style="background:rgba(46,197,111,.1);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2EC56F" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div>
                 <div class="hm-body"><div class="hm-title">Daily Quiz</div><div class="hm-sub">Today&#39;s question — one attempt only</div></div>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                <svg class="hm-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
               </div>
               <div class="hm-card" onclick="showPage('kb',null)">
-                <div class="hm-icon" style="background:rgba(76,118,168,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg></div>
+                <div class="hm-icon" style="background:rgba(76,118,168,.1);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg></div>
                 <div class="hm-body"><div class="hm-title">KB Search</div><div class="hm-sub">Troubleshooting steps &amp; articles</div></div>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                <svg class="hm-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
               </div>
               <div class="hm-card" onclick="showPage('roster',null)">
-                <div class="hm-icon" style="background:rgba(142,124,169,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8E7CA9" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+                <div class="hm-icon" style="background:rgba(142,124,169,.1);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8E7CA9" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
                 <div class="hm-body"><div class="hm-title">Roster</div><div class="hm-sub">Live schedule &amp; absence tracker</div></div>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                <svg class="hm-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
               </div>
               <div class="hm-card" onclick="showPage('moments',null)">
-                <div class="hm-icon" style="background:rgba(239,73,60,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+                <div class="hm-icon" style="background:rgba(239,73,60,.08);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
                 <div class="hm-body"><div class="hm-title">Team Moments</div><div class="hm-sub">Photos from outings &amp; celebrations</div></div>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                <svg class="hm-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
               </div>
               <div class="hm-card" onclick="showPage('assessment',null)">
-                <div class="hm-icon" style="background:rgba(239,73,60,0.08)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.8"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg></div>
+                <div class="hm-icon" style="background:rgba(239,73,60,.06);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.8"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg></div>
                 <div class="hm-body"><div class="hm-title">Assessment</div><div class="hm-sub">Monthly formal assessment</div></div>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                <svg class="hm-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
               </div>
             </div>
-
-            <!-- Admin quick tools -->
-            <div class="admin-only" style="margin-top:1.5rem;">
-              <div class="section-title" style="margin-bottom:1rem;">Admin Tools</div>
+            <div class="admin-only" style="margin-top:1.2rem;">
+              <div class="section-title" style="margin-bottom:.75rem;">Admin Tools</div>
               <div class="home-module-list">
                 <div class="hm-card" onclick="showPage('quiz-admin',null)">
-                  <div class="hm-icon" style="background:rgba(174,123,76,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div>
-                  <div class="hm-body"><div class="hm-title">Quiz Builder</div><div class="hm-sub">Create &amp; schedule daily quizzes</div></div>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                  <div class="hm-icon" style="background:rgba(174,123,76,.1);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div>
+                  <div class="hm-body"><div class="hm-title">Quiz Builder</div><div class="hm-sub">Create and schedule daily quizzes</div></div>
+                  <svg class="hm-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
                 </div>
                 <div class="hm-card" onclick="showPage('users',null)">
-                  <div class="hm-icon" style="background:rgba(76,118,168,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="1.8"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></div>
-                  <div class="hm-body"><div class="hm-title">Manage Users</div><div class="hm-sub">Add, remove, and manage agents</div></div>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                  <div class="hm-icon" style="background:rgba(76,118,168,.1);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="1.8"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></div>
+                  <div class="hm-body"><div class="hm-title">Manage Users</div><div class="hm-sub">Add, remove and manage agents</div></div>
+                  <svg class="hm-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
                 </div>
-                <div class="hm-card admin-only" onclick="showPage('reports',null)">
-                  <div class="hm-icon" style="background:rgba(142,124,169,0.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8E7CA9" stroke-width="1.8"><path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 3v6h6M8 17v-4M12 17v-7M16 17v-2"/></svg></div>
-                  <div class="hm-body"><div class="hm-title">Reports</div><div class="hm-sub">Attendance, breaks &amp; performance</div></div>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                <div class="hm-card" onclick="showPage('reports',null)">
+                  <div class="hm-icon" style="background:rgba(142,124,169,.1);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8E7CA9" stroke-width="1.8"><path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 3v6h6M8 17v-4M12 17v-7M16 17v-2"/></svg></div>
+                  <div class="hm-body"><div class="hm-title">Reports</div><div class="hm-sub">Attendance, breaks and performance</div></div>
+                  <svg class="hm-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
                 </div>
                 <div class="hm-card" onclick="showPage('announcements',null)">
-                  <div class="hm-icon" style="background:rgba(239,73,60,0.08)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
-                  <div class="hm-body"><div class="hm-title">Announcements</div><div class="hm-sub">Post notices to the whole team</div></div>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                  <div class="hm-icon" style="background:rgba(239,73,60,.06);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+                  <div class="hm-body"><div class="hm-title">Announcements</div><div class="hm-sub">Post notices to all agents</div></div>
+                  <svg class="hm-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
                 </div>
               </div>
             </div>
@@ -1703,15 +1698,15 @@
         </div>
       </div>
 
-      <!-- ANNOUNCEMENTS PAGE (Admin) -->
+      <!-- ANNOUNCEMENTS PAGE -->
       <div class="page" id="page-announcements">
         <div class="ann-page">
-          <div><h2 class="qa-title">&#128276; Announcements</h2><p class="qa-sub">Post notices that appear on every agent&#39;s dashboard instantly.</p></div>
+          <div><h2 class="qa-title">Announcements</h2><p class="qa-sub">Post notices that appear on every agent dashboard instantly.</p></div>
           <div class="ann-compose">
-            <h3>&#9999;&#65039; Post New Announcement</h3>
-            <textarea class="ann-textarea" id="ann-input" placeholder="Type your announcement here... e.g. Team meeting at 3PM in Conference Room B"></textarea>
+            <h3>Post New Announcement</h3>
+            <textarea class="ann-textarea" id="ann-input" placeholder="Type your announcement here..."></textarea>
             <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-              <button class="ann-post-btn" onclick="postAnnouncement()">&#128276; Post to All Agents</button>
+              <button class="ann-post-btn" onclick="postAnnouncement()">Post to All Agents</button>
               <label style="display:flex;align-items:center;gap:.45rem;font-size:.8rem;color:var(--text-muted);cursor:pointer;">
                 <input type="checkbox" id="ann-pin" style="accent-color:var(--gold);"/> Pin to top
               </label>
@@ -1826,8 +1821,8 @@ function enterDashboard(){
   updateAdminVisibility();setGreetingAndDate();
   setTimeout(loadRosterSummary,0);
   setTimeout(recordLogin,500);
-  setTimeout(loadLiveDashboard,300);
-  setTimeout(loadAnnouncements,400);
+  setTimeout(loadLiveDashboard,400);
+  setTimeout(loadAnnouncements,600);
 }
 
 window.addEventListener('DOMContentLoaded',function(){
@@ -1843,7 +1838,7 @@ function showPage(id,elem){
   document.getElementById('page-'+id).classList.add('active');
   document.querySelectorAll('.sidebar-item').forEach(function(i){i.classList.remove('active');});
   if(elem){elem.classList.add('active');}else{
-    var map={home:0,simulation:1,kb:2,quiz:3,assessment:4,roster:5,moments:6,changepass:7,'quiz-admin':8,'assessment-admin':9,reports:10,users:11};
+    var map={home:0,simulation:1,kb:2,quiz:3,assessment:4,roster:5,moments:6,changepass:7,'quiz-admin':8,'assessment-admin':9,reports:10,users:11,announcements:12};
     var items=document.querySelectorAll('.sidebar-item');
     if(items[map[id]])items[map[id]].classList.add('active');
   }
@@ -1962,7 +1957,19 @@ function parseCsv(t){var rows=[],row=[],cell='',inQ=false;for(var i=0;i<t.length
 function getMonthIndex(l){var m=l.match(/([A-Za-z]+)\s*-\s*(\d{4})/);if(!m)return null;var mo={jan:0,january:0,feb:1,february:1,mar:2,march:2,apr:3,april:3,may:4,jun:5,june:5,jul:6,july:6,aug:7,august:7,sep:8,sept:8,september:8,oct:9,october:9,nov:10,november:10,dec:11,december:11};return{month:mo[m[1].toLowerCase()],year:Number(m[2])};}
 function statusParts(v){return String(v||'').toUpperCase().split(/[^A-Z]+/).filter(Boolean);}
 function formatNames(n,e){if(!n.length)return e;if(n.length<=4)return n.join(', ');return n.slice(0,4).join(', ')+' and '+(n.length-4)+' more';}
-function updateRosterBanner(s){var l=s.absent.length===1?'agent is not present':'agents are not present';var p=[formatNames(s.absent,'No agents')+(s.absent.length?' are marked L/CO/W':' are marked absent')];if(s.wfh.length)p.push('WFH: '+formatNames(s.wfh,''));if(s.halfDay.length)p.push('Half-day: '+formatNames(s.halfDay,''));document.getElementById('absence-title').textContent=s.absent.length+' '+l;document.getElementById('absence-detail').textContent=p.join('. ');}
+function updateRosterBanner(s){
+  var l=s.absent.length===1?'agent is not present':'agents are not present';
+  var p=[formatNames(s.absent,'No agents')+(s.absent.length?' are on leave (L/CO/W)':' are marked absent')];
+  if(s.wfh.length)p.push('WFH: '+formatNames(s.wfh,''));
+  if(s.halfDay.length)p.push('Half-day: '+formatNames(s.halfDay,''));
+  var titleEl=document.getElementById('absence-title');
+  var detailEl=document.getElementById('absence-detail');
+  var bar=document.getElementById('absent-names-bar');
+  if(titleEl)titleEl.textContent=s.absent.length+' '+l;
+  if(detailEl)detailEl.textContent=p.join('. ');
+  if(bar)bar.style.display=s.absent.length||s.wfh.length||s.halfDay.length?'flex':'none';
+  updateAbsentStat(s.absent.length);
+}
 function renderRosterPage(rows,todayCol,error){var wrap=document.getElementById('roster-table-wrap');if(error){wrap.innerHTML='<div class="roster-error">Could not load roster.</div>';return;}if(!rows||!rows.length){wrap.innerHTML='<div class="roster-error">No roster data.</div>';return;}var dateRow=rows.find(function(r){return String(r[1]).trim().toUpperCase()==='DATE';});if(!dateRow){wrap.innerHTML='<div class="roster-error">Header not found.</div>';return;}var hc=dateRow.map(function(c,i){return i===0?'Emp ID':i===1?'Name':c||'';});var br=rows.slice(rows.indexOf(dateRow)+2).filter(function(r){return String(r[0]||'').trim()||String(r[1]||'').trim();});wrap.innerHTML='<table class="roster-table"><thead><tr>'+hc.map(function(h){return'<th>'+h+'</th>';}).join('')+'</tr></thead><tbody>'+br.map(function(row){var ia=todayCol>=0&&row[todayCol]&&NOT_PRESENT_CODES.has(String(row[todayCol]).toUpperCase().trim());var iw=todayCol>=0&&String(row[todayCol]||'').toUpperCase().indexOf('WFH')>-1;var ih=todayCol>=0&&String(row[todayCol]||'').toUpperCase().indexOf('HL')>-1;var hclass=todayCol>=0&&(ia||iw||ih)?'roster-highlight':'';return'<tr class="'+hclass+'">'+row.map(function(cell,idx){return'<td'+(idx===todayCol?' class="roster-highlight"':'')+'>'+( cell||'')+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';}
 async function loadRosterSummary(){try{var r=await fetch(ROSTER_CSV_URL+'&cacheBust='+Date.now());if(!r.ok)throw new Error('fail');var rows=parseCsv(await r.text());window.rosterCache=rows;var mr=rows.find(function(row){return row.some(function(c){return/[A-Za-z]+\s*-\s*\d{4}/.test(c);});});var dr=rows.find(function(row){return String(row[1]).trim().toUpperCase()==='DATE';});if(!mr||!dr)throw new Error('hdr');var mi=getMonthIndex(mr.find(function(c){return/[A-Za-z]+\s*-\s*\d{4}/.test(c);})||'');var today=new Date();if(!mi||mi.month!==today.getMonth()||mi.year!==today.getFullYear()){document.getElementById('absence-title').textContent='Roster month does not match today';document.getElementById('absence-detail').textContent='Please publish the current month roster.';renderRosterPage(rows,false);return;}var day=String(today.getDate());var dc=dr.findIndex(function(c,i){return i>=2&&String(Number(c))===day;});if(dc<0)throw new Error('col');var s={absent:[],wfh:[],halfDay:[]};rows.slice(rows.indexOf(dr)+2).forEach(function(row){var ei=String(row[0]||'').trim(),n=String(row[1]||'').trim();if(!ei||!n||!/^K\d+/i.test(ei))return;var p=statusParts(row[dc]);if(p.some(function(x){return NOT_PRESENT_CODES.has(x);}))s.absent.push(n);if(p.indexOf('WFH')>-1)s.wfh.push(n);if(p.indexOf('HL')>-1)s.halfDay.push(n);});updateRosterBanner(s);renderRosterPage(rows,dc);}catch(e){document.getElementById('absence-title').textContent='Roster sync unavailable';document.getElementById('absence-detail').textContent='Could not read Google Sheets right now.';renderRosterPage(null,null,e);}}
 
@@ -3082,188 +3089,159 @@ var _origShowPageQA=window.showPage;
 window.showPage=function(id,el){
   _origShowPageQA(id,el);
   if(id==='quiz')loadAgentQuiz();
+  if(id==='announcements')loadAnnouncementsAdmin();
   if(id==='assessment')loadAgentAssessment();
   if(id==='quiz-admin'){loadQuizBuilderList();}
   if(id==='assessment-admin'){loadAssessmentBuilderList();}
-  if(id==='announcements'){loadAnnouncementsAdmin();}
 };
 
 
 // ===================================================
-//  LIVE DASHBOARD — Stats, Who's Active, Announcements
+//  LIVE DASHBOARD
 // ===================================================
-
 function animateCount(elId, target){
-  var el = document.getElementById(elId);
-  if(!el) return;
-  var start = 0, duration = 800, startTime = null;
+  var el=document.getElementById(elId);
+  if(!el)return;
+  var start=0,dur=700,t0=null;
   function step(ts){
-    if(!startTime) startTime = ts;
-    var progress = Math.min((ts - startTime) / duration, 1);
-    el.textContent = Math.floor(progress * target);
-    if(progress < 1) requestAnimationFrame(step);
-    else el.textContent = target;
+    if(!t0)t0=ts;
+    var p=Math.min((ts-t0)/dur,1);
+    el.textContent=Math.floor(p*target);
+    if(p<1)requestAnimationFrame(step);
+    else el.textContent=target;
   }
   requestAnimationFrame(step);
 }
 
 async function loadLiveDashboard(){
-  try {
-    // 1. Total agents from users table
-    var users = await sbQuery('users', 'select=id,name,role');
-    var total = users ? users.length : 0;
-    animateCount('stat-val-total', total);
+  try{
+    var users=await sbQuery('users','select=id,name,role');
+    var total=users?users.length:0;
+    animateCount('stat-val-total',total);
 
-    // 2. Logged in today from attendance
-    var today = todayStr();
-    var attendance = await sbQuery('attendance', 'date=eq.'+today+'&select=id,user_id,user_name,login_time,logout_time');
-    var loggedIn = attendance ? attendance.length : 0;
-    animateCount('stat-val-loggedin', loggedIn);
+    var today=todayStr();
+    var att=await sbQuery('attendance','date=eq.'+today+'&select=id,user_id,user_name,login_time,logout_time');
+    animateCount('stat-val-loggedin',att?att.length:0);
 
-    // 3. Currently on break — agents with active breaks (started but not ended today)
-    var breaks = await sbQuery('breaks', 'date=eq.'+today+'&select=user_id,user_name,break_type,end_time');
-    // Active breaks = those without end_time or still running
-    var onBreakNow = 0;
-    var onBreakUsers = new Set();
-    if(breaks){
-      breaks.forEach(function(b){
-        if(!b.end_time) { onBreakNow++; onBreakUsers.add(b.user_name); }
-      });
-    }
-    animateCount('stat-val-onbreak', onBreakNow);
+    var brks=await sbQuery('breaks','date=eq.'+today+'&select=user_id,user_name,end_time');
+    var onBreakSet=new Set();
+    if(brks)brks.forEach(function(b){if(!b.end_time)onBreakSet.add(b.user_name);});
+    animateCount('stat-val-onbreak',onBreakSet.size);
 
-    // 4. Absent from roster banner (reuse existing)
-    var absentEl = document.getElementById('stat-val-absent');
-    if(absentEl) absentEl.textContent = '...';
-    // Will be updated by roster load
-
-    // 5. Who's active list
-    renderWhosActive(users, attendance, onBreakUsers);
-
-  } catch(e) {
-    console.warn('Dashboard load failed:', e.message);
-    ['stat-val-total','stat-val-loggedin','stat-val-onbreak','stat-val-absent'].forEach(function(id){
-      var el = document.getElementById(id); if(el) el.textContent = '--';
-    });
+    renderWhosActive(users,att,onBreakSet);
+  }catch(e){
+    console.warn('Dashboard load failed:',e.message);
   }
 }
 
-function renderWhosActive(users, attendance, onBreakUsers){
-  var list = document.getElementById('whos-active-list');
-  if(!list) return;
-
-  var attendedIds = new Set();
-  if(attendance) attendance.forEach(function(a){ attendedIds.add(a.user_id); });
-
-  if(!users || !users.length){
-    list.innerHTML = '<div style="color:var(--text-dim);font-size:.82rem;padding:.5rem 0;">No agents found.</div>';
-    return;
-  }
-
-  list.innerHTML = users.map(function(u){
-    var ini = (u.name||'?').split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
-    var isIn = attendedIds.has(u.id);
-    var isOnBreak = onBreakUsers.has(u.name);
-    var statusClass = isOnBreak ? 'break' : isIn ? 'active' : 'out';
-    var statusLabel = isOnBreak ? 'On Break' : isIn ? 'Active' : 'Not In';
-    return '<div class="wa-agent">'+
-      '<div class="wa-avatar">'+ini+'</div>'+
-      '<div class="wa-name">'+u.name+'</div>'+
-      '<span class="wa-status '+statusClass+'">'+statusLabel+'</span>'+
-    '</div>';
-  }).sort(function(a,b){
-    // Active first, then break, then out
-    var order = {'active':0,'break':1,'out':2};
-    var getO = function(html){ if(html.includes('wa-status active'))return 0; if(html.includes('wa-status break'))return 1; return 2; };
-    return getO(a) - getO(b);
-  }).join('');
+function renderWhosActive(users,att,onBreakSet){
+  var list=document.getElementById('whos-active-list');
+  if(!list||!users)return;
+  var attIds=new Set();
+  if(att)att.forEach(function(a){attIds.add(a.user_id);});
+  var items=users.map(function(u){
+    var ini=(u.name||'?').split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
+    var isBreak=onBreakSet.has(u.name);
+    var isIn=attIds.has(u.id);
+    var sc=isBreak?'onbreak':isIn?'active':'out';
+    var sl=isBreak?'On Break':isIn?'Active':'Not In';
+    return {html:'<div class="wa-agent"><div class="wa-avatar">'+ini+'</div><div class="wa-name">'+u.name+'</div><span class="wa-status '+sc+'">'+sl+'</span></div>',order:isBreak?1:isIn?0:2};
+  });
+  items.sort(function(a,b){return a.order-b.order;});
+  list.innerHTML=items.map(function(x){return x.html;}).join('');
 }
 
-// Update absent count from roster
 function updateAbsentStat(count){
-  var el = document.getElementById('stat-val-absent');
-  if(el) animateCount('stat-val-absent', count);
+  animateCount('stat-val-absent',count);
 }
 
-// ── ANNOUNCEMENTS ──
+// ===================================================
+//  ANNOUNCEMENTS
+// ===================================================
 async function loadAnnouncements(){
   try{
-    var rows = await sbQuery('announcements', 'select=id,text,posted_by,created_at,pinned&order=pinned.desc,created_at.desc&limit=10');
-    if(!rows || !rows.length) return;
-    // Show latest/pinned on dashboard banner
-    var banner = document.getElementById('announcement-banner');
-    if(banner){
-      var latest = rows[0];
-      var d = new Date(latest.created_at);
-      var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      var timeStr = mo[d.getMonth()]+' '+d.getDate()+', '+d.getHours()%12||12+':'+(d.getMinutes()<10?'0':'')+d.getMinutes()+(d.getHours()>=12?'PM':'AM');
-      banner.innerHTML = '<div class="ann-banner">'+
-        '<div class="ann-icon">'+(latest.pinned?'&#128204;':'&#128276;')+'</div>'+
-        '<div class="ann-body">'+
-          '<div class="ann-title">'+(latest.pinned?'Pinned Notice':'Latest Announcement')+'</div>'+
-          '<div class="ann-text">'+latest.text+'</div>'+
-          '<div class="ann-meta">Posted by '+latest.posted_by+' &nbsp;&middot;&nbsp; '+timeStr+'</div>'+
-        '</div>'+
-      '</div>';
-      banner.style.display = 'block';
-    }
-  } catch(e){ console.warn('Announcements load failed:', e.message); }
+    var rows=await sbQuery('announcements','select=id,text,posted_by,created_at,pinned&order=pinned.desc,created_at.desc&limit=1');
+    var banner=document.getElementById('announcement-banner');
+    if(!banner||!rows||!rows.length)return;
+    var a=rows[0];
+    var d=new Date(a.created_at);
+    var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var h=d.getHours()%12||12,m=d.getMinutes(),ap=d.getHours()>=12?'PM':'AM';
+    var t=mo[d.getMonth()]+' '+d.getDate()+' at '+h+':'+(m<10?'0':'')+m+' '+ap;
+    banner.innerHTML='<div class="ann-banner">'+
+      '<div class="ann-icon">'+(a.pinned?'&#128204;':'&#128276;')+'</div>'+
+      '<div class="ann-body">'+
+        '<div class="ann-tag">'+(a.pinned?'Pinned Notice':'Announcement')+'</div>'+
+        '<div class="ann-text-main">'+a.text+'</div>'+
+        '<div class="ann-meta-sm">Posted by '+a.posted_by+' &nbsp;&middot;&nbsp; '+t+'</div>'+
+      '</div>'+
+    '</div>';
+  }catch(e){console.warn('Announcements load failed:',e.message);}
 }
 
 async function loadAnnouncementsAdmin(){
-  var list = document.getElementById('ann-list');
-  if(!list) return;
+  var list=document.getElementById('ann-list');
+  if(!list)return;
   try{
-    var rows = await sbQuery('announcements', 'select=id,text,posted_by,created_at,pinned&order=pinned.desc,created_at.desc');
-    if(!rows || !rows.length){ list.innerHTML='<div style="color:var(--text-dim);font-size:.875rem;padding:1rem;">No announcements yet.</div>'; return; }
-    list.innerHTML = rows.map(function(a){
-      var d = new Date(a.created_at);
+    var rows=await sbQuery('announcements','select=id,text,posted_by,created_at,pinned&order=pinned.desc,created_at.desc');
+    if(!rows||!rows.length){
+      list.innerHTML='<div style="color:var(--text-dim);font-size:.875rem;padding:1rem;">No announcements yet.</div>';
+      return;
+    }
+    var html='';
+    rows.forEach(function(a){
+      var d=new Date(a.created_at);
       var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      var timeStr = mo[d.getMonth()]+' '+d.getDate()+' at '+d.getHours()%12+':'+(d.getMinutes()<10?'0':'')+d.getMinutes()+(d.getHours()>=12?'PM':'AM');
-      return '<div class="ann-item">'+
-        '<div>'+
-          '<div class="ann-item-text">'+(a.pinned?'&#128204; ':'')+a.text+'</div>'+
-          '<div class="ann-item-meta">Posted by '+a.posted_by+' &nbsp;&middot;&nbsp; '+timeStr+'</div>'+
-        '</div>'+
-        '<div style="display:flex;gap:.5rem;flex-shrink:0;">'+
-          '<button class="ann-pin-btn'+(a.pinned?' pinned':'')+'" onclick="togglePin(''+a.id+'','+a.pinned+')">'+(a.pinned?'&#128204; Pinned':'&#128394; Pin')+'</button>'+
-          '<button class="qa-del-btn" onclick="deleteAnnouncement(''+a.id+'')">Delete</button>'+
-        '</div>'+
-      '</div>';
-    }).join('');
-  } catch(e){ list.innerHTML='<div style="color:var(--accent-red);font-size:.875rem;padding:1rem;">Error: '+e.message+'</div>'; }
+      var h=d.getHours()%12||12,m=d.getMinutes(),ap=d.getHours()>=12?'PM':'AM';
+      var t=mo[d.getMonth()]+' '+d.getDate()+' at '+h+':'+(m<10?'0':'')+m+' '+ap;
+      html+='<div class="ann-item">';
+      html+='<div style="flex:1;">';
+      html+='<div class="ann-item-text">'+(a.pinned?'&#128204; ':'')+a.text+'</div>';
+      html+='<div class="ann-item-meta">Posted by '+a.posted_by+' &nbsp;&middot;&nbsp; '+t+'</div>';
+      html+='</div>';
+      html+='<div style="display:flex;gap:.5rem;flex-shrink:0;">';
+      html+='<button class="ann-pin-btn'+(a.pinned?' pinned':'')+'" data-id="'+a.id+'" data-pinned="'+(a.pinned?'true':'false')+'" onclick="togglePin(this)">'+( a.pinned?'Unpin':'Pin')+'</button>';
+      html+='<button class="qa-del-btn" data-id="'+a.id+'" onclick="deleteAnnouncement(this)">Delete</button>';
+      html+='</div>';
+      html+='</div>';
+    });
+    list.innerHTML=html;
+  }catch(e){
+    list.innerHTML='<div style="color:var(--accent-red);font-size:.875rem;padding:1rem;">Error: '+e.message+'</div>';
+  }
 }
 
 async function postAnnouncement(){
-  var text = (document.getElementById('ann-input').value||'').trim();
-  var pinned = document.getElementById('ann-pin').checked;
-  var msgEl = document.getElementById('ann-msg');
-  if(!text){ msgEl.textContent='Please type an announcement.'; msgEl.style.color='var(--accent-red)'; msgEl.style.display='block'; return; }
+  var input=document.getElementById('ann-input');
+  var text=(input.value||'').trim();
+  var pinned=document.getElementById('ann-pin').checked;
+  var msgEl=document.getElementById('ann-msg');
+  msgEl.style.display='none';
+  if(!text){msgEl.textContent='Please type an announcement.';msgEl.style.color='var(--accent-red)';msgEl.style.display='block';return;}
   try{
-    await sbInsert('announcements',{ text:text, posted_by:currentUser.name, pinned:pinned });
-    document.getElementById('ann-input').value='';
+    await sbInsert('announcements',{text:text,posted_by:currentUser.name,pinned:pinned});
+    input.value='';
     document.getElementById('ann-pin').checked=false;
-    msgEl.textContent='Posted successfully!'; msgEl.style.color='#1a7a45'; msgEl.style.display='block';
-    setTimeout(function(){ msgEl.style.display='none'; },3000);
+    msgEl.textContent='Posted successfully!';msgEl.style.color='#1a7a45';msgEl.style.display='block';
+    setTimeout(function(){msgEl.style.display='none';},3000);
     loadAnnouncementsAdmin();
     loadAnnouncements();
-  } catch(e){ msgEl.textContent='Error: '+e.message; msgEl.style.color='var(--accent-red)'; msgEl.style.display='block'; }
+  }catch(e){msgEl.textContent='Error: '+e.message;msgEl.style.color='var(--accent-red)';msgEl.style.display='block';}
 }
 
-async function togglePin(id, current){
-  try{ await sbUpdate('announcements','id',id,{pinned:!current}); loadAnnouncementsAdmin(); loadAnnouncements(); }
-  catch(e){ alert('Could not toggle pin.'); }
+async function togglePin(btn){
+  var id=btn.dataset.id;
+  var current=btn.dataset.pinned==='true';
+  try{await sbUpdate('announcements','id',id,{pinned:!current});loadAnnouncementsAdmin();loadAnnouncements();}
+  catch(e){alert('Could not toggle pin.');}
 }
 
-async function deleteAnnouncement(id){
-  if(!confirm('Delete this announcement?')) return;
-  try{ await sbDelete('announcements','id',id); loadAnnouncementsAdmin(); loadAnnouncements(); }
-  catch(e){ alert('Delete failed.'); }
+async function deleteAnnouncement(btn){
+  var id=btn.dataset.id;
+  if(!confirm('Delete this announcement?'))return;
+  try{await sbDelete('announcements','id',id);loadAnnouncementsAdmin();loadAnnouncements();}
+  catch(e){alert('Delete failed.');}
 }
-
-// announcements page hook handled in main showPage
-
-// Dashboard data is loaded from within enterDashboard directly
 
 </script>
 
