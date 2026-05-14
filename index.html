@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TeamCore — Agent Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gold: #EF493C;
+    --gold-light: #FF6658;
+    --gold-dim: #C9352B;
+    --navy: #DCE7F5;
+    --navy-mid: #CAD5E3;
+    --navy-card: #F9FBFF;
+    --navy-border: #C5D1E1;
+    --navy-hover: #EDF4FD;
+    --text-primary: #070D2D;
+    --text-muted: #445168;
+    --text-dim: #7B8799;
+    --accent-green: #2EC56F;
+    --accent-red: #EF493C;
+    --accent-blue: #4C76A8;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --transition: 0.22s ease;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background:
+      linear-gradient(145deg, #EAF2FC 0%, #DCE7F5 46%, #C8D3E1 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── GRID NOISE BACKGROUND ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(239,73,60,0.09) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 90%, rgba(76,118,168,0.12) 0%, transparent 50%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(7,13,45,0.035) 39px, rgba(7,13,45,0.035) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(7,13,45,0.035) 39px, rgba(7,13,45,0.035) 40px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── VIEWS ─── */
+  .view { display: none; position: relative; z-index: 1; }
+  .view.active { display: flex; }
+
+  /* ══════════════════════════════
+     LOGIN PAGE
+  ══════════════════════════════ */
+  #login-view {
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .login-box {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 20px;
+    padding: 3rem 3.5rem;
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 24px 70px rgba(7, 13, 45, 0.16);
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .login-box::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 20%; right: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    border-radius: 2px;
+  }
+
+  .login-logo {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .login-logo .wordmark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.6rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+
+  .login-logo .wordmark span {
+    color: var(--gold);
+  }
+
+  .login-logo .tagline {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+    font-weight: 400;
+  }
+
+  .field-group {
+    margin-bottom: 1.2rem;
+  }
+
+  .field-group label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  .field-group input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: #F1F6FD;
+    border: 1px solid var(--navy-border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color var(--transition);
+  }
+
+  .field-group input:focus {
+    border-color: var(--gold-dim);
+    box-shadow: 0 0 0 3px rgba(239,73,60,0.12);
+  }
+
+  .field-group input::placeholder { color: var(--text-dim); }
+
+  .login-btn {
+    width: 100%;
+    padding: 0.9rem;
+    margin-top: 1.8rem;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border: none;
+    border-radius: var(--radius-sm);
+    color: #FFFFFF;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background var(--transition), transform var(--transition);
+  }
+
+  .login-btn:hover { background: linear-gradient(135deg, #DE3E32, var(--gold-light)); transform: translateY(-1px); }
+  .login-btn:active { transform: translateY(0); }
+
+  .login-error {
+    color: var(--accent-red);
+    font-size: 0.82rem;
+    margin-top: 0.8rem;
+    text-align: center;
+    display: none;
+  }
+
+  .login-footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  /* ══════════════════════════════
+     DASHBOARD LAYOUT
+  ══════════════════════════════ */
+  #dashboard-view {
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  /* ─── TOPBAR ─── */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 60px;
+    background: rgba(19,23,49,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--navy-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-shrink: 0;
+  }
+
+  .topbar-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #FFFFFF;
+  }
+
+  .topbar-brand span { color: var(--gold); }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .agent-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    padding: 0.35rem 0.9rem 0.35rem 0.35rem;
+    border-radius: 50px;
+  }
+
+  .avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #FFFFFF;
+  }
+
+  .agent-name {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .logout-btn {
+    background: rgba(239,73,60,0.14);
+    border: 1px solid rgba(255,255,255,0.34);
+    color: #FFFFFF;
+    padding: 0.38rem 0.95rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .logout-btn:hover {
+    background: var(--gold);
+    border-color: var(--gold-light);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+  }
+
+  /* ─── BODY LAYOUT ─── */
+  .dash-body {
+    display: flex;
+    flex: 1;
+    min-height: calc(100vh - 60px);
+  }
+
+  /* ─── SIDEBAR ─── */
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: var(--navy-card);
+    border-right: 1px solid var(--navy-border);
+    padding: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .sidebar-section {
+    padding: 0 1rem 0.5rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-weight: 500;
+    margin-top: 1rem;
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1.2rem;
+    margin: 0 0.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition);
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+  }
+
+  .sidebar-item:hover {
+    background: var(--navy-hover);
+    color: var(--text-primary);
+  }
+
+  .sidebar-item.active {
+    background: rgba(174,123,76,0.10);
+    border-color: rgba(174,123,76,0.24);
+    color: var(--gold-light);
+  }
+
+  .sidebar-item .s-icon {
+    width: 18px;
+    height: 18px;
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+
+  .sidebar-item.active .s-icon { opacity: 1; }
+
+  .sidebar-badge {
+    margin-left: auto;
+    background: var(--gold);
+    color: #1a1200;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 10px;
+  }
+
+  .admin-only {
+    display: none;
+  }
+
+  /* ─── MAIN CONTENT ─── */
+  .main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 2.5rem;
+  }
+
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn 0.3s ease; }
+
+  /* ─── HOME PAGE ─── */
+  .home-greeting {
+    margin-bottom: 2.5rem;
+  }
+
+  .home-greeting h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .home-greeting p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-top: 0.4rem;
+  }
+
+  .date-pill {
+    display: inline-block;
+    background: rgba(174,123,76,0.12);
+    border: 1px solid rgba(174,123,76,0.26);
+    color: var(--gold-light);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.8rem;
+    border-radius: 20px;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.06em;
+  }
+
+  /* Absence Banner */
+  .absence-banner {
+    background: rgba(199,102,95,0.08);
+    border: 1px solid rgba(199,102,95,0.22);
+    border-radius: var(--radius);
+    padding: 1rem 1.4rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .absence-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(199,102,95,0.13);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .absence-icon svg { width:16px; height:16px; stroke:var(--accent-red); fill:none; stroke-width:2; }
+
+  .absence-text strong { color: var(--accent-red); font-size: 0.82rem; display: block; }
+  .absence-text span { color: var(--text-muted); font-size: 0.8rem; }
+
+  /* Module Cards Grid */
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .module-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: var(--radius);
+    padding: 1.4rem;
+    cursor: pointer;
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .module-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+
+  .module-card:hover { border-color: var(--navy-hover); transform: translateY(-2px); }
+  .module-card:hover::after { opacity: 1; }
+
+  .module-card.gold::after { background: var(--gold); }
+  .module-card.blue::after { background: var(--accent-blue); }
+  .module-card.green::after { background: var(--accent-green); }
+  .module-card.red::after { background: var(--accent-red); }
+  .module-card.purple::after { background: #8E7CA9; }
+
+  .mc-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .mc-icon svg { width: 20px; height: 20px; fill: none; stroke-width: 1.8; }
+
+  .mc-icon.gold { background: rgba(174,123,76,0.13); }
+  .mc-icon.gold svg { stroke: var(--gold); }
+  .mc-icon.blue { background: rgba(94,131,168,0.13); }
+  .mc-icon.blue svg { stroke: var(--accent-blue); }
+  .mc-icon.green { background: rgba(78,154,131,0.13); }
+  .mc-icon.green svg { stroke: var(--accent-green); }
+  .mc-icon.red { background: rgba(199,102,95,0.13); }
+  .mc-icon.red svg { stroke: var(--accent-red); }
+  .mc-icon.purple { background: rgba(142,124,169,0.13); }
+  .mc-icon.purple svg { stroke: #8E7CA9; }
+
+  .mc-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .mc-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* Quick Stats */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.2rem;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-val {
+    font-size: 1.8rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+
+  .stat-sub {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+  }
+
+  .stat-up { color: var(--accent-green); }
+  .stat-down { color: var(--accent-red); }
+
+  /* Section title */
+  .section-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--navy-border);
+  }
+
+  /* Daily Quiz CTA */
+  .quiz-cta {
+    background: linear-gradient(135deg, rgba(174,123,76,0.10), rgba(78,154,131,0.06));
+    border: 1px solid rgba(174,123,76,0.22);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .quiz-cta:hover { border-color: rgba(174,123,76,0.38); }
+
+  .quiz-cta-text strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--gold-light);
+    margin-bottom: 0.2rem;
+  }
+
+  .quiz-cta-text span {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .quiz-cta-btn {
+    background: var(--gold);
+    color: #1a1200;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.55rem 1.2rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+    transition: background var(--transition);
+  }
+
+  .quiz-cta-btn:hover { background: var(--gold-light); }
+
+  /* ─── PLACEHOLDER PAGE ─── */
+  .placeholder-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    color: var(--text-dim);
+  }
+
+  .placeholder-page .big-icon {
+    width: 64px; height: 64px;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .placeholder-page .big-icon svg { width:28px; height:28px; fill:none; stroke:var(--text-dim); stroke-width:1.5; }
+  .placeholder-page h2 { font-size: 1.1rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.5rem; }
+  .placeholder-page p { font-size: 0.82rem; max-width: 300px; line-height: 1.6; }
+
+  .coming-badge {
+    margin-top: 1.2rem;
+    display: inline-block;
+    background: rgba(174,123,76,0.10);
+    border: 1px solid rgba(174,123,76,0.24);
+    color: var(--gold);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--navy-border); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ LOGIN VIEW ══════════ -->
+<div id="login-view" class="view active">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="wordmark">Team<span>Core</span></div>
+      <div class="tagline">Agent Operations Portal</div>
+    </div>
+
+    <div class="field-group">
+      <label>Email</label>
+      <input id="username" type="email" placeholder="Enter your email" autocomplete="email"/>
+    </div>
+
+    <div class="field-group">
+      <label>Password</label>
+      <input id="password" type="password" placeholder="••••••••"/>
+    </div>
+
+    <div class="login-error" id="login-error">Invalid email or password. Please try again.</div>
+
+    <button class="login-btn" onclick="doLogin()">Sign In</button>
+
+    <div class="login-footer">TeamCore v1.0 &nbsp;·&nbsp; For internal use only</div>
+  </div>
+</div>
+
+<!-- ══════════ DASHBOARD VIEW ══════════ -->
+<div id="dashboard-view" class="view" style="flex-direction:column;">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-brand">Team<span>Core</span></div>
+    <div class="topbar-right">
+      <div class="agent-badge">
+        <div class="avatar" id="avatar-initials">AG</div>
+        <div class="agent-name" id="agent-display">Agent</div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">Log Out</button>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="dash-body">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-section">Main</div>
+
+      <div class="sidebar-item active" onclick="showPage('home', this)">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+          <path d="M9 21V12h6v9"/>
+        </svg>
+        Dashboard
+      </div>
+
+      <div class="sidebar-item" onclick="openSimulation()">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <path d="M8 21h8M12 17v4"/>
+          <path d="M7 8l3 3-3 3M13 14h4"/>
+        </svg>
+        Simulation
+      </div>
+
+      <div class="sidebar-item" onclick="showPage('kb', this)">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          <path d="M11 8v6M8 11h6" stroke-linecap="round"/>
+        </svg>
+        KB Search
+      </div>
+
+      <div class="sidebar-section">Learning</div>
+
+      <div class="sidebar-item" onclick="showPage('quiz', this)">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M9 12l2 2 4-4"/>
+          <path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/>
+        </svg>
+        Daily Quiz
+        <span class="sidebar-badge">1</span>
+      </div>
+
+      <div class="sidebar-item" onclick="showPage('assessment', this)">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+          <rect x="9" y="3" width="6" height="4" rx="1"/>
+          <path d="M9 12h6M9 16h4"/>
+        </svg>
+        Assessment
+      </div>
+
+      <div class="sidebar-section">Team</div>
+
+      <div class="sidebar-item" onclick="showPage('roster', this)">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+        Roster
+      </div>
+
+      <div class="sidebar-item" onclick="showPage('moments', this)">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <path d="M21 15l-5-5L5 21"/>
+        </svg>
+        Team Moments
+      </div>
+
+      <div class="sidebar-section admin-only">Admin</div>
+
+      <div class="sidebar-item admin-only" onclick="showPage('quiz-admin', this)">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/>
+        </svg>
+        Quiz Builder
+      </div>
+
+      <div class="sidebar-item admin-only" onclick="showPage('assessment-admin', this)">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+          <rect x="9" y="3" width="6" height="4" rx="1"/>
+          <path d="M9 13h6M9 17h3"/>
+        </svg>
+        Assessment Builder
+      </div>
+
+      <div class="sidebar-item admin-only" onclick="showPage('reports', this)">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/>
+          <path d="M14 3v6h6M8 17v-4M12 17v-7M16 17v-2"/>
+        </svg>
+        Reports
+      </div>
+
+      <div class="sidebar-item admin-only" onclick="showPage('users', this)">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M19 8v6M22 11h-6"/>
+        </svg>
+        Manage Users
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- ── HOME PAGE ── -->
+      <div class="page active" id="page-home">
+        <div class="home-greeting">
+          <div class="date-pill" id="date-display">Wednesday, May 14 2025</div>
+          <h1>Good <span id="time-greet">morning</span>, <span id="greet-name">Agent</span> 👋</h1>
+          <p>Here's your workspace at a glance. Stay sharp, stay ahead.</p>
+        </div>
+
+        <!-- Absence Banner -->
+        <div class="absence-banner">
+          <div class="absence-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke-linecap="round"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87" stroke-linecap="round"/></svg>
+          </div>
+          <div class="absence-text">
+            <strong id="absence-title">Loading roster...</strong>
+            <span id="absence-detail">Syncing today's schedule from Google Sheets.</span>
+          </div>
+        </div>
+
+        <!-- Quiz CTA -->
+        <div class="quiz-cta" onclick="showPage('quiz', null)">
+          <div class="quiz-cta-text">
+            <strong>📋 Today's Daily Quiz is live!</strong>
+            <span>Question 1 of 1 pending — submit before end of shift.</span>
+          </div>
+          <button class="quiz-cta-btn">Take Quiz →</button>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="section-title">Team Overview</div>
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-label">Total Agents</div>
+            <div class="stat-val">24</div>
+            <div class="stat-sub">Active this month</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Present Today</div>
+            <div class="stat-val">22</div>
+            <div class="stat-sub stat-up">↑ 91.6%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Quiz Completion</div>
+            <div class="stat-val">18</div>
+            <div class="stat-sub">of 22 submitted</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg Score</div>
+            <div class="stat-val">84%</div>
+            <div class="stat-sub stat-up">↑ This month</div>
+          </div>
+        </div>
+
+        <!-- Module Cards -->
+        <div class="section-title">Modules</div>
+        <div class="module-grid">
+
+          <div class="module-card gold" onclick="openSimulation()">
+            <div class="mc-icon gold">
+              <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round"/><path d="M7 8l3 3-3 3M13 14h4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="mc-title">UI Simulation</div>
+            <div class="mc-desc">Multi-product simulation environment for your team.</div>
+          </div>
+
+          <div class="module-card blue" onclick="showPage('kb', null)">
+            <div class="mc-icon blue">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/><path d="M11 8v6M8 11h6" stroke-linecap="round"/></svg>
+            </div>
+            <div class="mc-title">KB Search</div>
+            <div class="mc-desc">Search troubleshooting steps and knowledge articles.</div>
+          </div>
+
+          <div class="module-card green" onclick="showPage('quiz', null)">
+            <div class="mc-icon green">
+              <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4" stroke-linecap="round"/><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/></svg>
+            </div>
+            <div class="mc-title">Daily Quiz</div>
+            <div class="mc-desc">Auto-refreshing daily questions with monthly reports.</div>
+          </div>
+
+          <div class="module-card red" onclick="showPage('assessment', null)">
+            <div class="mc-icon red">
+              <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" stroke-linecap="round"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="mc-title">Assessment</div>
+            <div class="mc-desc">Monthly formal assessments with TL report export.</div>
+          </div>
+
+          <div class="module-card purple" onclick="showPage('roster', null)">
+            <div class="mc-icon purple">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke-linecap="round"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round"/></svg>
+            </div>
+            <div class="mc-title">Roster</div>
+            <div class="mc-desc">Live Google Sheets sync — schedules & absences.</div>
+          </div>
+
+          <div class="module-card gold" onclick="showPage('moments', null)">
+            <div class="mc-icon gold">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round"/></svg>
+            </div>
+            <div class="mc-title">Team Moments</div>
+            <div class="mc-desc">Outings, achievements & team celebrations.</div>
+          </div>
+
+        </div>
+
+        <div class="section-title admin-only">Admin Tools</div>
+        <div class="module-grid admin-only">
+          <div class="module-card gold" onclick="showPage('quiz-admin', null)">
+            <div class="mc-icon gold">
+              <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+            </div>
+            <div class="mc-title">Quiz Builder</div>
+            <div class="mc-desc">Add daily questions, answer keys, and active dates.</div>
+          </div>
+
+          <div class="module-card red" onclick="showPage('assessment-admin', null)">
+            <div class="mc-icon red">
+              <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg>
+            </div>
+            <div class="mc-title">Assessment Builder</div>
+            <div class="mc-desc">Prepare monthly assessments and scoring rules.</div>
+          </div>
+
+          <div class="module-card blue" onclick="showPage('reports', null)">
+            <div class="mc-icon blue">
+              <svg viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 3v6h6M8 17v-4M12 17v-7M16 17v-2"/></svg>
+            </div>
+            <div class="mc-title">Reports</div>
+            <div class="mc-desc">Pull quiz, assessment, and monthly performance reports.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SIMULATION PAGE ── -->
+      <div class="page" id="page-simulation">
+        <div class="placeholder-page">
+          <div class="big-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round"/><path d="M7 8l3 3-3 3M13 14h4" stroke-linecap="round"/></svg>
+          </div>
+          <h2>UI Simulation Tool</h2>
+          <p>The simulation opens in a separate tab so agents get the full training window.</p>
+          <button class="quiz-cta-btn" onclick="openSimulation()">Open Simulation</button>
+        </div>
+      </div>
+
+      <!-- ── KB SEARCH PAGE ── -->
+      <div class="page" id="page-kb">
+        <div class="placeholder-page">
+          <div class="big-icon">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg>
+          </div>
+          <h2>KB Search Engine</h2>
+          <p>Your Supabase-powered knowledge base search engine will live here.</p>
+          <span class="coming-badge">Plug-in Ready</span>
+        </div>
+      </div>
+
+      <!-- ── QUIZ PAGE ── -->
+      <div class="page" id="page-quiz">
+        <div class="placeholder-page">
+          <div class="big-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4" stroke-linecap="round"/><circle cx="12" cy="12" r="10"/></svg>
+          </div>
+          <h2>Daily Quiz</h2>
+          <p>Auto-scheduled daily questions with one-attempt submission and monthly report export.</p>
+          <span class="coming-badge">Coming Next</span>
+        </div>
+      </div>
+
+      <!-- ── ASSESSMENT PAGE ── -->
+      <div class="page" id="page-assessment">
+        <div class="placeholder-page">
+          <div class="big-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" stroke-linecap="round"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4" stroke-linecap="round"/></svg>
+          </div>
+          <h2>Monthly Assessment</h2>
+          <p>Formal assessments with time-boxed sessions and TL-accessible performance reports.</p>
+          <span class="coming-badge">Coming Next</span>
+        </div>
+      </div>
+
+      <!-- ── ROSTER PAGE ── -->
+      <div class="page" id="page-roster">
+        <div class="placeholder-page">
+          <div class="big-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke-linecap="round"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round"/></svg>
+          </div>
+          <h2>Team Roster</h2>
+          <p>Live-synced Google Sheets roster with today's absences highlighted automatically.</p>
+          <span class="coming-badge">Coming Next</span>
+        </div>
+      </div>
+
+      <!-- ── MOMENTS PAGE ── -->
+      <div class="page" id="page-moments">
+        <div class="placeholder-page">
+          <div class="big-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21" stroke-linecap="round"/></svg>
+          </div>
+          <h2>Team Moments</h2>
+          <p>Cloudinary-powered photo grid for outings, games, achievements and team celebrations.</p>
+          <span class="coming-badge">Coming Next</span>
+        </div>
+      </div>
+
+      <!-- â”€â”€ ADMIN: QUIZ BUILDER â”€â”€ -->
+      <div class="page" id="page-quiz-admin">
+        <div class="placeholder-page">
+          <div class="big-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+          </div>
+          <h2>Quiz Builder</h2>
+          <p>Admin-only area to add daily quiz questions, choices, correct answers, and active dates.</p>
+          <span class="coming-badge">Admin Only</span>
+        </div>
+      </div>
+
+      <!-- â”€â”€ ADMIN: ASSESSMENT BUILDER â”€â”€ -->
+      <div class="page" id="page-assessment-admin">
+        <div class="placeholder-page">
+          <div class="big-icon">
+            <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg>
+          </div>
+          <h2>Assessment Builder</h2>
+          <p>Admin-only area to create monthly assessments, time limits, score rules, and question banks.</p>
+          <span class="coming-badge">Admin Only</span>
+        </div>
+      </div>
+
+      <!-- â”€â”€ ADMIN: REPORTS â”€â”€ -->
+      <div class="page" id="page-reports">
+        <div class="placeholder-page">
+          <div class="big-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 3v6h6M8 17v-4M12 17v-7M16 17v-2"/></svg>
+          </div>
+          <h2>Reports</h2>
+          <p>Admin-only area to pull daily quiz, monthly assessment, roster, and performance reports.</p>
+          <span class="coming-badge">Admin Only</span>
+        </div>
+      </div>
+
+      <!-- â”€â”€ ADMIN: USER MANAGEMENT â”€â”€ -->
+      <div class="page" id="page-users">
+        <div class="placeholder-page">
+          <div class="big-icon">
+            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+          </div>
+          <h2>Manage Users</h2>
+          <p>Admin-only area to review agents, assign roles, and deactivate access when needed.</p>
+          <span class="coming-badge">Admin Only</span>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  // ── DEMO CREDENTIALS (replace with Firebase Auth) ──
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
+  import {
+    browserLocalPersistence,
+    getAuth,
+    onAuthStateChanged,
+    setPersistence,
+    signInWithEmailAndPassword,
+    signOut,
+  } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBczq8J_LIy47feozAQjaXBaiSPbQy2m4o",
+    authDomain: "teamcore-1708c.firebaseapp.com",
+    projectId: "teamcore-1708c",
+    storageBucket: "teamcore-1708c.firebasestorage.app",
+    messagingSenderId: "1067461924237",
+    appId: "1:1067461924237:web:e5ff1aaee21956833759c4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const firebaseAuth = getAuth(app);
+  setPersistence(firebaseAuth, browserLocalPersistence).catch(error => {
+    console.warn('Firebase persistence could not be enabled:', error);
+  });
+
+  // Add your admin Firebase email here after creating the admin user.
+  const ADMIN_EMAILS = [
+    'your-admin-email@example.com',
+  ];
+  const ROSTER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTUz9_-oYx9wJQGEifWDYUyPIFwo513v2vNBkPm4L1v-02o3d6Yqkoz_GDFQIMWUaRrMlsPwQmmujWA/pub?output=csv';
+  const NOT_PRESENT_CODES = new Set(['L', 'CO', 'W']);
+  let currentUser = null;
+
+  async function doLogin() {
+    const email = document.getElementById('username').value.trim().toLowerCase();
+    const p = document.getElementById('password').value;
+    const err = document.getElementById('login-error');
+
+    try {
+      await signInWithEmailAndPassword(firebaseAuth, email, p);
+      err.style.display = 'none';
+    } catch (error) {
+      err.textContent = 'Invalid email or password. Please try again.';
+      err.style.display = 'block';
+    }
+  }
+
+  document.getElementById('password').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+
+  function enterDashboard() {
+    document.getElementById('login-view').classList.remove('active');
+    document.getElementById('dashboard-view').classList.add('active');
+    document.getElementById('agent-display').textContent = currentUser.name;
+    const initials = currentUser.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    document.getElementById('avatar-initials').textContent = initials;
+    document.getElementById('greet-name').textContent = currentUser.name.split(' ')[0];
+    updateAdminVisibility();
+    setGreetingAndDate();
+    loadRosterSummary();
+  }
+
+  async function doLogout() {
+    currentUser = null;
+    await signOut(firebaseAuth);
+    document.getElementById('dashboard-view').classList.remove('active');
+    document.getElementById('login-view').classList.add('active');
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    updateAdminVisibility();
+    showPage('home', document.querySelector('.sidebar-item'));
+  }
+
+  function showPage(id, elem) {
+    if (isAdminPage(id) && !isAdminUser()) {
+      showPage('home', document.querySelector('.sidebar-item'));
+      return;
+    }
+
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+
+    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+    if (elem) elem.classList.add('active');
+    else {
+      const map = { home:0,simulation:1,kb:2,quiz:3,assessment:4,roster:5,moments:6,'quiz-admin':7,'assessment-admin':8,reports:9,users:10 };
+      document.querySelectorAll('.sidebar-item')[map[id]]?.classList.add('active');
+    }
+  }
+
+  function isAdminUser() {
+    return currentUser && ['admin', 'tl'].includes(currentUser.role);
+  }
+
+  function isAdminPage(id) {
+    return ['quiz-admin', 'assessment-admin', 'reports', 'users'].includes(id);
+  }
+
+  function getAdminDisplay(el) {
+    if (el.classList.contains('sidebar-item')) return 'flex';
+    if (el.classList.contains('section-title')) return 'flex';
+    if (el.classList.contains('module-grid')) return 'grid';
+    return 'block';
+  }
+
+  function updateAdminVisibility() {
+    const showAdmin = isAdminUser();
+    document.querySelectorAll('.admin-only').forEach(el => {
+      el.style.display = showAdmin ? getAdminDisplay(el) : 'none';
+    });
+  }
+
+  function openSimulation() {
+    window.open('simulation.html', '_blank');
+  }
+
+  function setGreetingAndDate() {
+    const now = new Date();
+    const h = now.getHours();
+    const greet = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
+    document.getElementById('time-greet').textContent = greet;
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('date-display').textContent =
+      `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()} ${now.getFullYear()}`;
+  }
+
+  function parseCsv(csvText) {
+    const rows = [];
+    let row = [];
+    let cell = '';
+    let inQuotes = false;
+
+    for (let i = 0; i < csvText.length; i++) {
+      const char = csvText[i];
+      const next = csvText[i + 1];
+
+      if (char === '"' && inQuotes && next === '"') {
+        cell += '"';
+        i++;
+      } else if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        row.push(cell.trim());
+        cell = '';
+      } else if ((char === '\n' || char === '\r') && !inQuotes) {
+        if (char === '\r' && next === '\n') i++;
+        row.push(cell.trim());
+        rows.push(row);
+        row = [];
+        cell = '';
+      } else {
+        cell += char;
+      }
+    }
+
+    if (cell || row.length) {
+      row.push(cell.trim());
+      rows.push(row);
+    }
+
+    return rows;
+  }
+
+  function getMonthIndex(label) {
+    const match = label.match(/([A-Za-z]+)\s*-\s*(\d{4})/);
+    if (!match) return null;
+
+    const months = {
+      jan: 0, january: 0,
+      feb: 1, february: 1,
+      mar: 2, march: 2,
+      apr: 3, april: 3,
+      may: 4,
+      jun: 5, june: 5,
+      jul: 6, july: 6,
+      aug: 7, august: 7,
+      sep: 8, sept: 8, september: 8,
+      oct: 9, october: 9,
+      nov: 10, november: 10,
+      dec: 11, december: 11,
+    };
+
+    const key = match[1].toLowerCase();
+    return { month: months[key], year: Number(match[2]) };
+  }
+
+  function statusParts(value) {
+    return String(value || '')
+      .toUpperCase()
+      .split(/[^A-Z]+/)
+      .filter(Boolean);
+  }
+
+  function formatNames(names, emptyText) {
+    if (!names.length) return emptyText;
+    if (names.length <= 4) return names.join(', ');
+    return `${names.slice(0, 4).join(', ')} and ${names.length - 4} more`;
+  }
+
+  function updateRosterBanner(summary) {
+    const title = document.getElementById('absence-title');
+    const detail = document.getElementById('absence-detail');
+    const absentLabel = summary.absent.length === 1 ? 'agent is not present' : 'agents are not present';
+    const pieces = [
+      `${formatNames(summary.absent, 'No agents')} ${summary.absent.length ? 'are marked L/CO/W' : 'are marked absent'}`,
+    ];
+
+    if (summary.wfh.length) pieces.push(`WFH: ${formatNames(summary.wfh, '')}`);
+    if (summary.halfDay.length) pieces.push(`Half-day leave: ${formatNames(summary.halfDay, '')}`);
+
+    title.textContent = `${summary.absent.length} ${absentLabel} today`;
+    detail.textContent = `Roster is synced from Google Sheets - ${pieces.join('. ')}.`;
+  }
+
+  function updateRosterError() {
+    document.getElementById('absence-title').textContent = 'Roster sync unavailable';
+    document.getElementById('absence-detail').textContent = 'Could not read Google Sheets right now. Please check the published sheet link.';
+  }
+
+  async function loadRosterSummary() {
+    try {
+      const response = await fetch(`${ROSTER_CSV_URL}&cacheBust=${Date.now()}`);
+      if (!response.ok) throw new Error('Roster fetch failed');
+
+      const rows = parseCsv(await response.text());
+      const monthRow = rows.find(row => row.some(cell => /[A-Za-z]+\s*-\s*\d{4}/.test(cell)));
+      const dateRow = rows.find(row => String(row[1]).trim().toUpperCase() === 'DATE');
+      if (!monthRow || !dateRow) throw new Error('Roster header not found');
+
+      const monthInfo = getMonthIndex(monthRow.find(cell => /[A-Za-z]+\s*-\s*\d{4}/.test(cell)) || '');
+      const today = new Date();
+      if (!monthInfo || monthInfo.month !== today.getMonth() || monthInfo.year !== today.getFullYear()) {
+        document.getElementById('absence-title').textContent = 'Roster month does not match today';
+        document.getElementById('absence-detail').textContent = 'Please publish the current month roster in Google Sheets.';
+        return;
+      }
+
+      const day = String(today.getDate());
+      const dateCol = dateRow.findIndex((cell, index) => index >= 2 && String(Number(cell)) === day);
+      if (dateCol < 0) throw new Error('Today column not found');
+
+      const summary = { absent: [], wfh: [], halfDay: [] };
+      for (const row of rows.slice(rows.indexOf(dateRow) + 2)) {
+        const empId = String(row[0] || '').trim();
+        const name = String(row[1] || '').trim();
+        if (!empId || !name || !/^K\d+/i.test(empId)) continue;
+
+        const parts = statusParts(row[dateCol]);
+        if (parts.some(part => NOT_PRESENT_CODES.has(part))) summary.absent.push(name);
+        if (parts.includes('WFH')) summary.wfh.push(name);
+        if (parts.includes('HL')) summary.halfDay.push(name);
+      }
+
+      updateRosterBanner(summary);
+    } catch (error) {
+      updateRosterError();
+    }
+  }
+
+  function buildCurrentUser(firebaseUser) {
+    const email = firebaseUser.email || '';
+    const fallbackName = email.split('@')[0] || 'Agent';
+    const role = ADMIN_EMAILS.includes(email.toLowerCase()) ? 'admin' : 'agent';
+
+    return {
+      uid: firebaseUser.uid,
+      username: email,
+      email,
+      name: firebaseUser.displayName || fallbackName,
+      role,
+    };
+  }
+
+  onAuthStateChanged(firebaseAuth, user => {
+    if (user) {
+      currentUser = buildCurrentUser(user);
+      enterDashboard();
+    } else {
+      currentUser = null;
+      updateAdminVisibility();
+      document.getElementById('dashboard-view').classList.remove('active');
+      document.getElementById('login-view').classList.add('active');
+    }
+  });
+
+  window.doLogin = doLogin;
+  window.doLogout = doLogout;
+  window.showPage = showPage;
+  window.openSimulation = openSimulation;
+</script>
+
+</body>
+</html>
