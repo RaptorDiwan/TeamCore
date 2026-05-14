@@ -626,6 +626,74 @@
     border-radius: 20px;
   }
 
+
+  /* ── USER MANAGEMENT ── */
+  .um-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:1.5rem; gap:1rem; }
+  .um-title { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:500; color:var(--text-primary); }
+  .um-sub { color:var(--text-muted); font-size:0.875rem; margin-top:0.3rem; }
+  .um-add-btn {
+    background:linear-gradient(135deg,var(--gold),var(--gold-light)); border:none; color:#fff;
+    padding:0.55rem 1.2rem; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif;
+    font-size:0.85rem; font-weight:600; cursor:pointer; white-space:nowrap; flex-shrink:0;
+    transition:opacity var(--transition);
+  }
+  .um-add-btn:hover { opacity:0.88; }
+  .um-add-form {
+    background:var(--navy-card); border:1px solid var(--navy-border);
+    border-radius:var(--radius); padding:1.4rem 1.6rem; margin-bottom:1.5rem;
+  }
+  .um-form-row { display:flex; gap:1rem; flex-wrap:wrap; }
+  .um-input {
+    width:100%; padding:0.75rem 1rem; background:#F1F6FD;
+    border:1px solid var(--navy-border); border-radius:var(--radius-sm);
+    color:var(--text-primary); font-family:'DM Sans',sans-serif; font-size:0.9rem;
+    outline:none; transition:border-color var(--transition);
+  }
+  .um-input:focus { border-color:var(--gold-dim); box-shadow:0 0 0 3px rgba(239,73,60,0.10); }
+  .um-save-btn {
+    background:linear-gradient(135deg,var(--gold),var(--gold-light)); border:none; color:#fff;
+    padding:0.6rem 1.4rem; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif;
+    font-size:0.85rem; font-weight:600; cursor:pointer; transition:opacity var(--transition);
+  }
+  .um-save-btn:hover { opacity:0.88; }
+  .um-cancel-btn {
+    background:transparent; border:1px solid var(--navy-border); color:var(--text-muted);
+    padding:0.6rem 1.2rem; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif;
+    font-size:0.85rem; font-weight:500; cursor:pointer; transition:all var(--transition);
+  }
+  .um-cancel-btn:hover { background:var(--navy-hover); color:var(--text-primary); }
+  .um-user-card {
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--navy-card); border:1px solid var(--navy-border);
+    border-radius:var(--radius); padding:1rem 1.3rem; margin-bottom:0.65rem; gap:1rem;
+  }
+  .um-user-avatar {
+    width:38px; height:38px; border-radius:50%; flex-shrink:0;
+    background:linear-gradient(135deg,var(--gold-dim),var(--gold));
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.78rem; font-weight:700; color:#fff; letter-spacing:0.04em;
+  }
+  .um-user-info { flex:1; }
+  .um-user-name { font-weight:500; font-size:0.9rem; color:var(--text-primary); }
+  .um-user-email { font-size:0.78rem; color:var(--text-dim); margin-top:0.1rem; }
+  .um-role-badge {
+    font-size:0.65rem; font-weight:600; padding:2px 9px; border-radius:10px;
+    background:rgba(76,118,168,0.12); color:var(--accent-blue);
+    text-transform:uppercase; letter-spacing:0.08em; margin-left:0.5rem;
+  }
+  .um-role-badge.admin { background:rgba(239,73,60,0.12); color:var(--accent-red); }
+  .um-role-badge.tl { background:rgba(174,123,76,0.15); color:var(--gold-dim); }
+  .um-del-btn {
+    background:rgba(239,73,60,0.08); border:1px solid rgba(239,73,60,0.22);
+    color:var(--accent-red); padding:0.35rem 0.85rem; border-radius:6px;
+    font-size:0.78rem; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif;
+    transition:all var(--transition); flex-shrink:0;
+  }
+  .um-del-btn:hover { background:rgba(239,73,60,0.18); }
+  .um-empty { color:var(--text-dim); font-size:0.875rem; padding:2rem; text-align:center;
+    background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); }
+  .cp-wrap { max-width:520px; }
+
   /* ─── ANIMATIONS ─── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
@@ -756,6 +824,16 @@
           <path d="M21 15l-5-5L5 21"/>
         </svg>
         Team Moments
+      </div>
+
+      <div class="sidebar-section">Account</div>
+
+      <div class="sidebar-item" onclick="showPage('changepass', this)">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="3" y="11" width="18" height="11" rx="2"/>
+          <path d="M7 11V7a5 5 0 0110 0v4"/>
+        </svg>
+        Change Password
       </div>
 
       <div class="sidebar-section admin-only">Admin</div>
@@ -1042,14 +1120,73 @@
       </div>
 
       <!-- â”€â”€ ADMIN: USER MANAGEMENT â”€â”€ -->
-      <div class="page" id="page-users">
-        <div class="placeholder-page">
-          <div class="big-icon">
-            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+      <!-- ── CHANGE PASSWORD PAGE ── -->
+      <div class="page" id="page-changepass">
+        <div class="cp-wrap">
+          <h2 class="um-title">Change Password</h2>
+          <p class="um-sub" style="margin-bottom:1.8rem;">Update your login password. You'll need your current password to confirm.</p>
+          <div class="field-group">
+            <label>Current Password</label>
+            <input id="cp-current" type="password" placeholder="••••••••" class="um-input" style="max-width:400px;"/>
           </div>
-          <h2>Manage Users</h2>
-          <p>Admin-only area to review agents, assign roles, and deactivate access when needed.</p>
-          <span class="coming-badge">Admin Only</span>
+          <div class="field-group">
+            <label>New Password</label>
+            <input id="cp-new" type="password" placeholder="min 6 characters" class="um-input" style="max-width:400px;"/>
+          </div>
+          <div class="field-group">
+            <label>Confirm New Password</label>
+            <input id="cp-confirm" type="password" placeholder="repeat new password" class="um-input" style="max-width:400px;"/>
+          </div>
+          <div id="cp-error" style="color:var(--accent-red);font-size:0.82rem;margin-bottom:0.8rem;display:none;"></div>
+          <div id="cp-success" style="color:#1a7a45;background:rgba(46,197,111,0.08);border:1px solid rgba(46,197,111,0.25);border-radius:8px;padding:0.7rem 1rem;font-size:0.82rem;margin-bottom:0.8rem;max-width:400px;display:none;">
+            ✅ Password updated successfully!
+          </div>
+          <button class="um-save-btn" onclick="doChangePassword()">Update Password</button>
+        </div>
+      </div>
+
+      <div class="page" id="page-users">
+        <div class="um-header">
+          <div>
+            <h2 class="um-title">Manage Users</h2>
+            <p class="um-sub">Add agents below. They log in with email &amp; password; their display name shows inside the portal.</p>
+          </div>
+          <button class="um-add-btn" onclick="toggleAddUser()">+ Add Agent</button>
+        </div>
+
+        <div class="um-add-form" id="um-add-form" style="display:none;">
+          <div class="um-form-row">
+            <div class="field-group" style="flex:1;margin-bottom:0;">
+              <label>Display Name</label>
+              <input id="new-name" type="text" placeholder="e.g. Ravi Kumar" class="um-input"/>
+            </div>
+            <div class="field-group" style="flex:1;margin-bottom:0;">
+              <label>Email</label>
+              <input id="new-email" type="email" placeholder="agent@company.com" class="um-input"/>
+            </div>
+            <div class="field-group" style="flex:1;margin-bottom:0;">
+              <label>Temp Password</label>
+              <input id="new-pass" type="text" placeholder="min 6 chars" class="um-input"/>
+            </div>
+            <div class="field-group" style="flex:0 0 130px;margin-bottom:0;">
+              <label>Role</label>
+              <select id="new-role" class="um-input">
+                <option value="agent">Agent</option>
+                <option value="tl">Team Lead</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+          </div>
+          <div id="um-add-error" style="color:var(--accent-red);font-size:0.82rem;margin-top:0.6rem;display:none;"></div>
+          <div id="um-add-success" style="color:#1a7a45;background:rgba(46,197,111,0.08);border:1px solid rgba(46,197,111,0.25);border-radius:8px;padding:0.7rem 1rem;font-size:0.82rem;margin-top:0.6rem;display:none;"></div>
+          <div style="margin-top:1rem;display:flex;gap:0.75rem;">
+            <button class="um-save-btn" onclick="addUser()">Save Agent</button>
+            <button class="um-cancel-btn" onclick="toggleAddUser()">Cancel</button>
+          </div>
+        </div>
+
+        <div id="um-user-list" style="margin-top:1.5rem;">
+          <div style="color:var(--text-dim);font-size:0.875rem;padding:1rem;text-align:center;">Loading agents…</div>
         </div>
       </div>
 
@@ -1058,7 +1195,6 @@
 </div>
 
 <script type="module">
-  // ── DEMO CREDENTIALS (replace with Firebase Auth) ──
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
   import {
     browserLocalPersistence,
@@ -1066,8 +1202,23 @@
     onAuthStateChanged,
     setPersistence,
     signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    updateProfile,
+    updatePassword,
+    reauthenticateWithCredential,
+    EmailAuthProvider,
     signOut,
   } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    getDocs,
+    collection,
+    deleteDoc,
+    serverTimestamp,
+  } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
 
   const firebaseConfig = {
     apiKey: "AIzaSyBczq8J_LIy47feozAQjaXBaiSPbQy2m4o",
@@ -1080,26 +1231,31 @@
 
   const app = initializeApp(firebaseConfig);
   const firebaseAuth = getAuth(app);
-  setPersistence(firebaseAuth, browserLocalPersistence).catch(error => {
-    console.warn('Firebase persistence could not be enabled:', error);
-  });
+  const db = getFirestore(app);
 
-  // Add your admin Firebase email here after creating the admin user.
+  setPersistence(firebaseAuth, browserLocalPersistence).catch(e =>
+    console.warn('Firebase persistence error:', e)
+  );
+
+  // ── SET YOUR ADMIN EMAILS HERE ──
   const ADMIN_EMAILS = [
     'your-admin-email@example.com',
   ];
+
   const ROSTER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTUz9_-oYx9wJQGEifWDYUyPIFwo513v2vNBkPm4L1v-02o3d6Yqkoz_GDFQIMWUaRrMlsPwQmmujWA/pub?output=csv';
   const NOT_PRESENT_CODES = new Set(['L', 'CO', 'W']);
   let currentUser = null;
 
+  // ── LOGIN ──
+  // Agents log in with their email + password.
+  // Inside the portal, only their display name (set by admin) is shown.
   async function doLogin() {
     const email = document.getElementById('username').value.trim().toLowerCase();
     const p = document.getElementById('password').value;
     const err = document.getElementById('login-error');
-
+    err.style.display = 'none';
     try {
       await signInWithEmailAndPassword(firebaseAuth, email, p);
-      err.style.display = 'none';
     } catch (error) {
       err.textContent = 'Invalid email or password. Please try again.';
       err.style.display = 'block';
@@ -1110,9 +1266,11 @@
     if (e.key === 'Enter') doLogin();
   });
 
+  // ── ENTER DASHBOARD ──
   function enterDashboard() {
     document.getElementById('login-view').classList.remove('active');
     document.getElementById('dashboard-view').classList.add('active');
+    // Show display name (set by admin in Firebase) — never shows email in UI
     document.getElementById('agent-display').textContent = currentUser.name;
     const initials = currentUser.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
     document.getElementById('avatar-initials').textContent = initials;
@@ -1122,6 +1280,7 @@
     loadRosterSummary();
   }
 
+  // ── LOGOUT ──
   async function doLogout() {
     currentUser = null;
     await signOut(firebaseAuth);
@@ -1133,21 +1292,22 @@
     showPage('home', document.querySelector('.sidebar-item'));
   }
 
+  // ── NAVIGATION ──
   function showPage(id, elem) {
     if (isAdminPage(id) && !isAdminUser()) {
       showPage('home', document.querySelector('.sidebar-item'));
       return;
     }
-
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + id).classList.add('active');
-
     document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
     if (elem) elem.classList.add('active');
     else {
-      const map = { home:0,simulation:1,kb:2,quiz:3,assessment:4,roster:5,moments:6,'quiz-admin':7,'assessment-admin':8,reports:9,users:10 };
+      const map = { home:0, simulation:1, kb:2, quiz:3, assessment:4, roster:5, moments:6, changepass:7, 'quiz-admin':8, 'assessment-admin':9, reports:10, users:11 };
       document.querySelectorAll('.sidebar-item')[map[id]]?.classList.add('active');
     }
+    if (id === 'users') loadUsersPage();
+    if (id === 'changepass') resetChangePasswordForm();
   }
 
   function isAdminUser() {
@@ -1172,15 +1332,269 @@
     });
   }
 
-  function openSimulation() {
-    window.open('simulation.html', '_blank');
+  // ── CHANGE PASSWORD ──
+  function resetChangePasswordForm() {
+    ['cp-current','cp-new','cp-confirm'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('cp-error').style.display = 'none';
+    document.getElementById('cp-success').style.display = 'none';
   }
+
+  async function doChangePassword() {
+    const current = document.getElementById('cp-current').value;
+    const next = document.getElementById('cp-new').value;
+    const confirm = document.getElementById('cp-confirm').value;
+    const errEl = document.getElementById('cp-error');
+    const succEl = document.getElementById('cp-success');
+    errEl.style.display = 'none';
+    succEl.style.display = 'none';
+
+    if (!current || !next || !confirm) {
+      errEl.textContent = 'Please fill in all fields.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (next.length < 6) {
+      errEl.textContent = 'New password must be at least 6 characters.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (next !== confirm) {
+      errEl.textContent = 'New passwords do not match.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    try {
+      const user = firebaseAuth.currentUser;
+      const credential = EmailAuthProvider.credential(user.email, current);
+      await reauthenticateWithCredential(user, credential);
+      await updatePassword(user, next);
+      succEl.style.display = 'block';
+      document.getElementById('cp-current').value = '';
+      document.getElementById('cp-new').value = '';
+      document.getElementById('cp-confirm').value = '';
+    } catch (e) {
+      if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
+        errEl.textContent = 'Current password is incorrect.';
+      } else {
+        errEl.textContent = 'Something went wrong. Please try again.';
+      }
+      errEl.style.display = 'block';
+    }
+  }
+
+  // ── MANAGE USERS (ADMIN) ──
+  // Admin adds users here: creates Firebase Auth account + Firestore record.
+  // The display name set here is what agents see inside the portal.
+  // Agents never see their email in the UI — only their display name.
+
+  function toggleAddUser() {
+    const form = document.getElementById('um-add-form');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    document.getElementById('um-add-error').style.display = 'none';
+    document.getElementById('um-add-success').style.display = 'none';
+    if (form.style.display === 'block') {
+      document.getElementById('new-name').value = '';
+      document.getElementById('new-email').value = '';
+      document.getElementById('new-pass').value = '';
+      document.getElementById('new-role').value = 'agent';
+    }
+  }
+
+  async function addUser() {
+    const name = document.getElementById('new-name').value.trim();
+    const email = document.getElementById('new-email').value.trim().toLowerCase();
+    const pass = document.getElementById('new-pass').value.trim();
+    const role = document.getElementById('new-role').value;
+    const errEl = document.getElementById('um-add-error');
+    const succEl = document.getElementById('um-add-success');
+    errEl.style.display = 'none';
+    succEl.style.display = 'none';
+
+    if (!name || !email || !pass) {
+      errEl.textContent = 'Please fill in all fields.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (pass.length < 6) {
+      errEl.textContent = 'Password must be at least 6 characters.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    const saveBtn = document.querySelector('.um-save-btn');
+    saveBtn.textContent = 'Creating…';
+    saveBtn.disabled = true;
+
+    // We create the user while admin is logged in.
+    // Firebase Auth allows creating users from client SDK.
+    // After creation we immediately store their profile in Firestore
+    // and sign back in as admin.
+    const adminEmail = currentUser.email;
+    const adminPass = await promptAdminPass();
+    if (!adminPass) {
+      saveBtn.textContent = 'Save Agent';
+      saveBtn.disabled = false;
+      return;
+    }
+
+    try {
+      // Create new auth user
+      const cred = await createUserWithEmailAndPassword(firebaseAuth, email, pass);
+      await updateProfile(cred.user, { displayName: name });
+
+      // Save to Firestore
+      await setDoc(doc(db, 'users', cred.user.uid), {
+        uid: cred.user.uid,
+        name,
+        email,
+        role,
+        createdAt: serverTimestamp(),
+      });
+
+      // Sign back in as admin
+      await signInWithEmailAndPassword(firebaseAuth, adminEmail, adminPass);
+
+      succEl.textContent = `✅ ${name} added successfully. They can now log in with ${email}.`;
+      succEl.style.display = 'block';
+      document.getElementById('new-name').value = '';
+      document.getElementById('new-email').value = '';
+      document.getElementById('new-pass').value = '';
+      document.getElementById('new-role').value = 'agent';
+      loadUsersPage();
+    } catch (e) {
+      if (e.code === 'auth/email-already-in-use') {
+        errEl.textContent = 'This email is already registered.';
+      } else {
+        errEl.textContent = 'Error: ' + (e.message || 'Could not create user.');
+      }
+      errEl.style.display = 'block';
+      // Try to sign admin back in regardless
+      try { await signInWithEmailAndPassword(firebaseAuth, adminEmail, adminPass); } catch(_){}
+    }
+
+    saveBtn.textContent = 'Save Agent';
+    saveBtn.disabled = false;
+  }
+
+  // Small inline prompt for admin re-auth password
+  function promptAdminPass() {
+    return new Promise(resolve => {
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(7,13,45,0.55);display:flex;align-items:center;justify-content:center;z-index:9999;';
+      overlay.innerHTML = `
+        <div style="background:var(--navy-card);border:1px solid var(--navy-border);border-radius:16px;padding:2rem 2.5rem;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(7,13,45,0.25);">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;margin-bottom:0.4rem;color:var(--text-primary);">Confirm Your Password</div>
+          <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1.2rem;">Re-enter your admin password to create this agent account.</p>
+          <input id="_admin-pass-input" type="password" placeholder="Your password" style="width:100%;padding:0.75rem 1rem;background:#F1F6FD;border:1px solid var(--navy-border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;margin-bottom:1rem;"/>
+          <div style="display:flex;gap:0.75rem;">
+            <button id="_admin-pass-ok" style="flex:1;padding:0.65rem;background:linear-gradient(135deg,var(--gold),var(--gold-light));border:none;border-radius:8px;color:#fff;font-weight:600;font-size:0.88rem;cursor:pointer;font-family:'DM Sans',sans-serif;">Confirm</button>
+            <button id="_admin-pass-cancel" style="flex:1;padding:0.65rem;background:transparent;border:1px solid var(--navy-border);border-radius:8px;color:var(--text-muted);font-weight:500;font-size:0.88rem;cursor:pointer;font-family:'DM Sans',sans-serif;">Cancel</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+      const input = overlay.querySelector('#_admin-pass-input');
+      input.focus();
+      overlay.querySelector('#_admin-pass-ok').onclick = () => {
+        document.body.removeChild(overlay);
+        resolve(input.value);
+      };
+      overlay.querySelector('#_admin-pass-cancel').onclick = () => {
+        document.body.removeChild(overlay);
+        resolve(null);
+      };
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { document.body.removeChild(overlay); resolve(input.value); }
+        if (e.key === 'Escape') { document.body.removeChild(overlay); resolve(null); }
+      });
+    });
+  }
+
+  async function loadUsersPage() {
+    if (!isAdminUser()) return;
+    const listEl = document.getElementById('um-user-list');
+    listEl.innerHTML = '<div style="color:var(--text-dim);font-size:0.875rem;padding:1rem;text-align:center;">Loading…</div>';
+    try {
+      const snap = await getDocs(collection(db, 'users'));
+      if (snap.empty) {
+        listEl.innerHTML = '<div class="um-empty">No agents added yet. Click "+ Add Agent" to get started.</div>';
+        return;
+      }
+      const users = [];
+      snap.forEach(d => users.push(d.data()));
+      users.sort((a,b) => (a.name||'').localeCompare(b.name||''));
+
+      listEl.innerHTML = users.map(u => {
+        const initials = (u.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+        const roleCls = u.role === 'admin' ? 'admin' : u.role === 'tl' ? 'tl' : '';
+        const roleLabel = u.role === 'tl' ? 'Team Lead' : (u.role||'agent');
+        return `<div class="um-user-card">
+          <div class="um-user-avatar">${initials}</div>
+          <div class="um-user-info">
+            <div class="um-user-name">${esc(u.name)} <span class="um-role-badge ${roleCls}">${roleLabel}</span></div>
+            <div class="um-user-email">${esc(u.email)}</div>
+          </div>
+          <button class="um-del-btn" onclick="removeUser('${u.uid}', '${esc(u.name)}')">Remove</button>
+        </div>`;
+      }).join('');
+    } catch(e) {
+      listEl.innerHTML = '<div class="um-empty" style="color:var(--accent-red);">Could not load users. Make sure Firestore is set up and rules allow admin access.</div>';
+    }
+  }
+
+  async function removeUser(uid, name) {
+    if (!confirm(`Remove ${name}? They will no longer be able to log in.`)) return;
+    try {
+      await deleteDoc(doc(db, 'users', uid));
+      // Note: Firebase Auth account still exists — they can still technically log in
+      // but won't have a Firestore profile. For full removal, use Firebase Admin SDK
+      // via a Cloud Function. The Firestore deletion is sufficient for most use cases.
+      loadUsersPage();
+    } catch(e) {
+      alert('Could not remove user from database.');
+    }
+  }
+
+  function esc(str) {
+    return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── BUILD CURRENT USER FROM FIREBASE + FIRESTORE ──
+  async function buildCurrentUser(fbUser) {
+    const email = fbUser.email || '';
+    let name = fbUser.displayName || email.split('@')[0] || 'Agent';
+    let role = ADMIN_EMAILS.includes(email.toLowerCase()) ? 'admin' : 'agent';
+
+    // Pull display name and role from Firestore (admin may have set these)
+    try {
+      const snap = await getDoc(doc(db, 'users', fbUser.uid));
+      if (snap.exists()) {
+        if (snap.data().name) name = snap.data().name;
+        if (snap.data().role && !ADMIN_EMAILS.includes(email.toLowerCase())) role = snap.data().role;
+      }
+    } catch(e) {}
+
+    return { uid: fbUser.uid, email, name, role };
+  }
+
+  onAuthStateChanged(firebaseAuth, async user => {
+    if (user) {
+      currentUser = await buildCurrentUser(user);
+      enterDashboard();
+    } else {
+      currentUser = null;
+      updateAdminVisibility();
+      document.getElementById('dashboard-view').classList.remove('active');
+      document.getElementById('login-view').classList.add('active');
+    }
+  });
+
+  function openSimulation() { window.open('simulation.html', '_blank'); }
 
   function setGreetingAndDate() {
     const now = new Date();
     const h = now.getHours();
-    const greet = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
-    document.getElementById('time-greet').textContent = greet;
+    document.getElementById('time-greet').textContent = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
     const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     document.getElementById('date-display').textContent =
@@ -1188,91 +1602,45 @@
   }
 
   function parseCsv(csvText) {
-    const rows = [];
-    let row = [];
-    let cell = '';
-    let inQuotes = false;
-
+    const rows = []; let row = [], cell = ''; let inQuotes = false;
     for (let i = 0; i < csvText.length; i++) {
-      const char = csvText[i];
-      const next = csvText[i + 1];
-
-      if (char === '"' && inQuotes && next === '"') {
-        cell += '"';
-        i++;
-      } else if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
-        row.push(cell.trim());
-        cell = '';
-      } else if ((char === '\n' || char === '\r') && !inQuotes) {
-        if (char === '\r' && next === '\n') i++;
-        row.push(cell.trim());
-        rows.push(row);
-        row = [];
-        cell = '';
-      } else {
-        cell += char;
-      }
+      const char = csvText[i], next = csvText[i+1];
+      if (char==='"' && inQuotes && next==='"') { cell+='"'; i++; }
+      else if (char==='"') { inQuotes=!inQuotes; }
+      else if (char===',' && !inQuotes) { row.push(cell.trim()); cell=''; }
+      else if ((char==='\n'||char==='\r') && !inQuotes) {
+        if (char==='\r'&&next==='\n') i++;
+        row.push(cell.trim()); rows.push(row); row=[]; cell='';
+      } else { cell+=char; }
     }
-
-    if (cell || row.length) {
-      row.push(cell.trim());
-      rows.push(row);
-    }
-
+    if (cell||row.length) { row.push(cell.trim()); rows.push(row); }
     return rows;
   }
 
   function getMonthIndex(label) {
     const match = label.match(/([A-Za-z]+)\s*-\s*(\d{4})/);
     if (!match) return null;
-
-    const months = {
-      jan: 0, january: 0,
-      feb: 1, february: 1,
-      mar: 2, march: 2,
-      apr: 3, april: 3,
-      may: 4,
-      jun: 5, june: 5,
-      jul: 6, july: 6,
-      aug: 7, august: 7,
-      sep: 8, sept: 8, september: 8,
-      oct: 9, october: 9,
-      nov: 10, november: 10,
-      dec: 11, december: 11,
-    };
-
-    const key = match[1].toLowerCase();
-    return { month: months[key], year: Number(match[2]) };
+    const months = { jan:0,january:0,feb:1,february:1,mar:2,march:2,apr:3,april:3,may:4,jun:5,june:5,jul:6,july:6,aug:7,august:7,sep:8,sept:8,september:8,oct:9,october:9,nov:10,november:10,dec:11,december:11 };
+    return { month: months[match[1].toLowerCase()], year: Number(match[2]) };
   }
 
   function statusParts(value) {
-    return String(value || '')
-      .toUpperCase()
-      .split(/[^A-Z]+/)
-      .filter(Boolean);
+    return String(value||'').toUpperCase().split(/[^A-Z]+/).filter(Boolean);
   }
 
   function formatNames(names, emptyText) {
     if (!names.length) return emptyText;
     if (names.length <= 4) return names.join(', ');
-    return `${names.slice(0, 4).join(', ')} and ${names.length - 4} more`;
+    return `${names.slice(0,4).join(', ')} and ${names.length-4} more`;
   }
 
   function updateRosterBanner(summary) {
-    const title = document.getElementById('absence-title');
-    const detail = document.getElementById('absence-detail');
-    const absentLabel = summary.absent.length === 1 ? 'agent is not present' : 'agents are not present';
-    const pieces = [
-      `${formatNames(summary.absent, 'No agents')} ${summary.absent.length ? 'are marked L/CO/W' : 'are marked absent'}`,
-    ];
-
-    if (summary.wfh.length) pieces.push(`WFH: ${formatNames(summary.wfh, '')}`);
-    if (summary.halfDay.length) pieces.push(`Half-day leave: ${formatNames(summary.halfDay, '')}`);
-
-    title.textContent = `${summary.absent.length} ${absentLabel} today`;
-    detail.textContent = `Roster is synced from Google Sheets - ${pieces.join('. ')}.`;
+    const absentLabel = summary.absent.length===1 ? 'agent is not present' : 'agents are not present';
+    const pieces = [`${formatNames(summary.absent,'No agents')} ${summary.absent.length ? 'are marked L/CO/W' : 'are marked absent'}`];
+    if (summary.wfh.length) pieces.push(`WFH: ${formatNames(summary.wfh,'')}`);
+    if (summary.halfDay.length) pieces.push(`Half-day leave: ${formatNames(summary.halfDay,'')}`);
+    document.getElementById('absence-title').textContent = `${summary.absent.length} ${absentLabel} today`;
+    document.getElementById('absence-detail').textContent = `Roster is synced from Google Sheets - ${pieces.join('. ')}.`;
   }
 
   function updateRosterError() {
@@ -1283,74 +1651,44 @@
   async function loadRosterSummary() {
     try {
       const response = await fetch(`${ROSTER_CSV_URL}&cacheBust=${Date.now()}`);
-      if (!response.ok) throw new Error('Roster fetch failed');
-
+      if (!response.ok) throw new Error('fetch failed');
       const rows = parseCsv(await response.text());
       const monthRow = rows.find(row => row.some(cell => /[A-Za-z]+\s*-\s*\d{4}/.test(cell)));
-      const dateRow = rows.find(row => String(row[1]).trim().toUpperCase() === 'DATE');
-      if (!monthRow || !dateRow) throw new Error('Roster header not found');
-
-      const monthInfo = getMonthIndex(monthRow.find(cell => /[A-Za-z]+\s*-\s*\d{4}/.test(cell)) || '');
+      const dateRow = rows.find(row => String(row[1]).trim().toUpperCase()==='DATE');
+      if (!monthRow||!dateRow) throw new Error('header not found');
+      const monthInfo = getMonthIndex(monthRow.find(cell => /[A-Za-z]+\s*-\s*\d{4}/.test(cell))||'');
       const today = new Date();
-      if (!monthInfo || monthInfo.month !== today.getMonth() || monthInfo.year !== today.getFullYear()) {
-        document.getElementById('absence-title').textContent = 'Roster month does not match today';
-        document.getElementById('absence-detail').textContent = 'Please publish the current month roster in Google Sheets.';
+      if (!monthInfo||monthInfo.month!==today.getMonth()||monthInfo.year!==today.getFullYear()) {
+        document.getElementById('absence-title').textContent='Roster month does not match today';
+        document.getElementById('absence-detail').textContent='Please publish the current month roster in Google Sheets.';
         return;
       }
-
       const day = String(today.getDate());
-      const dateCol = dateRow.findIndex((cell, index) => index >= 2 && String(Number(cell)) === day);
-      if (dateCol < 0) throw new Error('Today column not found');
-
-      const summary = { absent: [], wfh: [], halfDay: [] };
-      for (const row of rows.slice(rows.indexOf(dateRow) + 2)) {
-        const empId = String(row[0] || '').trim();
-        const name = String(row[1] || '').trim();
-        if (!empId || !name || !/^K\d+/i.test(empId)) continue;
-
+      const dateCol = dateRow.findIndex((cell,i) => i>=2 && String(Number(cell))===day);
+      if (dateCol<0) throw new Error('today col not found');
+      const summary = { absent:[], wfh:[], halfDay:[] };
+      for (const row of rows.slice(rows.indexOf(dateRow)+2)) {
+        const empId=String(row[0]||'').trim(), name=String(row[1]||'').trim();
+        if (!empId||!name||!/^K\d+/i.test(empId)) continue;
         const parts = statusParts(row[dateCol]);
-        if (parts.some(part => NOT_PRESENT_CODES.has(part))) summary.absent.push(name);
+        if (parts.some(p => NOT_PRESENT_CODES.has(p))) summary.absent.push(name);
         if (parts.includes('WFH')) summary.wfh.push(name);
         if (parts.includes('HL')) summary.halfDay.push(name);
       }
-
       updateRosterBanner(summary);
-    } catch (error) {
-      updateRosterError();
-    }
+    } catch(e) { updateRosterError(); }
   }
-
-  function buildCurrentUser(firebaseUser) {
-    const email = firebaseUser.email || '';
-    const fallbackName = email.split('@')[0] || 'Agent';
-    const role = ADMIN_EMAILS.includes(email.toLowerCase()) ? 'admin' : 'agent';
-
-    return {
-      uid: firebaseUser.uid,
-      username: email,
-      email,
-      name: firebaseUser.displayName || fallbackName,
-      role,
-    };
-  }
-
-  onAuthStateChanged(firebaseAuth, user => {
-    if (user) {
-      currentUser = buildCurrentUser(user);
-      enterDashboard();
-    } else {
-      currentUser = null;
-      updateAdminVisibility();
-      document.getElementById('dashboard-view').classList.remove('active');
-      document.getElementById('login-view').classList.add('active');
-    }
-  });
 
   window.doLogin = doLogin;
   window.doLogout = doLogout;
   window.showPage = showPage;
   window.openSimulation = openSimulation;
+  window.toggleAddUser = toggleAddUser;
+  window.addUser = addUser;
+  window.removeUser = removeUser;
+  window.doChangePassword = doChangePassword;
 </script>
+
 
 </body>
 </html>
