@@ -172,12 +172,31 @@
   .login-status {
     font-size: 0.82rem;
     margin-top: 0.8rem;
-    text-align: center;
     display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
   }
 
-  .login-error { color: var(--accent-red); }
-  .login-status { color: var(--text-dim); }
+  .login-error { color: var(--accent-red); text-align: center; }
+  .login-status {
+    color: var(--text-dim);
+    text-align: center;
+    display: flex;
+  }
+
+  .login-loader {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(17,17,17,0.12);
+    border-top-color: var(--gold);
+    animation: spin 0.9s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
 
   .login-footer {
     margin-top: 2rem;
@@ -672,6 +691,60 @@
     min-width: 720px;
   }
 
+  .kb-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 60vh;
+  }
+
+  .kb-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .kb-header h2 {
+    margin-bottom: 0.25rem;
+    font-size: 1.35rem;
+  }
+
+  .kb-header p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .kb-open-btn {
+    padding: 0.75rem 1rem;
+    background: var(--gold);
+    color: #111;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background var(--transition);
+  }
+
+  .kb-open-btn:hover {
+    background: var(--gold-light);
+  }
+
+  .kb-iframe-wrap {
+    min-height: 70vh;
+    border: 1px solid var(--navy-border);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(7,13,45,0.08);
+  }
+
+  .kb-iframe-wrap iframe {
+    width: 100%;
+    min-height: 70vh;
+    border: none;
+  }
+
   .roster-table th,
   .roster-table td {
     padding: 0.75rem 0.9rem;
@@ -823,7 +896,7 @@
     </div>
 
     <div class="login-error" id="login-error">Invalid email or password. Please try again.</div>
-    <div class="login-status" id="login-status">Loading profile…</div>
+    <div class="login-status" id="login-status"><span class="login-loader"></span><span class="login-status-text">Reaching server…</span></div>
 
     <button class="login-btn" onclick="doLogin()">Sign In</button>
 
@@ -1117,13 +1190,17 @@
 
       <!-- ── KB SEARCH PAGE ── -->
       <div class="page" id="page-kb">
-        <div class="placeholder-page">
-          <div class="big-icon">
-            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg>
+        <div class="kb-page">
+          <div class="kb-header">
+            <div>
+              <h2>Knowledge Base</h2>
+              <p>Search and browse KB articles from within the portal.</p>
+            </div>
+            <a class="kb-open-btn" href="kbsection.html" target="_blank" rel="noreferrer">Open KB in new tab</a>
           </div>
-          <h2>KB Search Engine</h2>
-          <p>Your Supabase-powered knowledge base search engine will live here.</p>
-          <span class="coming-badge">Plug-in Ready</span>
+          <div class="kb-iframe-wrap">
+            <iframe src="kbsection.html" title="Knowledge Base" loading="lazy"></iframe>
+          </div>
         </div>
       </div>
 
@@ -1348,9 +1425,13 @@
     const email = document.getElementById('username').value.trim().toLowerCase();
     const p = document.getElementById('password').value;
     const err = document.getElementById('login-error');
+    const status = document.getElementById('login-status');
+    const statusText = status.querySelector('.login-status-text');
     const loginBtn = document.querySelector('.login-btn');
 
     err.style.display = 'none';
+    statusText.textContent = 'Reaching server…';
+    status.style.display = 'flex';
     loginBtn.disabled = true;
     loginBtn.textContent = 'Signing in…';
 
@@ -1360,6 +1441,7 @@
       err.textContent = 'Invalid email or password. Please try again.';
       err.style.display = 'block';
     } finally {
+      status.style.display = 'none';
       loginBtn.disabled = false;
       loginBtn.textContent = 'Sign In';
     }
