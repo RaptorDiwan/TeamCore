@@ -778,7 +778,7 @@
         Simulation
       </div>
 
-      <div class="sidebar-item" onclick="openKB()">
+      <div class="sidebar-item" onclick="showPage('kb', this)">
         <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
           <path d="M11 8v6M8 11h6" stroke-linecap="round"/>
@@ -941,7 +941,7 @@
             <div class="mc-desc">Multi-product simulation environment for your team.</div>
           </div>
 
-          <div class="module-card blue" onclick="openKB()">
+          <div class="module-card blue" onclick="showPage('kb', null)">
             <div class="mc-icon blue">
               <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/><path d="M11 8v6M8 11h6" stroke-linecap="round"/></svg>
             </div>
@@ -1253,23 +1253,22 @@
     const email = document.getElementById('username').value.trim().toLowerCase();
     const p = document.getElementById('password').value;
     const err = document.getElementById('login-error');
-    const btn = document.querySelector('.login-btn');
+    const loginBtn = document.querySelector('.login-btn');
+
     err.style.display = 'none';
-    btn.textContent = 'Signing in…';
-    btn.disabled = true;
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Signing in…';
+
     try {
       await signInWithEmailAndPassword(firebaseAuth, email, p);
-      // onAuthStateChanged will handle the transition; keep button disabled
     } catch (error) {
       err.textContent = 'Invalid email or password. Please try again.';
       err.style.display = 'block';
-      btn.textContent = 'Sign In';
-      btn.disabled = false;
+    } finally {
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'Sign In';
     }
   }
-
-  // ── KB SECTION ──
-  function openKB() { window.location.href = 'kbsection.html'; }
 
   document.getElementById('password').addEventListener('keydown', e => {
     if (e.key === 'Enter') doLogin();
@@ -1286,7 +1285,7 @@
     document.getElementById('greet-name').textContent = currentUser.name.split(' ')[0];
     updateAdminVisibility();
     setGreetingAndDate();
-    loadRosterSummary();
+    setTimeout(loadRosterSummary, 0);
   }
 
   // ── LOGOUT ──
@@ -1692,7 +1691,6 @@
   window.doLogout = doLogout;
   window.showPage = showPage;
   window.openSimulation = openSimulation;
-  window.openKB = openKB;
   window.toggleAddUser = toggleAddUser;
   window.addUser = addUser;
   window.removeUser = removeUser;
