@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>TeamCore — Agent Portal</title>
+<title>K7TeamCore — Agent Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -929,6 +929,90 @@
   .comment-send-btn{width:30px;height:30px;border-radius:50%;background:var(--gold);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
   .comment-send-btn:hover{background:var(--gold-light);}
   @media(max-width:700px){.lightbox-box{flex-direction:column;}.lightbox-info{width:100%;max-height:50vh;}.lightbox-media{max-height:40vh;}.moments-grid{columns:2 150px;}}
+
+  /* KEEP ME LOGGED IN */
+  .keep-logged-in-label {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.78rem; color: var(--text-muted); cursor: pointer;
+    margin-top: 0.8rem; justify-content: center;
+  }
+  .keep-logged-in-label input { accent-color: var(--gold); width: 14px; height: 14px; cursor: pointer; }
+
+  /* BREAK TRACKER BAR */
+  .break-bar {
+    position: fixed; bottom: 0; left: 220px; right: 0;
+    background: rgba(19,23,49,0.97); backdrop-filter: blur(12px);
+    border-top: 1px solid var(--navy-border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.55rem 2rem; z-index: 200; gap: 1rem;
+  }
+  .break-bar-left { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+  .break-bar-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); white-space: nowrap; }
+  .break-btn-group { display: flex; align-items: center; gap: 0.5rem; }
+  .break-btn {
+    display: flex; align-items: center; gap: 0.4rem;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.8); font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem; font-weight: 500; padding: 0.38rem 0.85rem;
+    border-radius: 20px; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .break-btn:hover { background: rgba(255,255,255,0.13); color: #fff; }
+  .break-btn.active { background: rgba(239,73,60,0.22); border-color: var(--gold); color: var(--gold-light); }
+  .break-btn.done { background: rgba(46,197,111,0.12); border-color: rgba(46,197,111,0.35); color: #2EC56F; opacity: 0.6; cursor: not-allowed; }
+  .break-btn.over { background: rgba(239,73,60,0.22); border-color: var(--gold); color: #ff7f75; }
+  .break-timer { font-size: 0.78rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--gold-light); min-width: 38px; }
+  .break-timer.warning { color: #ff6b5b; animation: pulse 1s ease infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+  .break-limit-badge { font-size: 0.62rem; color: rgba(255,255,255,0.3); }
+
+  /* ATTENDANCE BADGE in topbar */
+  .attendance-badge {
+    display: flex; align-items: center; gap: 0.4rem;
+    background: rgba(46,197,111,0.12); border: 1px solid rgba(46,197,111,0.3);
+    color: #2EC56F; font-size: 0.72rem; font-weight: 500;
+    padding: 0.3rem 0.75rem; border-radius: 20px;
+  }
+  .attendance-dot { width: 6px; height: 6px; border-radius: 50%; background: #2EC56F; animation: pulse 2s ease infinite; }
+
+  /* BREAK TOAST */
+  .break-toast {
+    position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%);
+    background: rgba(19,23,49,0.97); border: 1px solid var(--navy-border);
+    border-radius: 12px; padding: 0.85rem 1.4rem;
+    display: flex; align-items: center; gap: 0.75rem;
+    box-shadow: 0 8px 32px rgba(4,8,30,0.4); z-index: 9998;
+    animation: slideUp 0.3s ease; min-width: 280px; max-width: 420px;
+  }
+  .break-toast.warning { border-color: rgba(239,73,60,0.4); }
+  .break-toast.ok { border-color: rgba(46,197,111,0.4); }
+  .break-toast-icon { font-size: 1.2rem; flex-shrink: 0; }
+  .break-toast-text { flex: 1; }
+  .break-toast-title { font-size: 0.82rem; font-weight: 600; color: #fff; margin-bottom: 0.15rem; }
+  .break-toast-sub { font-size: 0.72rem; color: rgba(255,255,255,0.55); }
+  @keyframes slideUp { from{opacity:0;transform:translateX(-50%) translateY(16px);} to{opacity:1;transform:translateX(-50%) translateY(0);} }
+
+  /* REPORTS PAGE */
+  .reports-page { display: flex; flex-direction: column; gap: 1.5rem; padding-bottom: 3rem; }
+  .reports-title { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; color: var(--text-primary); margin-bottom: .2rem; }
+  .reports-filters { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-end; }
+  .reports-filters .field-group { margin-bottom: 0; }
+  .reports-filters label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 0.35rem; }
+  .reports-filters input, .reports-filters select { padding: 0.55rem 0.85rem; background: var(--navy-card); border: 1px solid var(--navy-border); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: var(--text-primary); outline: none; }
+  .reports-fetch-btn { background: linear-gradient(135deg, var(--gold), var(--gold-light)); border: none; color: #fff; padding: 0.6rem 1.4rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: opacity .2s; }
+  .reports-fetch-btn:hover { opacity: 0.88; }
+  .reports-table-wrap { overflow-x: auto; background: var(--navy-card); border: 1px solid var(--navy-border); border-radius: var(--radius); }
+  .reports-table { width: 100%; border-collapse: collapse; min-width: 700px; }
+  .reports-table th, .reports-table td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--navy-border); text-align: left; font-size: 0.85rem; color: var(--text-primary); white-space: nowrap; }
+  .reports-table th { background: var(--navy-hover); color: var(--text-muted); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .reports-table tr:last-child td { border-bottom: none; }
+  .reports-table tr:hover td { background: var(--navy-hover); }
+  .over-badge { background: rgba(239,73,60,0.12); color: var(--accent-red); font-size: 0.65rem; font-weight: 600; padding: 1px 7px; border-radius: 10px; margin-left: 0.35rem; }
+  .ok-badge { background: rgba(46,197,111,0.12); color: #1a7a45; font-size: 0.65rem; font-weight: 600; padding: 1px 7px; border-radius: 10px; margin-left: 0.35rem; }
+  .export-btn { background: transparent; border: 1px solid var(--navy-border); color: var(--text-muted); padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; cursor: pointer; transition: all .2s; }
+  .export-btn:hover { background: var(--navy-hover); color: var(--text-primary); }
+
+  /* push main content up when break bar is showing */
+  .main-content { padding-bottom: 4rem; }
 </style>
 </head>
 <body>
@@ -937,7 +1021,7 @@
 <div id="login-view" class="view active">
   <div class="login-box">
     <div class="login-logo">
-      <div class="wordmark">Team<span>Core</span></div>
+      <div class="wordmark">K7Team<span>Core</span></div>
       <div class="tagline">Agent Operations Portal</div>
     </div>
 
@@ -952,7 +1036,8 @@
     </div>
 
     <div class="login-error" id="login-error">Invalid email or password. Please try again.</div>
-    <div class="login-status" id="login-status"><span class="login-loader"></span><span class="login-status-text">Reaching server…</span></div>
+    <div class="login-status" id="login-status"><span class="login-loader"></span><span class="login-status-text">Signing in…</span></div>
+    <label class="keep-logged-in-label"><input type="checkbox" id="keep-logged-in" checked/> Keep me logged in</label>
 
     <button class="login-btn" id="login-btn" onclick="doLogin()">Sign In</button>
 
@@ -965,8 +1050,9 @@
 
   <!-- TOPBAR -->
   <div class="topbar">
-    <div class="topbar-brand">Team<span>Core</span></div>
+    <div class="topbar-brand">K7Team<span>Core</span></div>
     <div class="topbar-right">
+      <div class="attendance-badge" id="attendance-badge" style="display:none;"><span class="attendance-dot"></span><span id="attendance-login-time">Logged in</span></div>
       <div class="agent-badge">
         <div class="avatar" id="avatar-initials">AG</div>
         <div class="agent-name" id="agent-display">Agent</div>
@@ -1350,13 +1436,17 @@
 
       <!-- â”€â”€ ADMIN: REPORTS â”€â”€ -->
       <div class="page" id="page-reports">
-        <div class="placeholder-page">
-          <div class="big-icon">
-            <svg viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 3v6h6M8 17v-4M12 17v-7M16 17v-2"/></svg>
+        <div class="reports-page">
+          <h2 class="reports-title">&#128202; Attendance &amp; Break Reports</h2>
+          <div class="reports-filters">
+            <div class="field-group"><label>From Date</label><input type="date" id="report-from"/></div>
+            <div class="field-group"><label>To Date</label><input type="date" id="report-to"/></div>
+            <div class="field-group"><label>Agent</label><select id="report-agent"><option value="">All Agents</option></select></div>
+            <div class="field-group"><label>Report Type</label><select id="report-type"><option value="attendance">Login / Logout</option><option value="breaks">Break Tracker</option></select></div>
+            <button class="reports-fetch-btn" onclick="loadReport()">&#128269; Pull Report</button>
+            <button class="export-btn" onclick="exportReportCSV()">&#8681; Export CSV</button>
           </div>
-          <h2>Reports</h2>
-          <p>Admin-only area to pull daily quiz, monthly assessment, roster, and performance reports.</p>
-          <span class="coming-badge">Admin Only</span>
+          <div id="report-output" class="reports-table-wrap" style="min-height:200px;display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-size:0.875rem;">Select filters and click Pull Report</div>
         </div>
       </div>
 
@@ -1507,9 +1597,13 @@ async function doLogin(){
 }
 
 function doLogout(){
+  recordLogout();
+  if(_loginClockInterval)clearInterval(_loginClockInterval);
   currentUser=null;clearSession();
   document.getElementById('dashboard-view').classList.remove('active');
   document.getElementById('login-view').classList.add('active');
+  var bb=document.getElementById('break-bar');if(bb)bb.style.display='none';
+  var ab=document.getElementById('attendance-badge');if(ab)ab.style.display='none';
   document.getElementById('username').value='';
   document.getElementById('password').value='';
   document.getElementById('login-error').style.display='none';
@@ -1525,6 +1619,7 @@ function enterDashboard(){
   document.getElementById('greet-name').textContent=currentUser.name.split(' ')[0];
   updateAdminVisibility();setGreetingAndDate();
   setTimeout(loadRosterSummary,0);
+  setTimeout(recordLogin,500);
 }
 
 window.addEventListener('DOMContentLoaded',function(){
@@ -1546,6 +1641,7 @@ function showPage(id,elem){
   }
   if(id==='users')loadUsersPage();
   if(id==='changepass')resetChangePasswordForm();
+  if(id==='reports'){loadReportAgents();initReportDates();}
   if(id==='roster'){if(window.rosterCache)renderRosterPage(window.rosterCache);else loadRosterSummary();}
   if(id==='moments')setTimeout(function(){_mLoadTab(_mActiveTab);},60);
 }
@@ -1662,7 +1758,7 @@ function updateRosterBanner(s){var l=s.absent.length===1?'agent is not present':
 function renderRosterPage(rows,todayCol,error){var wrap=document.getElementById('roster-table-wrap');if(error){wrap.innerHTML='<div class="roster-error">Could not load roster.</div>';return;}if(!rows||!rows.length){wrap.innerHTML='<div class="roster-error">No roster data.</div>';return;}var dateRow=rows.find(function(r){return String(r[1]).trim().toUpperCase()==='DATE';});if(!dateRow){wrap.innerHTML='<div class="roster-error">Header not found.</div>';return;}var hc=dateRow.map(function(c,i){return i===0?'Emp ID':i===1?'Name':c||'';});var br=rows.slice(rows.indexOf(dateRow)+2).filter(function(r){return String(r[0]||'').trim()||String(r[1]||'').trim();});wrap.innerHTML='<table class="roster-table"><thead><tr>'+hc.map(function(h){return'<th>'+h+'</th>';}).join('')+'</tr></thead><tbody>'+br.map(function(row){var ia=todayCol>=0&&row[todayCol]&&NOT_PRESENT_CODES.has(String(row[todayCol]).toUpperCase().trim());var iw=todayCol>=0&&String(row[todayCol]||'').toUpperCase().indexOf('WFH')>-1;var ih=todayCol>=0&&String(row[todayCol]||'').toUpperCase().indexOf('HL')>-1;var hclass=todayCol>=0&&(ia||iw||ih)?'roster-highlight':'';return'<tr class="'+hclass+'">'+row.map(function(cell,idx){return'<td'+(idx===todayCol?' class="roster-highlight"':'')+'>'+( cell||'')+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';}
 async function loadRosterSummary(){try{var r=await fetch(ROSTER_CSV_URL+'&cacheBust='+Date.now());if(!r.ok)throw new Error('fail');var rows=parseCsv(await r.text());window.rosterCache=rows;var mr=rows.find(function(row){return row.some(function(c){return/[A-Za-z]+\s*-\s*\d{4}/.test(c);});});var dr=rows.find(function(row){return String(row[1]).trim().toUpperCase()==='DATE';});if(!mr||!dr)throw new Error('hdr');var mi=getMonthIndex(mr.find(function(c){return/[A-Za-z]+\s*-\s*\d{4}/.test(c);})||'');var today=new Date();if(!mi||mi.month!==today.getMonth()||mi.year!==today.getFullYear()){document.getElementById('absence-title').textContent='Roster month does not match today';document.getElementById('absence-detail').textContent='Please publish the current month roster.';renderRosterPage(rows,false);return;}var day=String(today.getDate());var dc=dr.findIndex(function(c,i){return i>=2&&String(Number(c))===day;});if(dc<0)throw new Error('col');var s={absent:[],wfh:[],halfDay:[]};rows.slice(rows.indexOf(dr)+2).forEach(function(row){var ei=String(row[0]||'').trim(),n=String(row[1]||'').trim();if(!ei||!n||!/^K\d+/i.test(ei))return;var p=statusParts(row[dc]);if(p.some(function(x){return NOT_PRESENT_CODES.has(x);}))s.absent.push(n);if(p.indexOf('WFH')>-1)s.wfh.push(n);if(p.indexOf('HL')>-1)s.halfDay.push(n);});updateRosterBanner(s);renderRosterPage(rows,dc);}catch(e){document.getElementById('absence-title').textContent='Roster sync unavailable';document.getElementById('absence-detail').textContent='Could not read Google Sheets right now.';renderRosterPage(null,null,e);}}
 
-const CLOUDINARY_CLOUD='YOUR_CLOUD_NAME';
+const CLOUDINARY_CLOUD='dvp62lqmv';
 const M_TAG_MAP={all:null,birthday:'birthday',outing:'team-outing',dinner:'team-dinner',funfriday:'fun-friday'};
 const M_LABELS={all:'Recents',birthday:'Birthday',outing:'Team Outing',dinner:'Team Dinner',funfriday:'Fun Friday'};
 var _mlikes={},_mliked={},_mcomments={};
@@ -1739,8 +1835,290 @@ function openMomentLightbox(safe){
 function closeLightbox(){document.getElementById('lightbox-overlay').classList.remove('open');document.body.style.overflow='';_mLightboxId=null;}
 function _mRenderComments(safe){var list=document.getElementById('comments-list');var items=_mcomments[safe]||[];if(!items.length){list.innerHTML='<div class="no-comments">No comments yet - be the first!</div>';return;}list.innerHTML=items.map(function(c){return'<div class="comment-item"><div class="comment-avatar">'+c.initials+'</div><div class="comment-body"><div class="comment-author">'+c.author+'</div><div class="comment-text">'+c.text+'</div><div class="comment-time">'+_mTimeAgo(c.ts)+'</div></div></div>';}).join('');list.scrollTop=list.scrollHeight;}
 function submitComment(){var input=document.getElementById('comment-input');var text=(input.value||'').trim();if(!text||!_mLightboxId)return;var safe=_mLightboxId;if(!_mcomments[safe])_mcomments[safe]=[];var author=currentUser?currentUser.name:'Agent';_mcomments[safe].push({author:author,initials:_mInitials(author),text:text,ts:Date.now()});input.value='';_mRenderComments(safe);}
+
+// ===================================================
+//  ATTENDANCE & BREAK TRACKER
+// ===================================================
+const BREAK_LIMITS = { breakfast:20, lunch:45, beverage:20, shortbreak:10 };
+const BREAK_LABELS = { breakfast:'Breakfast', lunch:'Lunch', beverage:'Beverage', shortbreak:'Short Break' };
+const BREAK_EMOJIS = { breakfast:'🍳', lunch:'🍽️', beverage:'☕', shortbreak:'🧘' };
+
+var _breakState = {}; // { type: { start, elapsed, done, interval } }
+var _todayAttendance = null;
+var _loginClockInterval = null;
+
+// Format seconds to MM:SS
+function fmtSec(s){ var m=Math.floor(s/60),sc=s%60; return String(m).padStart(2,'0')+':'+String(sc).padStart(2,'0'); }
+// Format time HH:MM AM/PM
+function fmtTime(iso){ if(!iso)return'--'; var d=new Date(iso); var h=d.getHours(),m=d.getMinutes(),a=h>=12?'PM':'AM'; h=h%12||12; return h+':'+(m<10?'0':'')+m+' '+a; }
+// Today's date string YYYY-MM-DD
+function todayStr(){ var d=new Date(); return d.getFullYear()+'-'+(d.getMonth()<9?'0':'')+(d.getMonth()+1)+'-'+(d.getDate()<10?'0':'')+d.getDate(); }
+
+// Show toast notification
+function showBreakToast(type, overBy){
+  var existing = document.getElementById('break-toast');
+  if(existing) existing.remove();
+  var toast = document.createElement('div');
+  toast.id = 'break-toast';
+  var isOver = overBy > 0;
+  toast.className = 'break-toast ' + (isOver ? 'warning' : 'ok');
+  var title, sub;
+  if(isOver){
+    var mins = Math.floor(overBy/60), secs = overBy%60;
+    title = BREAK_LABELS[type] + ' exceeded by ' + (mins>0?mins+'m ':'') + secs+'s';
+    sub = 'Please make sure to be back on time next time.';
+  } else {
+    title = BREAK_LABELS[type] + ' ended — welcome back!';
+    sub = 'You took ' + fmtSec(BREAK_LIMITS[type]*60 - overBy) + ' of ' + BREAK_LIMITS[type] + ' mins.';
+  }
+  toast.innerHTML = '<span class="break-toast-icon">'+(isOver?'⚠️':'✅')+'</span><div class="break-toast-text"><div class="break-toast-title">'+title+'</div><div class="break-toast-sub">'+sub+'</div></div>';
+  document.body.appendChild(toast);
+  setTimeout(function(){ var t=document.getElementById('break-toast'); if(t)t.remove(); }, 5000);
+}
+
+// Toggle break start/end
+async function toggleBreak(type){
+  var state = _breakState[type];
+  var btn = document.getElementById('bb-'+type);
+  var timerEl = document.getElementById('bt-'+type);
+
+  if(!state || !state.active){
+    // Check if any other break is active
+    for(var t in _breakState){
+      if(_breakState[t] && _breakState[t].active){
+        showBreakToast('warning_active', 0);
+        alert('Please end your current ' + BREAK_LABELS[t] + ' break first.');
+        return;
+      }
+    }
+    // Start break
+    var startTime = new Date().toISOString();
+    _breakState[type] = { active: true, start: startTime, elapsed: 0, done: false };
+    btn.classList.add('active');
+    btn.innerHTML = BREAK_EMOJIS[type] + ' End ' + BREAK_LABELS[type];
+    timerEl.style.display = 'inline';
+    timerEl.textContent = '00:00';
+
+    // Tick timer
+    _breakState[type].interval = setInterval(function(){
+      if(!_breakState[type] || !_breakState[type].active) return;
+      _breakState[type].elapsed++;
+      var elapsed = _breakState[type].elapsed;
+      var limit = BREAK_LIMITS[type] * 60;
+      timerEl.textContent = fmtSec(elapsed);
+      if(elapsed > limit){
+        timerEl.classList.add('warning');
+        btn.classList.add('over');
+      }
+    }, 1000);
+
+  } else {
+    // End break
+    clearInterval(_breakState[type].interval);
+    var elapsed = _breakState[type].elapsed;
+    var limit = BREAK_LIMITS[type] * 60;
+    var overBy = Math.max(0, elapsed - limit);
+    _breakState[type].active = false;
+    _breakState[type].done = true;
+    btn.classList.remove('active','over');
+    btn.classList.add('done');
+    btn.innerHTML = BREAK_EMOJIS[type] + ' ' + BREAK_LABELS[type] + ' ✓';
+    timerEl.classList.remove('warning');
+    timerEl.style.display = 'none';
+
+    // Save to Supabase
+    try {
+      await sbInsert('breaks', {
+        user_id: currentUser.id,
+        user_name: currentUser.name,
+        date: todayStr(),
+        break_type: type,
+        start_time: _breakState[type].start,
+        end_time: new Date().toISOString(),
+        duration_seconds: elapsed,
+        over_limit: overBy > 0,
+        over_by_seconds: overBy
+      });
+    } catch(e){ console.warn('Break save failed:', e.message); }
+
+    showBreakToast(type, overBy);
+  }
+}
+
+// Record login attendance
+async function recordLogin(){
+  try {
+    var today = todayStr();
+    // Check if already logged today
+    var existing = await sbQuery('attendance', 'user_id=eq.'+currentUser.id+'&date=eq.'+today+'&select=id,login_time');
+    if(existing && existing.length > 0){
+      _todayAttendance = existing[0];
+      showAttendanceBadge(existing[0].login_time);
+      return;
+    }
+    var loginTime = new Date().toISOString();
+    var rows = await sbInsert('attendance', {
+      user_id: currentUser.id,
+      user_name: currentUser.name,
+      date: today,
+      login_time: loginTime,
+      logout_time: null
+    });
+    if(rows && rows.length) _todayAttendance = rows[0];
+    showAttendanceBadge(loginTime);
+  } catch(e){ console.warn('Attendance login failed:', e.message); }
+}
+
+// Record logout time
+async function recordLogout(){
+  if(!_todayAttendance) return;
+  try {
+    await sbUpdate('attendance','id',_todayAttendance.id,{ logout_time: new Date().toISOString() });
+  } catch(e){ console.warn('Attendance logout failed:', e.message); }
+}
+
+function showAttendanceBadge(loginTime){
+  var badge = document.getElementById('attendance-badge');
+  var timeEl = document.getElementById('attendance-login-time');
+  if(badge){ badge.style.display='flex'; }
+  if(timeEl){ timeEl.textContent = 'In since ' + fmtTime(loginTime); }
+  // Show break bar
+  var bar = document.getElementById('break-bar');
+  if(bar) bar.style.display='flex';
+  // Start clock
+  startLoginClock(loginTime);
+  // Reset break state for new day
+  _breakState = {};
+}
+
+function startLoginClock(loginTime){
+  var clockEl = document.getElementById('login-clock');
+  if(!clockEl) return;
+  if(_loginClockInterval) clearInterval(_loginClockInterval);
+  function update(){
+    var diff = Math.floor((Date.now() - new Date(loginTime).getTime()) / 1000);
+    var h = Math.floor(diff/3600), m = Math.floor((diff%3600)/60), s = diff%60;
+    clockEl.textContent = 'Session: ' + (h>0?h+'h ':'')+m+'m '+s+'s';
+  }
+  update();
+  _loginClockInterval = setInterval(update, 1000);
+}
+
+// ===================================================
+//  REPORTS
+// ===================================================
+var _reportData = [];
+
+async function loadReport(){
+  var from = document.getElementById('report-from').value;
+  var to = document.getElementById('report-to').value;
+  var agent = document.getElementById('report-agent').value;
+  var type = document.getElementById('report-type').value;
+  var output = document.getElementById('report-output');
+
+  if(!from || !to){ output.innerHTML='<div style="color:var(--accent-red);padding:2rem;">Please select both From and To dates.</div>'; return; }
+  output.innerHTML='<div style="color:var(--text-dim);padding:2rem;">Loading...</div>';
+
+  try {
+    var table = type === 'attendance' ? 'attendance' : 'breaks';
+    var filters = 'date=gte.'+from+'&date=lte.'+to+'&order=date.desc,user_name.asc';
+    if(agent) filters += '&user_id=eq.'+agent;
+    var rows = await sbQuery(table, filters);
+    _reportData = rows || [];
+
+    if(!_reportData.length){ output.innerHTML='<div style="color:var(--text-dim);padding:2rem;text-align:center;">No data found for selected filters.</div>'; return; }
+
+    if(type === 'attendance'){
+      output.innerHTML = '<table class="reports-table"><thead><tr><th>Date</th><th>Agent</th><th>Login Time</th><th>Logout Time</th><th>Duration</th></tr></thead><tbody>'+
+        _reportData.map(function(r){
+          var dur = '';
+          if(r.login_time && r.logout_time){
+            var diff = Math.floor((new Date(r.logout_time)-new Date(r.login_time))/1000);
+            var h=Math.floor(diff/3600),m=Math.floor((diff%3600)/60);
+            dur = h+'h '+m+'m';
+          }
+          return '<tr><td>'+r.date+'</td><td>'+r.user_name+'</td><td>'+fmtTime(r.login_time)+'</td><td>'+(r.logout_time?fmtTime(r.logout_time):'<span style="color:var(--gold)">Still in</span>')+'</td><td>'+dur+'</td></tr>';
+        }).join('')+'</tbody></table>';
+    } else {
+      output.innerHTML = '<table class="reports-table"><thead><tr><th>Date</th><th>Agent</th><th>Break Type</th><th>Start</th><th>End</th><th>Duration</th><th>Limit</th><th>Status</th></tr></thead><tbody>'+
+        _reportData.map(function(r){
+          var durMin = Math.floor(r.duration_seconds/60), durSec = r.duration_seconds%60;
+          var durStr = durMin+'m '+durSec+'s';
+          var limit = BREAK_LIMITS[r.break_type]||0;
+          var status = r.over_limit
+            ? '<span class="over-badge">Over by '+Math.floor(r.over_by_seconds/60)+'m '+r.over_by_seconds%60+'s</span>'
+            : '<span class="ok-badge">On time</span>';
+          return '<tr><td>'+r.date+'</td><td>'+r.user_name+'</td><td>'+BREAK_LABELS[r.break_type]+'</td><td>'+fmtTime(r.start_time)+'</td><td>'+fmtTime(r.end_time)+'</td><td>'+durStr+'</td><td>'+limit+'m</td><td>'+status+'</td></tr>';
+        }).join('')+'</tbody></table>';
+    }
+  } catch(e){
+    output.innerHTML='<div style="color:var(--accent-red);padding:2rem;">Error: '+e.message+'. Make sure attendance/breaks tables exist in Supabase.</div>';
+  }
+}
+
+function exportReportCSV(){
+  if(!_reportData.length){ alert('Pull a report first.'); return; }
+  var type = document.getElementById('report-type').value;
+  var headers, rows;
+  if(type==='attendance'){
+    headers = ['Date','Agent','Login Time','Logout Time'];
+    rows = _reportData.map(function(r){ return [r.date,r.user_name,fmtTime(r.login_time),r.logout_time?fmtTime(r.logout_time):'Still in']; });
+  } else {
+    headers = ['Date','Agent','Break Type','Start','End','Duration (sec)','Over Limit','Over By (sec)'];
+    rows = _reportData.map(function(r){ return [r.date,r.user_name,BREAK_LABELS[r.break_type],fmtTime(r.start_time),fmtTime(r.end_time),r.duration_seconds,r.over_limit?'Yes':'No',r.over_by_seconds]; });
+  }
+  var csv = [headers.join(',')].concat(rows.map(function(r){ return r.map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; }).join(','); })).join('\n');
+  var blob = new Blob([csv], {type:'text/csv'});
+  var a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download = type+'_report_'+todayStr()+'.csv'; a.click();
+}
+
+async function loadReportAgents(){
+  try {
+    var users = await sbQuery('users','select=id,name&order=name.asc');
+    var sel = document.getElementById('report-agent');
+    if(!sel||!users) return;
+    users.forEach(function(u){ var o=document.createElement('option'); o.value=u.id; o.textContent=u.name; sel.appendChild(o); });
+  } catch(e){}
+}
+
+// Set default report dates to today
+function initReportDates(){
+  var today = todayStr();
+  var from = document.getElementById('report-from');
+  var to = document.getElementById('report-to');
+  if(from && !from.value) from.value = today;
+  if(to && !to.value) to.value = today;
+}
+
 </script>
 
+
+  <!-- BREAK TRACKER BAR -->
+  <div class="break-bar" id="break-bar" style="display:none;">
+    <div class="break-bar-left">
+      <span class="break-bar-label">Breaks</span>
+      <div class="break-btn-group">
+        <button class="break-btn" id="bb-breakfast" onclick="toggleBreak('breakfast')">&#127859; Breakfast <span class="break-limit-badge">20m</span></button>
+        <span class="break-timer" id="bt-breakfast" style="display:none;">00:00</span>
+      </div>
+      <div class="break-btn-group">
+        <button class="break-btn" id="bb-lunch" onclick="toggleBreak('lunch')">&#127869; Lunch <span class="break-limit-badge">45m</span></button>
+        <span class="break-timer" id="bt-lunch" style="display:none;">00:00</span>
+      </div>
+      <div class="break-btn-group">
+        <button class="break-btn" id="bb-beverage" onclick="toggleBreak('beverage')">&#9749; Beverage <span class="break-limit-badge">20m</span></button>
+        <span class="break-timer" id="bt-beverage" style="display:none;">00:00</span>
+      </div>
+      <div class="break-btn-group">
+        <button class="break-btn" id="bb-shortbreak" onclick="toggleBreak('shortbreak')">&#129504; Short Break <span class="break-limit-badge">10m</span></button>
+        <span class="break-timer" id="bt-shortbreak" style="display:none;">00:00</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <span id="login-clock" style="font-size:0.72rem;color:rgba(255,255,255,0.35);"></span>
+    </div>
+  </div>
 
 </body>
 </html>
