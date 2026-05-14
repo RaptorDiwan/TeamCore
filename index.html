@@ -1826,6 +1826,8 @@ function enterDashboard(){
   updateAdminVisibility();setGreetingAndDate();
   setTimeout(loadRosterSummary,0);
   setTimeout(recordLogin,500);
+  setTimeout(loadLiveDashboard,300);
+  setTimeout(loadAnnouncements,400);
 }
 
 window.addEventListener('DOMContentLoaded',function(){
@@ -3083,6 +3085,7 @@ window.showPage=function(id,el){
   if(id==='assessment')loadAgentAssessment();
   if(id==='quiz-admin'){loadQuizBuilderList();}
   if(id==='assessment-admin'){loadAssessmentBuilderList();}
+  if(id==='announcements'){loadAnnouncementsAdmin();}
 };
 
 
@@ -3258,20 +3261,9 @@ async function deleteAnnouncement(id){
   catch(e){ alert('Delete failed.'); }
 }
 
-// Hook into showPage
-var _origShowPageHome = window.showPage;
-window.showPage = function(id, el){
-  _origShowPageHome(id, el);
-  if(id === 'announcements'){ loadAnnouncementsAdmin(); }
-};
+// announcements page hook handled in main showPage
 
-// Load dashboard data on login
-var _origEnterDashboard = enterDashboard;
-enterDashboard = function(){
-  _origEnterDashboard();
-  setTimeout(loadLiveDashboard, 300);
-  setTimeout(loadAnnouncements, 400);
-};
+// Dashboard data is loaded from within enterDashboard directly
 
 </script>
 
