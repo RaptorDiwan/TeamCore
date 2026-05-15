@@ -1225,6 +1225,52 @@
   .ann-pin-btn{background:rgba(239,73,60,.08);border:1px solid rgba(239,73,60,.2);color:var(--gold);padding:.3rem .75rem;border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap;}
   .ann-pin-btn.pinned{background:rgba(239,73,60,.18);}
 
+
+  /* ── ROSTER REDESIGN ── */
+  .roster-page { display:flex; flex-direction:column; gap:1.2rem; }
+  .roster-controls { display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+  .roster-search { flex:1; min-width:180px; padding:.55rem 1rem; background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.875rem; color:var(--text-primary); outline:none; transition:border-color .2s; }
+  .roster-search:focus { border-color:var(--gold-dim); }
+  .roster-refresh-btn { display:flex; align-items:center; gap:.5rem; padding:.55rem 1.1rem; background:linear-gradient(135deg,var(--gold),var(--gold-light)); border:none; border-radius:var(--radius-sm); color:#fff; font-family:'DM Sans',sans-serif; font-size:.82rem; font-weight:600; cursor:pointer; transition:opacity .2s; white-space:nowrap; }
+  .roster-refresh-btn:hover { opacity:.88; }
+  .roster-grid-wrap { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); overflow:hidden; }
+  .roster-grid-header { display:grid; padding:.75rem 1.2rem; background:rgba(7,13,45,.04); border-bottom:1px solid var(--navy-border); font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--text-dim); gap:.5rem; }
+  .roster-agent-row { display:grid; padding:.85rem 1.2rem; border-bottom:1px solid var(--navy-border); align-items:center; gap:.5rem; transition:background var(--transition); cursor:default; }
+  .roster-agent-row:last-child { border-bottom:none; }
+  .roster-agent-row:hover { background:var(--navy-hover); }
+  .roster-agent-row.highlight-absent { background:rgba(239,73,60,.05); border-left:3px solid var(--accent-red); }
+  .roster-agent-row.highlight-wfh { background:rgba(76,118,168,.05); border-left:3px solid var(--accent-blue); }
+  .roster-agent-row.highlight-today { background:rgba(46,197,111,.05); border-left:3px solid var(--accent-green); }
+  .roster-agent-name { font-weight:600; font-size:.875rem; color:var(--text-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .roster-day-cell { font-size:.78rem; text-align:center; padding:.2rem .3rem; border-radius:6px; font-weight:500; }
+  .roster-day-cell.today-col { background:rgba(239,73,60,.08); color:var(--gold); font-weight:700; border:1px solid rgba(239,73,60,.2); }
+  .roster-day-cell.present { color:var(--accent-green); }
+  .roster-day-cell.absent { color:var(--accent-red); background:rgba(239,73,60,.08); border-radius:6px; }
+  .roster-day-cell.wfh { color:var(--accent-blue); }
+  .roster-day-cell.half { color:#E65100; }
+  .roster-day-cell.off { color:var(--text-dim); }
+  .roster-day-cell.weekend { color:var(--text-dim); opacity:.4; }
+  .roster-status-tag { display:inline-flex; align-items:center; font-size:.65rem; font-weight:600; padding:.2rem .6rem; border-radius:20px; white-space:nowrap; }
+  .roster-status-tag.present { background:rgba(46,197,111,.1); color:#1a7a45; }
+  .roster-status-tag.absent { background:rgba(239,73,60,.1); color:var(--accent-red); }
+  .roster-status-tag.wfh { background:rgba(76,118,168,.1); color:var(--accent-blue); }
+  .roster-status-tag.half { background:rgba(230,101,0,.1); color:#E65100; }
+  .roster-status-tag.off { background:rgba(123,135,153,.1); color:var(--text-dim); }
+  .roster-legend { display:flex; gap:1rem; flex-wrap:wrap; font-size:.72rem; color:var(--text-dim); padding:.5rem 0; align-items:center; }
+  .roster-legend span { display:flex; align-items:center; gap:.35rem; }
+  .roster-legend-dot { width:8px; height:8px; border-radius:2px; flex-shrink:0; }
+  .roster-empty { text-align:center; padding:3rem; color:var(--text-dim); font-size:.875rem; }
+  /* My Shift card on home */
+  .my-shift-card { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:1.1rem 1.3rem; margin-bottom:0; }
+  .my-shift-title { font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--text-dim); margin-bottom:.75rem; font-weight:500; }
+  .my-shift-row { display:flex; gap:.5rem; flex-direction:column; }
+  .my-shift-item { display:flex; align-items:center; justify-content:space-between; padding:.5rem .7rem; background:var(--navy-hover); border-radius:8px; }
+  .my-shift-label { font-size:.75rem; color:var(--text-muted); }
+  .my-shift-val { font-size:.82rem; font-weight:600; color:var(--text-primary); }
+  .my-shift-val.green { color:var(--accent-green); }
+  .my-shift-val.red { color:var(--accent-red); }
+  .my-shift-val.blue { color:var(--accent-blue); }
+
 </style>
 </head>
 <body>
@@ -1475,10 +1521,18 @@
         </div>
 
         <div class="home-two-col">
-          <div class="whos-active-panel">
-            <div class="section-title" style="margin-bottom:0;">Who&#39;s Active</div>
-            <div class="whos-active-list" id="whos-active-list">
-              <div style="color:var(--text-dim);font-size:.82rem;padding:.5rem 0;">Loading...</div>
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+            <div class="my-shift-card" id="my-shift-card" style="display:none;">
+              <div class="my-shift-title">My Upcoming Schedule</div>
+              <div class="my-shift-row" id="my-shift-row">
+                <div style="color:var(--text-dim);font-size:.78rem;">Loading your schedule...</div>
+              </div>
+            </div>
+            <div class="whos-active-panel">
+              <div class="section-title" style="margin-bottom:0;">Who&#39;s Active</div>
+              <div class="whos-active-list" id="whos-active-list">
+                <div style="color:var(--text-dim);font-size:.82rem;padding:.5rem 0;">Loading...</div>
+              </div>
             </div>
           </div>
 
@@ -1578,14 +1632,23 @@
       <!-- ── ROSTER PAGE ── -->
       <div class="page" id="page-roster">
         <div class="roster-page">
-          <div class="roster-header">
-            <div>
-              <h2>Team Roster</h2>
-              <p>Live-synced Google Sheets roster with today's status and absence details.</p>
-            </div>
-            <button class="roster-refresh-btn" onclick="loadRosterSummary()">Refresh roster</button>
+          <div class="roster-controls">
+            <input type="text" class="roster-search" id="roster-search" placeholder="Search agent name..." oninput="filterRoster(this.value)"/>
+            <button class="roster-refresh-btn" onclick="loadRosterSummary()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+              Sync Roster
+            </button>
           </div>
-          <div id="roster-table-wrap" class="roster-table-wrap">Loading roster…</div>
+          <div class="roster-legend">
+            <span><span class="roster-legend-dot" style="background:var(--accent-green);"></span>Present</span>
+            <span><span class="roster-legend-dot" style="background:var(--accent-red);"></span>Leave</span>
+            <span><span class="roster-legend-dot" style="background:var(--accent-blue);"></span>WFH</span>
+            <span><span class="roster-legend-dot" style="background:#E65100;"></span>Half Day</span>
+            <span><span class="roster-legend-dot" style="background:var(--text-dim);"></span>Off</span>
+          </div>
+          <div id="roster-table-wrap" class="roster-grid-wrap">
+            <div class="roster-empty">Loading roster...</div>
+          </div>
         </div>
       </div>
 
@@ -2053,8 +2116,170 @@ function updateRosterBanner(s){
   if(bar)bar.style.display=s.absent.length||s.wfh.length||s.halfDay.length?'flex':'none';
   updateAbsentStat(s.absent.length);
 }
-function renderRosterPage(rows,todayCol,error){var wrap=document.getElementById('roster-table-wrap');if(error){wrap.innerHTML='<div class="roster-error">Could not load roster.</div>';return;}if(!rows||!rows.length){wrap.innerHTML='<div class="roster-error">No roster data.</div>';return;}var dateRow=rows.find(function(r){return String(r[1]).trim().toUpperCase()==='DATE';});if(!dateRow){wrap.innerHTML='<div class="roster-error">Header not found.</div>';return;}var hc=dateRow.map(function(c,i){return i===0?'Emp ID':i===1?'Name':c||'';});var br=rows.slice(rows.indexOf(dateRow)+2).filter(function(r){return String(r[0]||'').trim()||String(r[1]||'').trim();});wrap.innerHTML='<table class="roster-table"><thead><tr>'+hc.map(function(h){return'<th>'+h+'</th>';}).join('')+'</tr></thead><tbody>'+br.map(function(row){var ia=todayCol>=0&&row[todayCol]&&NOT_PRESENT_CODES.has(String(row[todayCol]).toUpperCase().trim());var iw=todayCol>=0&&String(row[todayCol]||'').toUpperCase().indexOf('WFH')>-1;var ih=todayCol>=0&&String(row[todayCol]||'').toUpperCase().indexOf('HL')>-1;var hclass=todayCol>=0&&(ia||iw||ih)?'roster-highlight':'';return'<tr class="'+hclass+'">'+row.map(function(cell,idx){return'<td'+(idx===todayCol?' class="roster-highlight"':'')+'>'+( cell||'')+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';}
-async function loadRosterSummary(){try{var r=await fetch(ROSTER_CSV_URL+'&cacheBust='+Date.now());if(!r.ok)throw new Error('fail');var rows=parseCsv(await r.text());window.rosterCache=rows;var mr=rows.find(function(row){return row.some(function(c){return/[A-Za-z]+\s*-\s*\d{4}/.test(c);});});var dr=rows.find(function(row){return String(row[1]).trim().toUpperCase()==='DATE';});if(!mr||!dr)throw new Error('hdr');var mi=getMonthIndex(mr.find(function(c){return/[A-Za-z]+\s*-\s*\d{4}/.test(c);})||'');var today=new Date();if(!mi||mi.month!==today.getMonth()||mi.year!==today.getFullYear()){document.getElementById('absence-title').textContent='Roster month does not match today';document.getElementById('absence-detail').textContent='Please publish the current month roster.';renderRosterPage(rows,false);return;}var day=String(today.getDate());var dc=dr.findIndex(function(c,i){return i>=2&&String(Number(c))===day;});if(dc<0)throw new Error('col');var s={absent:[],wfh:[],halfDay:[]};rows.slice(rows.indexOf(dr)+2).forEach(function(row){var ei=String(row[0]||'').trim(),n=String(row[1]||'').trim();if(!ei||!n||!/^K\d+/i.test(ei))return;var p=statusParts(row[dc]);if(p.some(function(x){return NOT_PRESENT_CODES.has(x);}))s.absent.push(n);if(p.indexOf('WFH')>-1)s.wfh.push(n);if(p.indexOf('HL')>-1)s.halfDay.push(n);});updateRosterBanner(s);renderRosterPage(rows,dc);}catch(e){document.getElementById('absence-title').textContent='Roster sync unavailable';document.getElementById('absence-detail').textContent='Could not read Google Sheets right now.';renderRosterPage(null,null,e);}}
+function renderRosterPage(rows,todayCol,error){
+  var wrap=document.getElementById('roster-table-wrap');
+  if(error){wrap.innerHTML='<div class="roster-empty">Could not load roster. Check your Google Sheets link.</div>';return;}
+  if(!rows||!rows.length){wrap.innerHTML='<div class="roster-empty">No roster data found.</div>';return;}
+  var dateRow=rows.find(function(r){return String(r[1]).trim().toUpperCase()==='DATE';});
+  if(!dateRow){wrap.innerHTML='<div class="roster-empty">Could not find roster header row.</div>';return;}
+
+  // Get date columns (index 2 onwards)
+  var today=new Date().getDate();
+  var dateCols=dateRow.slice(2).map(function(d,i){
+    var num=Number(d);
+    return {idx:i+2, day:num, isToday:num===today && todayCol===i+2};
+  }).filter(function(d){return d.day>0;});
+
+  // Show only a window: 3 days before today and up to 10 days ahead
+  var todayIdx=dateCols.findIndex(function(d){return d.isToday;});
+  var startI=Math.max(0,todayIdx-3);
+  var endI=Math.min(dateCols.length,todayIdx+11);
+  var visibleCols=dateCols.slice(startI,endI);
+
+  var agentRows=rows.slice(rows.indexOf(dateRow)+2).filter(function(r){
+    return String(r[0]||'').trim()&&String(r[1]||'').trim()&&/^K\d+/i.test(String(r[0]||'').trim());
+  });
+
+  // Store for filtering
+  window._rosterRenderedRows=agentRows;
+  window._rosterVisibleCols=visibleCols;
+  window._rosterTodayCol=todayCol;
+
+  renderRosterGrid(agentRows, visibleCols, todayCol, '');
+}
+
+function getCellClass(val, isToday){
+  var v=String(val||'').toUpperCase().trim();
+  var base=isToday?'roster-day-cell today-col':'roster-day-cell';
+  if(!v||v==='-') return base+' off';
+  if(NOT_PRESENT_CODES.has(v)||v==='L'||v==='CO'||v==='W') return base+' absent';
+  if(v.indexOf('WFH')>-1) return base+' wfh';
+  if(v.indexOf('HL')>-1) return base+' half';
+  if(v==='WO'||v==='SH'||v==='H') return base+' weekend';
+  return base+' present';
+}
+
+function getCellDisplay(val){
+  var v=String(val||'').trim();
+  if(!v||v==='-') return '-';
+  return v;
+}
+
+function getTodayStatusTag(val){
+  var v=String(val||'').toUpperCase().trim();
+  if(!v||v==='-') return '<span class="roster-status-tag off">Off</span>';
+  if(NOT_PRESENT_CODES.has(v)) return '<span class="roster-status-tag absent">Leave</span>';
+  if(v.indexOf('WFH')>-1) return '<span class="roster-status-tag wfh">WFH</span>';
+  if(v.indexOf('HL')>-1) return '<span class="roster-status-tag half">Half Day</span>';
+  if(v==='WO'||v==='SH'||v==='H') return '<span class="roster-status-tag off">Off</span>';
+  return '<span class="roster-status-tag present">Present</span>';
+}
+
+function renderRosterGrid(agentRows, visibleCols, todayCol, search){
+  var wrap=document.getElementById('roster-table-wrap');
+  var filtered=search?agentRows.filter(function(r){return String(r[1]||'').toLowerCase().indexOf(search.toLowerCase())>-1;}):agentRows;
+  if(!filtered.length){wrap.innerHTML='<div class="roster-empty">No agents match your search.</div>';return;}
+
+  var colCount=3+visibleCols.length; // avatar+name+today-status+dates
+  var gridCols='180px 90px repeat('+visibleCols.length+',1fr)';
+
+  var html='<div class="roster-grid-header" style="grid-template-columns:'+gridCols+';">'+
+    '<span>Agent</span>'+
+    '<span style="text-align:center;">Today</span>'+
+    visibleCols.map(function(col){
+      return '<span style="text-align:center;'+(col.isToday?'color:var(--gold);font-weight:700;':'')+'">'+(col.isToday?'Today':col.day)+'</span>';
+    }).join('')+
+  '</div>';
+
+  html+=filtered.map(function(row){
+    var name=String(row[1]||'').trim();
+    var ini=name.split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
+    var todayVal=todayCol>=0?row[todayCol]:'';
+    var todayTag=getTodayStatusTag(todayVal);
+    var ia=todayCol>=0&&row[todayCol]&&NOT_PRESENT_CODES.has(String(row[todayCol]).toUpperCase().trim());
+    var iw=todayCol>=0&&String(row[todayCol]||'').toUpperCase().indexOf('WFH')>-1;
+    var rowCls='roster-agent-row'+(ia?' highlight-absent':iw?' highlight-wfh':'');
+
+    return '<div class="'+rowCls+'" style="grid-template-columns:'+gridCols+';">'+
+      '<div style="display:flex;align-items:center;gap:.65rem;">'+
+        '<div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dim),var(--gold));display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0;">'+ini+'</div>'+
+        '<span class="roster-agent-name">'+name+'</span>'+
+      '</div>'+
+      '<div style="text-align:center;">'+todayTag+'</div>'+
+      visibleCols.map(function(col){
+        var val=row[col.idx]||'';
+        return '<div class="'+getCellClass(val,col.isToday)+'">'+getCellDisplay(val)+'</div>';
+      }).join('')+
+    '</div>';
+  }).join('');
+
+  wrap.innerHTML=html;
+}
+
+function filterRoster(search){
+  if(window._rosterRenderedRows&&window._rosterVisibleCols){
+    renderRosterGrid(window._rosterRenderedRows,window._rosterVisibleCols,window._rosterTodayCol,search);
+  }
+}
+
+// ── MY SHIFT: find current user in roster and show their upcoming schedule ──
+function loadMyShift(rows){
+  if(!currentUser||!rows)return;
+  var dateRow=rows.find(function(r){return String(r[1]).trim().toUpperCase()==='DATE';});
+  if(!dateRow)return;
+
+  // Match by name — compare roster name with Supabase user name
+  var userName=currentUser.name.toLowerCase().trim();
+  var agentRow=rows.slice(rows.indexOf(dateRow)+2).find(function(r){
+    var rName=String(r[1]||'').toLowerCase().trim();
+    // Try full match, first name match, or partial match
+    return rName===userName||
+           rName.split(' ')[0]===userName.split(' ')[0]||
+           rName.indexOf(userName.split(' ')[0])>-1||
+           userName.indexOf(rName.split(' ')[0])>-1;
+  });
+
+  if(!agentRow)return; // Agent not found in roster
+
+  var today=new Date();
+  var todayDay=today.getDate();
+  var upcoming=[];
+
+  // Get next 5 days from today
+  dateRow.forEach(function(d,i){
+    if(i<2)return;
+    var num=Number(d);
+    if(isNaN(num)||num<todayDay||num>todayDay+5)return;
+    var val=String(agentRow[i]||'').trim();
+    var date=new Date(today.getFullYear(),today.getMonth(),num);
+    var dayName=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][date.getDay()];
+    upcoming.push({day:dayName,date:num,val:val,isToday:num===todayDay});
+  });
+
+  if(!upcoming.length)return;
+
+  var card=document.getElementById('my-shift-card');
+  var row=document.getElementById('my-shift-row');
+  if(!card||!row)return;
+
+  row.innerHTML=upcoming.map(function(s){
+    var v=String(s.val||'').toUpperCase().trim();
+    var label=s.isToday?'Today':s.dayName;
+    var cls='', display=s.val||'-';
+    if(!v||v==='-'||v==='WO'||v==='H'||v==='SH'){cls='off';display='Off';}
+    else if(NOT_PRESENT_CODES.has(v)||v==='L'||v==='CO'||v==='W'){cls='red';display='On Leave';}
+    else if(v.indexOf('WFH')>-1){cls='blue';display='WFH';}
+    else if(v.indexOf('HL')>-1){cls='';display='Half Day';}
+    else{cls='green';display=v||'Working';}
+    return '<div class="my-shift-item">'+
+      '<span class="my-shift-label">'+(s.isToday?'<strong>Today</strong>':s.day+' '+s.date)+'</span>'+
+      '<span class="my-shift-val '+cls+'">'+display+'</span>'+
+    '</div>';
+  }).join('');
+
+  card.style.display='block';
+}
+async function loadRosterSummary(){try{var r=await fetch(ROSTER_CSV_URL+'&cacheBust='+Date.now());if(!r.ok)throw new Error('fail');var rows=parseCsv(await r.text());window.rosterCache=rows;var mr=rows.find(function(row){return row.some(function(c){return/[A-Za-z]+\s*-\s*\d{4}/.test(c);});});var dr=rows.find(function(row){return String(row[1]).trim().toUpperCase()==='DATE';});if(!mr||!dr)throw new Error('hdr');var mi=getMonthIndex(mr.find(function(c){return/[A-Za-z]+\s*-\s*\d{4}/.test(c);})||'');var today=new Date();if(!mi||mi.month!==today.getMonth()||mi.year!==today.getFullYear()){document.getElementById('absence-title').textContent='Roster month does not match today';document.getElementById('absence-detail').textContent='Please publish the current month roster.';renderRosterPage(rows,false);return;}var day=String(today.getDate());var dc=dr.findIndex(function(c,i){return i>=2&&String(Number(c))===day;});if(dc<0)throw new Error('col');var s={absent:[],wfh:[],halfDay:[]};rows.slice(rows.indexOf(dr)+2).forEach(function(row){var ei=String(row[0]||'').trim(),n=String(row[1]||'').trim();if(!ei||!n||!/^K\d+/i.test(ei))return;var p=statusParts(row[dc]);if(p.some(function(x){return NOT_PRESENT_CODES.has(x);}))s.absent.push(n);if(p.indexOf('WFH')>-1)s.wfh.push(n);if(p.indexOf('HL')>-1)s.halfDay.push(n);});updateRosterBanner(s);renderRosterPage(rows,dc);loadMyShift(rows);}catch(e){document.getElementById('absence-title').textContent='Roster sync unavailable';document.getElementById('absence-detail').textContent='Could not read Google Sheets right now.';renderRosterPage(null,null,e);}}
 
 const CLOUDINARY_CLOUD='dvp62lqmv';
 const M_TAG_MAP={all:null,birthday:'birthday',outing:'team-outing',dinner:'team-dinner',funfriday:'fun-friday'};
@@ -2528,7 +2753,17 @@ function qaMsg(elId, msg, isError){
 }
 
 function qaDateTimeToISO(date, time){
-  return date && time ? date+'T'+time+':00' : null;
+  if(!date || !time) return null;
+  // Create date in LOCAL timezone (not UTC) so 17:00 stays 17:00
+  var d = new Date(date + 'T' + time + ':00');
+  // Return as ISO with local timezone offset
+  var pad = function(n){ return n < 10 ? '0'+n : n; };
+  var tz = -d.getTimezoneOffset();
+  var tzSign = tz >= 0 ? '+' : '-';
+  var tzH = pad(Math.floor(Math.abs(tz)/60));
+  var tzM = pad(Math.abs(tz)%60);
+  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+
+    'T'+pad(d.getHours())+':'+pad(d.getMinutes())+':00'+tzSign+tzH+':'+tzM;
 }
 
 function qaGetStatus(openISO, closeISO){
@@ -2545,9 +2780,10 @@ function qaFmtDateTime(iso){
   if(!iso)return'--';
   var d=new Date(iso);
   var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  // Use LOCAL time methods so timezone is respected correctly
   var h=d.getHours(),m=d.getMinutes(),a=h>=12?'PM':'AM';
   h=h%12||12;
-  return mo[d.getMonth()]+' '+d.getDate()+', '+h+':'+(m<10?'0':'')+m+' '+a;
+  return mo[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+', '+h+':'+(m<10?'0':'')+m+' '+a;
 }
 
 // ── QUIZ BUILDER (Admin) ──
