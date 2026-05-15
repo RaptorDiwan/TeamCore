@@ -1153,6 +1153,22 @@
   .ann-pin-btn{background:rgba(239,73,60,.08);border:1px solid rgba(239,73,60,.2);color:var(--gold);padding:.3rem .75rem;border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap;}
   .ann-pin-btn.pinned{background:rgba(239,73,60,.18);}
 
+
+  /* MY TODAY PANEL */
+  .my-today-panel{background:var(--navy-card);border:1px solid var(--navy-border);border-radius:var(--radius);padding:1.2rem 1.4rem;}
+  .my-today-row{display:flex;align-items:center;gap:1rem;margin-top:.5rem;}
+  .my-today-item{flex:1;text-align:center;}
+  .my-today-label{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:.3rem;}
+  .my-today-val{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--text-primary);line-height:1;}
+  .my-today-divider{width:1px;height:40px;background:var(--navy-border);flex-shrink:0;}
+
+
+  /* WORK CLOCK BUTTONS */
+  .work-clockin-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.75rem;background:linear-gradient(135deg,#2EC56F,#27a85f);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:.875rem;font-weight:600;border-radius:var(--radius-sm);cursor:pointer;transition:opacity .2s;}
+  .work-clockin-btn:hover{opacity:.88;}
+  .work-clockout-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.65rem;margin-top:.85rem;background:transparent;border:1px solid rgba(239,73,60,.3);color:var(--accent-red);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;border-radius:var(--radius-sm);cursor:pointer;transition:all .2s;}
+  .work-clockout-btn:hover{background:rgba(239,73,60,.06);}
+
 </style>
 </head>
 <body>
@@ -1172,11 +1188,14 @@
 
     <div class="field-group">
       <label>Password</label>
-      <input id="password" type="password" placeholder="••••••••"/>
+      <div style="position:relative;">
+        <input id="password" type="password" placeholder="••••••••" style="width:100%;padding-right:3.5rem;"/>
+        <button type="button" onclick="togglePasswordVisibility()" id="pwd-toggle" style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:.75rem;font-weight:600;font-family:'DM Sans',sans-serif;letter-spacing:.04em;transition:color .2s;">Show</button>
+      </div>
     </div>
 
     <div class="login-error" id="login-error">Invalid email or password. Please try again.</div>
-    <div class="login-status" id="login-status"><span class="login-loader"></span><span class="login-status-text">Signing in…</span></div>
+    <div class="login-status" id="login-status" style="display:none;"></div>
     <label class="keep-logged-in-label"><input type="checkbox" id="keep-logged-in" checked/> Keep me logged in</label>
 
     <button class="login-btn" id="login-btn" onclick="doLogin()">Sign In</button>
@@ -1192,7 +1211,7 @@
   <div class="topbar">
     <div class="topbar-brand">K7Team<span>Core</span></div>
     <div class="topbar-right">
-      <div class="attendance-badge" id="attendance-badge" style="display:none;"><span class="attendance-dot"></span><span id="attendance-login-time">Logged in</span></div>
+      <div class="attendance-badge" id="attendance-badge" style="display:none;"><span class="attendance-dot"></span><span id="attendance-login-time">Working</span></div>
       <div class="agent-badge">
         <div class="avatar" id="avatar-initials">AG</div>
         <div class="agent-name" id="agent-display">Agent</div>
@@ -1393,8 +1412,59 @@
         </div>
 
         <div class="home-two-col">
-          <div class="whos-active-panel">
-            <div class="section-title" style="margin-bottom:0;">Who&#39;s Active</div>
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+            <div class="my-today-panel" id="my-today-panel">
+              <div class="section-title" style="margin-bottom:.85rem;">My Work Time</div>
+
+              <!-- NOT CLOCKED IN state -->
+              <div id="work-idle-state">
+                <div style="text-align:center;padding:.5rem 0;">
+                  <div style="font-size:.8rem;color:var(--text-dim);margin-bottom:1rem;">You haven&#39;t started your work session yet.</div>
+                  <button class="work-clockin-btn" onclick="workClockIn()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v10l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+                    Start Work
+                  </button>
+                </div>
+              </div>
+
+              <!-- CLOCKED IN state -->
+              <div id="work-active-state" style="display:none;">
+                <div class="my-today-row">
+                  <div class="my-today-item">
+                    <div class="my-today-label">Started At</div>
+                    <div class="my-today-val" id="my-clockin-time">--</div>
+                  </div>
+                  <div class="my-today-divider"></div>
+                  <div class="my-today-item">
+                    <div class="my-today-label">Working</div>
+                    <div class="my-today-val" id="my-working-hours" style="color:var(--accent-green);font-size:1.3rem;">--</div>
+                  </div>
+                </div>
+                <button class="work-clockout-btn" onclick="workClockOut()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                  End Work
+                </button>
+              </div>
+
+              <!-- CLOCKED OUT state -->
+              <div id="work-done-state" style="display:none;">
+                <div class="my-today-row" style="margin-bottom:.85rem;">
+                  <div class="my-today-item">
+                    <div class="my-today-label">Started</div>
+                    <div class="my-today-val" id="my-done-in" style="font-size:1.2rem;">--</div>
+                  </div>
+                  <div class="my-today-divider"></div>
+                  <div class="my-today-item">
+                    <div class="my-today-label">Total Hours</div>
+                    <div class="my-today-val" id="my-done-hours" style="color:var(--accent-green);font-size:1.2rem;">--</div>
+                  </div>
+                </div>
+                <div style="text-align:center;font-size:.75rem;color:#1a7a45;background:rgba(46,197,111,.08);border:1px solid rgba(46,197,111,.2);border-radius:8px;padding:.5rem;">&#9989; Work session ended. See you tomorrow!</div>
+              </div>
+            </div>
+
+            <div class="whos-active-panel">
+              <div class="section-title" style="margin-bottom:0;">Who&#39;s Active</div>
             <div class="whos-active-list" id="whos-active-list">
               <div style="color:var(--text-dim);font-size:.82rem;padding:.5rem 0;">Loading...</div>
             </div>
@@ -1798,7 +1868,6 @@ async function doLogin(){
 }
 
 function doLogout(){
-  recordLogout();
   if(_loginClockInterval)clearInterval(_loginClockInterval);
   currentUser=null;clearSession();
   document.getElementById('dashboard-view').classList.remove('active');
@@ -1820,7 +1889,6 @@ function enterDashboard(){
   document.getElementById('greet-name').textContent=currentUser.name.split(' ')[0];
   updateAdminVisibility();setGreetingAndDate();
   setTimeout(loadRosterSummary,0);
-  setTimeout(recordLogin,500);
   setTimeout(loadLiveDashboard,400);
   setTimeout(loadAnnouncements,600);
 }
@@ -2199,12 +2267,10 @@ function showAttendanceBadge(loginTime){
   var timeEl = document.getElementById('attendance-login-time');
   if(badge){ badge.style.display='flex'; }
   if(timeEl){ timeEl.textContent = 'In since ' + fmtTime(loginTime); }
-  // Show break bar
   var bar = document.getElementById('break-bar');
   if(bar) bar.style.display='flex';
-  // Start clock
   startLoginClock(loginTime);
-  // Reset break state for new day
+  startWorkingHoursClock(loginTime);
   _breakState = {};
 }
 
@@ -3114,6 +3180,8 @@ function animateCount(elId, target){
 }
 
 async function loadLiveDashboard(){
+  checkWorkClockStatus();
+
   try{
     var users=await sbQuery('users','select=id,name,role');
     var total=users?users.length:0;
@@ -3242,6 +3310,149 @@ async function deleteAnnouncement(btn){
   try{await sbDelete('announcements','id',id);loadAnnouncementsAdmin();loadAnnouncements();}
   catch(e){alert('Delete failed.');}
 }
+
+
+// ===================================================
+//  SHOW/HIDE PASSWORD
+// ===================================================
+function togglePasswordVisibility(){
+  var input=document.getElementById('password');
+  var btn=document.getElementById('pwd-toggle');
+  if(!input||!btn)return;
+  if(input.type==='password'){
+    input.type='text';
+    btn.textContent='Hide';
+    btn.style.color='var(--gold)';
+  }else{
+    input.type='password';
+    btn.textContent='Show';
+    btn.style.color='var(--text-dim)';
+  }
+}
+
+// ===================================================
+//  WORK CLOCK IN / OUT (separate from portal login)
+// ===================================================
+var _workingHoursInterval=null;
+var _workClockInTime=null;
+
+function fmtClockTime(iso){
+  var d=new Date(iso);
+  var h=d.getHours()%12||12,m=d.getMinutes(),ap=d.getHours()>=12?'PM':'AM';
+  return h+':'+(m<10?'0':'')+m+' '+ap;
+}
+
+function fmtWorkDuration(startIso,endIso){
+  var diff=Math.floor((new Date(endIso||Date.now()).getTime()-new Date(startIso).getTime())/1000);
+  var h=Math.floor(diff/3600),m=Math.floor((diff%3600)/60),s=diff%60;
+  return (h>0?h+'h ':'')+m+'m'+(endIso?'':' '+s+'s');
+}
+
+function showWorkState(state){
+  document.getElementById('work-idle-state').style.display=state==='idle'?'block':'none';
+  document.getElementById('work-active-state').style.display=state==='active'?'block':'none';
+  document.getElementById('work-done-state').style.display=state==='done'?'block':'none';
+}
+
+async function workClockIn(){
+  var btn=document.querySelector('.work-clockin-btn');
+  if(btn){btn.disabled=true;btn.textContent='Starting...';}
+  try{
+    var loginTime=new Date().toISOString();
+    var today=todayStr();
+    // Check if already has a record today
+    var existing=await sbQuery('attendance','user_id=eq.'+currentUser.id+'&date=eq.'+today+'&select=id,login_time,logout_time');
+    if(existing&&existing.length>0){
+      _todayAttendance=existing[0];
+      _workClockInTime=existing[0].login_time;
+    } else {
+      var rows=await sbInsert('attendance',{user_id:currentUser.id,user_name:currentUser.name,date:today,login_time:loginTime,logout_time:null});
+      if(rows&&rows.length){_todayAttendance=rows[0];}
+      _workClockInTime=loginTime;
+    }
+    // Show active state
+    showWorkState('active');
+    var ciEl=document.getElementById('my-clockin-time');
+    if(ciEl)ciEl.textContent=fmtClockTime(_workClockInTime);
+    // Show badge in topbar
+    showAttendanceBadge(_workClockInTime);
+    // Start live counter
+    if(_workingHoursInterval)clearInterval(_workingHoursInterval);
+    _workingHoursInterval=setInterval(function(){
+      var el=document.getElementById('my-working-hours');
+      if(el)el.textContent=fmtWorkDuration(_workClockInTime,null);
+    },1000);
+    document.getElementById('my-working-hours').textContent=fmtWorkDuration(_workClockInTime,null);
+  }catch(e){
+    alert('Could not record clock-in: '+e.message);
+    if(btn){btn.disabled=false;btn.textContent='Start Work';}
+  }
+}
+
+async function workClockOut(){
+  if(!_todayAttendance){alert('No active work session found.');return;}
+  if(!confirm('End your work session for today?'))return;
+  var btn=document.querySelector('.work-clockout-btn');
+  if(btn){btn.disabled=true;btn.textContent='Ending...';}
+  try{
+    var logoutTime=new Date().toISOString();
+    await sbUpdate('attendance','id',_todayAttendance.id,{logout_time:logoutTime});
+    if(_workingHoursInterval)clearInterval(_workingHoursInterval);
+    // Show done state
+    showWorkState('done');
+    var inEl=document.getElementById('my-done-in');
+    var hrEl=document.getElementById('my-done-hours');
+    if(inEl)inEl.textContent=fmtClockTime(_workClockInTime);
+    if(hrEl)hrEl.textContent=fmtWorkDuration(_workClockInTime,logoutTime);
+    // Update topbar badge
+    var badge=document.getElementById('attendance-badge');
+    var timeEl=document.getElementById('attendance-login-time');
+    if(timeEl)timeEl.textContent='Done for today';
+    if(_loginClockInterval)clearInterval(_loginClockInterval);
+    var clockEl=document.getElementById('login-clock');
+    if(clockEl)clockEl.textContent='';
+  }catch(e){
+    alert('Could not record clock-out: '+e.message);
+    if(btn){btn.disabled=false;btn.textContent='End Work';}
+  }
+}
+
+// Check on dashboard load if agent already clocked in today
+async function checkWorkClockStatus(){
+  try{
+    var today=todayStr();
+    var rows=await sbQuery('attendance','user_id=eq.'+currentUser.id+'&date=eq.'+today+'&select=id,login_time,logout_time');
+    if(!rows||!rows.length){showWorkState('idle');return;}
+    var rec=rows[0];
+    _todayAttendance=rec;
+    _workClockInTime=rec.login_time;
+    if(rec.logout_time){
+      // Already clocked out
+      showWorkState('done');
+      var inEl=document.getElementById('my-done-in');
+      var hrEl=document.getElementById('my-done-hours');
+      if(inEl)inEl.textContent=fmtClockTime(rec.login_time);
+      if(hrEl)hrEl.textContent=fmtWorkDuration(rec.login_time,rec.logout_time);
+    } else {
+      // Still clocked in
+      showWorkState('active');
+      var ciEl=document.getElementById('my-clockin-time');
+      if(ciEl)ciEl.textContent=fmtClockTime(rec.login_time);
+      showAttendanceBadge(rec.login_time);
+      if(_workingHoursInterval)clearInterval(_workingHoursInterval);
+      _workingHoursInterval=setInterval(function(){
+        var el=document.getElementById('my-working-hours');
+        if(el)el.textContent=fmtWorkDuration(_workClockInTime,null);
+      },1000);
+      document.getElementById('my-working-hours').textContent=fmtWorkDuration(rec.login_time,null);
+    }
+  }catch(e){showWorkState('idle');}
+}
+
+// startWorkingHoursClock is now replaced by checkWorkClockStatus
+function startWorkingHoursClock(){}
+
+// Working hours clock starts from recordLogin
 
 </script>
 
